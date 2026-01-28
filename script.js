@@ -1,6 +1,6 @@
 // Firebase Configuration (یہاں اپنی کیز ڈالیں)
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
+    apiKey: "AIzaSyCbawvd2xE6DL4cMJ1w1Et2AuKInYL5kWs",
     authDomain: "alingo-app.firebaseapp.com",
     projectId: "alingo-app",
     storageBucket: "alingo-app.appspot.com",
