@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alingo - All In One Go</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Noto+Sans+Urdu:wght@400;700&display=swap');
+        
+        .logo-text { font-family: 'Montserrat', sans-serif; }
+        .urdu-text { font-family: 'Noto Sans Urdu', sans-serif; }
+        
+        /* سپلیش اسکرین کو پوری اسکرین پر رکھنے کے لیے */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div id="splash-screen">
+        <div class="animate__animated animate__bounceInDown">
+            <img src="YOUR_LOGO_URL_HERE" alt="Alingo Logo" class="w-40 h-40 object-contain mb-4">
+        </div>
+        
+        <h1 class="logo-text text-5xl text-blue-700 tracking-tighter animate__animated animate__fadeIn">
+            Alingo
+        </h1>
+        <p class="text-gray-500 uppercase tracking-widest text-xs mt-2 animate__animated animate__fadeInUp animate__delay-1s">
+            All In One Go
+        </p>
+        
+        <div class="mt-10 urdu-text text-center animate__animated animate__fadeInUp animate__delay-2s">
+            <h2 class="text-xl font-bold text-gray-800">خوش آمدید!</h2>
+            <p class="text-sm text-gray-600">آپ کی سہولت، اب ایک ہی جگہ</p>
+        </div>
+
+        <div class="mt-8">
+            <div class="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
+        </div>
+    </div>
+
+    <div id="main-app" class="hidden">
+        <header class="bg-blue-600 text-white p-4 shadow-md">
+            <h1 class="text-xl font-bold">Alingo</h1>
+        </header>
+        
+        <main class="p-6 text-center">
+            <h2 class="text-2xl font-bold urdu-text">آپ کا شہر، آپ کی ایپ</h2>
+            <p class="mt-4 text-gray-600">ہوم پیج کا باقی مواد یہاں آئے گا...</p>
+        </main>
+    </div>
+
+    <script>
+        // 3 سیکنڈ بعد سپلیش اسکرین کو ختم کرنے کا لاجک
+        setTimeout(() => {
+            const splash = document.getElementById('splash-screen');
+            const mainApp = document.getElementById('main-app');
+            
+            splash.style.opacity = '0';
+            setTimeout(() => {
+                splash.style.display = 'none';
+                mainApp.classList.remove('hidden');
+                mainApp.classList.add('animate__animated', 'animate__fadeIn');
+            }, 1000);
+        }, 4000); // 4 سیکنڈ تک رکے گا
+    </script>
+
+</body>
+</html>
