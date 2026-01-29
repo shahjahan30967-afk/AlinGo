@@ -13,7 +13,7 @@
       text-align: center;
     }
 
-    /* SPLASH SCREEN */
+    /* SPLASH */
     #splash {
       height: 100vh;
       border: 6px solid;
@@ -31,7 +31,6 @@
 
     #splash h1 {
       font-size: 34px;
-      font-weight: 700;
       color: #1a237e;
       margin: 0;
     }
@@ -40,7 +39,6 @@
       font-size: 18px;
       color: #1abc9c;
       margin-top: 8px;
-      letter-spacing: 1px;
     }
 
     /* HOME */
@@ -49,18 +47,17 @@
       padding-top: 40px;
     }
 
-    /* OUTER DISK */
+    /* OUTER DISK (MIXED COLOR) */
     .outer-circle {
-      width: 320px;
-      height: 320px;
+      width: 340px;
+      height: 340px;
       border-radius: 50%;
       margin: auto;
       position: relative;
-      background: conic-gradient(
-        #1a237e 0deg 90deg,
-        #1abc9c 90deg 180deg,
-        #1a237e 180deg 270deg,
-        #1abc9c 270deg 360deg
+      background: radial-gradient(
+        circle at top left,
+        #1a237e,
+        #1abc9c
       );
     }
 
@@ -68,7 +65,7 @@
     .inner-circle {
       width: 70%;
       height: 70%;
-      background: white;
+      background: #ffffff;
       border-radius: 50%;
       position: absolute;
       top: 15%;
@@ -76,7 +73,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      box-shadow: 0 0 12px rgba(0,0,0,0.15);
+      box-shadow: 0 0 14px rgba(0,0,0,0.2);
     }
 
     .inner-circle img {
@@ -86,22 +83,38 @@
     /* BUTTONS */
     .btn {
       position: absolute;
-      width: 56px;
-      height: 56px;
-      background: white;
+      width: 60px;
+      height: 60px;
+      background: #ffffff;
       border-radius: 50%;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 26px;
+      font-size: 28px;
       cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
 
-    .ride   { top: -10px; left: 132px; }
-    .food   { right: -10px; top: 132px; }
-    .shop   { bottom: -10px; left: 132px; }
-    .travel { left: -10px; top: 132px; }
+    /* Button positions (center of each quadrant) */
+    .ride {
+      top: 35px;
+      left: 140px;
+    }
+
+    .food {
+      top: 140px;
+      right: 35px;
+    }
+
+    .shop {
+      bottom: 35px;
+      left: 140px;
+    }
+
+    .travel {
+      top: 140px;
+      left: 35px;
+    }
   </style>
 </head>
 
@@ -118,7 +131,7 @@
 <div id="home">
   <div class="outer-circle">
 
-    <!-- Emoji Image Buttons -->
+    <!-- Centered Segment Buttons -->
     <div class="btn ride">🚕</div>
     <div class="btn food">🍔</div>
     <div class="btn shop">🛒</div>
