@@ -2,30 +2,93 @@
 <html lang="ur" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>Alingo Admin - کنٹرول پینل</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alingo Admin - لائیو ڈیش بورڈ</title>
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 p-8">
-    <div class="max-w-md mx-auto bg-white p-6 rounded-xl shadow-lg">
-        <h2 class="text-2xl font-bold mb-6 text-center text-blue-700">نئی پروڈکٹ شامل کریں</h2>
-        
-        <div class="space-y-4">
-            <input type="text" id="pName" placeholder="نام (مثلاً چکن بریانی)" class="w-full p-2 border rounded">
-            <input type="number" id="pPrice" placeholder="قیمت (Rs.)" class="w-full p-2 border rounded">
-            <select id="pCat" class="w-full p-2 border rounded">
-                <option value="food">کھانا</option>
-                <option value="grocery">گروسری</option>
-            </select>
-            <button onclick="saveProduct()" class="w-full bg-green-600 text-white py-2 rounded font-bold">ایپ پر اپلوڈ کریں</button>
-        </div>
-    </div>
-
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+</head>
+<body class="bg-slate-900 text-white min-h-screen font-sans">
+
+    <header class="bg-blue-800 p-4 shadow-xl flex justify-between items-center">
+        <h1 class="text-xl font-bold">Alingo کنٹرول روم</h1>
+        <div id="connection-status" class="text-xs bg-green-500 px-2 py-1 rounded">لائیو</div>
+    </header>
+
+    <main class="p-4">
+        <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700">
+                <p class="text-gray-400 text-xs">کل آرڈرز</p>
+                <h2 id="total-orders" class="text-2xl font-bold text-blue-400">0</h2>
+            </div>
+            <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700">
+                <p class="text-gray-400 text-xs">پینڈنگ آرڈرز</p>
+                <h2 id="pending-orders" class="text-2xl font-bold text-orange-400">0</h2>
+            </div>
+        </div>
+
+        <h3 class="text-lg font-bold mb-4 flex items-center">
+            <span class="w-2 h-2 bg-red-500 rounded-full animate-ping ml-2"></span>
+            نئے آرڈرز (لائیو)
+        </h3>
+
+        <div id="orders-container" class="space-y-4">
+            <p class="text-center text-gray-500">نئے آرڈرز کا انتظار ہے...</p>
+        </div>
+    </main>
+
     <script>
-        // یہاں بھی وہی Firebase Config آئے گی جو script.js میں ہے
-        function saveProduct() {
-            alert("Firebase کنیکٹ کرنے کے بعد یہ بٹن کام کرے گا!");
+        // Firebase Config (اپنا ڈیٹا یہاں ڈالیں)
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            projectId: "your-project-id",
+            appId: "your-app-id"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // لائیو ڈیٹا سننے کا فنکشن
+        db.collection("orders").orderBy("time", "desc")
+          .onSnapshot((snapshot) => {
+            const container = document.getElementById('orders-container');
+            container.innerHTML = "";
+            
+            document.getElementById('total-orders').innerText = snapshot.size;
+            let pendingCount = 0;
+
+            snapshot.forEach((doc) => {
+                const order = doc.data();
+                if(order.status === "Pending") pendingCount++;
+
+                container.innerHTML += `
+                    <div class="bg-slate-800 p-4 rounded-2xl border-r-4 ${order.status === 'Pending' ? 'border-orange-500' : 'border-green-500'}">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-bold text-blue-300 text-lg">${order.item}</h4>
+                            <span class="text-xs bg-slate-700 px-2 py-1 rounded uppercase">${order.status}</span>
+                        </div>
+                        <div class="text-sm text-gray-300 space-y-1">
+                            <p>👤 کسٹمر: ${order.customerName || 'نامعلوم'}</p>
+                            <p>📞 فون: ${order.customerPhone || 'نمبر نہیں ہے'}</p>
+                            <p>💰 قیمت: Rs. ${order.price}</p>
+                        </div>
+                        <div class="mt-4 flex gap-2">
+                            <button onclick="updateStatus('${doc.id}', 'Confirmed')" class="bg-green-600 flex-1 py-1 rounded text-sm font-bold">مکمل</button>
+                            <button onclick="deleteOrder('${doc.id}')" class="bg-red-600 flex-1 py-1 rounded text-sm font-bold">ڈیلیٹ</button>
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('pending-orders').innerText = pendingCount;
+        });
+
+        async function updateStatus(id, status) {
+            await db.collection("orders").doc(id).update({ status: status });
+        }
+
+        async function deleteOrder(id) {
+            if(confirm("کیا آپ یہ آرڈر ختم کرنا چاہتے ہیں؟")) {
+                await db.collection("orders").doc(id).delete();
+            }
         }
     </script>
 </body>
