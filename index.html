@@ -129,6 +129,42 @@
             { name: 'سپورٹ', icon: '📞' }
         ];
 
+    // ٹیکسی سیکشن 
+        
+        <div id="taxi-section" class="hidden fixed inset-0 bg-white z-[1500] p-4 flex flex-col">
+    <div class="flex items-center mb-4">
+        <button onclick="closeTaxi()" class="bg-gray-100 p-2 rounded-full ml-4">✕</button>
+        <h2 class="text-xl font-bold text-[#003366]">ٹیکسی رائیڈ بک کریں</h2>
+    </div>
+    
+    <div id="map" class="w-full h-64 bg-gray-200 rounded-3xl mb-4 shadow-inner"></div>
+    
+    <div class="space-y-4">
+        <div class="bg-blue-50 p-4 rounded-2xl flex items-center">
+            <span class="ml-3 text-2xl">📍</span>
+            <input type="text" id="pickup-location" placeholder="پک اپ لوکیشن..." class="bg-transparent w-full outline-none text-sm">
+        </div>
+        
+        <div class="grid grid-cols-3 gap-2">
+            <button onclick="selectVehicle('Bike')" class="border-2 border-blue-600 rounded-2xl p-2 text-center">
+                <p>🏍️</p><small>بائیک</small>
+            </button>
+            <button onclick="selectVehicle('Rickshaw')" class="border-2 border-gray-100 rounded-2xl p-2 text-center">
+                <p>🛺</p><small>رکشہ</small>
+            </button>
+            <button onclick="selectVehicle('Car')" class="border-2 border-gray-100 rounded-2xl p-2 text-center">
+                <p>🚗</p><small>کار</small>
+            </button>
+        </div>
+
+        <button onclick="bookRide()" class="w-full bg-[#1eb53a] text-white py-4 rounded-2xl font-bold text-lg shadow-lg">
+            رائیڈ بک کریں
+        </button>
+    </div>
+</div>
+
+
+        
         function initCircle() {
             const ring = document.getElementById('menuRing');
             const radius = 135; // دائرے کا سائز
