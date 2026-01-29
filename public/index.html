@@ -11,9 +11,11 @@
   --green:#2ecc71;
 }
 
+*{box-sizing:border-box}
+
 body{
   margin:0;
-  font-family:system-ui,sans-serif;
+  font-family:system-ui, sans-serif;
   overflow:hidden;
 }
 
@@ -57,13 +59,14 @@ body{
   padding-top:20px;
 }
 
+/* Brand */
 .brand{
   margin-bottom:10px;
 }
 .brand .alin{
   font-size:44px;
   font-weight:800;
-  color:#6ee7b7;
+  color:#7fffd4;
 }
 .brand .go{
   font-size:44px;
@@ -75,58 +78,66 @@ body{
   opacity:.9;
 }
 
-/* ================= DISK ================= */
+/* ================= DISK SYSTEM ================= */
 .disk-wrap{
   display:flex;
   justify-content:center;
-  margin:20px 0;
+  margin:30px 0;
 }
 
-..outer-disk{
-  width:300px;
-  height:300px;
+.disk-container{
+  position:relative;
+  width:260px;
+  height:260px;
+}
+
+/* rotating orbit (35% bigger) */
+.orbit{
+  position:absolute;
+  inset:0;
+  margin:auto;
+  width:230px;
+  height:230px;
   border-radius:50%;
-  background:conic-gradient(
-    from 0deg,
-    #1f256b,
-    #2ecc71,
-    #3fa9f5,
+  background:radial-gradient(circle at top,
     #2ecc71,
     #1f256b
   );
-  position:relative;
-  animation:spin 60s linear infinite;
+  animation:spin 45s linear infinite;
+  z-index:1;
 }
-.inner-disk{
-  width:65%;
-  height:65%;
+
+/* emoji buttons */
+.orbit-item{
+  position:absolute;
+  width:34px;
+  height:34px;
   background:#fff;
   border-radius:50%;
-  position:absolute;
-  top:17.5%;
-  left:17.5%;
   display:flex;
   justify-content:center;
   align-items:center;
+  font-size:16px;
+  box-shadow:0 2px 6px rgba(0,0,0,.3);
+}
+
+/* inner logo disk (STATIC) */
+.inner-disk{
+  position:absolute;
+  inset:0;
+  margin:auto;
+  width:170px;
+  height:170px;
+  background:#fff;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:2;
 }
 
 .inner-disk img{
-  width:80px;
-}
-
-/* emojis on disk */
-.disk-emoji{
-  position:absolute;
-  font-size:18px;
-}
-.disk-emoji::after{
-  content:"";
-  display:block;
-  width:6px;
-  height:6px;
-  background:#fff;
-  border-radius:50%;
-  margin:auto;
+  width:90px;
 }
 
 /* ================= BOTTOM BUTTONS ================= */
@@ -134,7 +145,9 @@ body{
   display:flex;
   justify-content:center;
   gap:18px;
+  margin-top:10px;
 }
+
 .bottom .ball{
   width:46px;
   height:46px;
@@ -147,34 +160,21 @@ body{
 }
 
 @keyframes spin{
-  from{transform:rotate(0)}
+  from{transform:rotate(0deg)}
   to{transform:rotate(360deg)}
 }
-
-  .disk-emoji{
-  position:absolute;
-  width:34px;
-  height:34px;
-  border-radius:50%;
-  background:#fff;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:16px;
-  box-shadow:0 2px 6px rgba(0,0,0,.25);
-}  
 </style>
 </head>
 
 <body>
 
-<!-- SPLASH -->
+<!-- SPLASH SCREEN -->
 <div id="splash">
   <img src="LOGO.JPG" alt="AlinGo">
   <div id="emoji-fall"></div>
 </div>
 
-<!-- HOME -->
+<!-- HOME SCREEN -->
 <div id="home">
 
   <div class="brand">
@@ -183,10 +183,14 @@ body{
   </div>
 
   <div class="disk-wrap">
-    <div class="outer-disk" id="disk">
+    <div class="disk-container">
+
+      <div class="orbit" id="orbit"></div>
+
       <div class="inner-disk">
-        <img src="LOGO.JPG">
+        <img src="LOGO.JPG" alt="logo">
       </div>
+
     </div>
   </div>
 
