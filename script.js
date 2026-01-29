@@ -119,3 +119,13 @@ async function bookTicket(type) {
         }
     }
 }
+
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCwToYZJlnhnpYUt0NpspoRh4HczFgy1I4",
+    authDomain: "alingo-d59de.firebaseapp.com",
+    projectId: "alingo-d59de",
+    storageBucket: "alingo-d59de.firebasestorage.app",
+    messagingSenderId: "854468704271",
+    appId: "1:854468704271:web:6f389d7c069730194b8b7a"
+};
