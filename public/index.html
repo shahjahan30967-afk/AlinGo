@@ -33,7 +33,7 @@ body{
 #splash::before{
   content:"";
   position:absolute;
-  inset:10px;
+  inset:12px;
   border:2px solid;
   border-image:linear-gradient(135deg,var(--indigo),var(--green)) 1;
 }
@@ -56,7 +56,7 @@ body{
   background:linear-gradient(135deg,var(--indigo),var(--green));
   color:#fff;
   text-align:center;
-  padding-top:20px;
+  padding-top:24px;
 }
 
 /* Brand */
@@ -64,12 +64,12 @@ body{
   margin-bottom:10px;
 }
 .brand .alin{
-  font-size:44px;
+  font-size:46px;
   font-weight:800;
   color:#7fffd4;
 }
 .brand .go{
-  font-size:44px;
+  font-size:46px;
   font-weight:800;
   color:#c7d2fe;
 }
@@ -78,7 +78,7 @@ body{
   opacity:.9;
 }
 
-/* ================= DISK SYSTEM ================= */
+/* ================= BRAND DISKS ================= */
 .disk-wrap{
   display:flex;
   justify-content:center;
@@ -91,8 +91,8 @@ body{
   height:260px;
 }
 
-/* rotating orbit (35% bigger) */
-.orbit{
+/* back disk */
+.back-disk{
   position:absolute;
   inset:0;
   margin:auto;
@@ -103,25 +103,10 @@ body{
     #2ecc71,
     #1f256b
   );
-  animation:spin 45s linear infinite;
   z-index:1;
 }
 
-/* emoji buttons */
-.orbit-item{
-  position:absolute;
-  width:34px;
-  height:34px;
-  background:#fff;
-  border-radius:50%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:16px;
-  box-shadow:0 2px 6px rgba(0,0,0,.3);
-}
-
-/* inner logo disk (STATIC) */
+/* front logo disk */
 .inner-disk{
   position:absolute;
   inset:0;
@@ -140,41 +125,67 @@ body{
   width:90px;
 }
 
-/* ================= BOTTOM BUTTONS ================= */
-.bottom{
-  display:flex;
-  justify-content:center;
-  gap:18px;
-  margin-top:10px;
+/* ================= SERVICES ================= */
+.services{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  padding:0 20px;
+  margin-top:20px;
 }
 
-.bottom .ball{
-  width:46px;
-  height:46px;
-  border-radius:50%;
-  background:rgba(255,255,255,.25);
+.service-card{
+  background:rgba(255,255,255,.18);
+  backdrop-filter:blur(8px);
+  border-radius:18px;
+  padding:16px 10px;
   display:flex;
-  justify-content:center;
+  flex-direction:column;
   align-items:center;
-  font-size:20px;
+  font-size:22px;
 }
 
-@keyframes spin{
-  from{transform:rotate(0deg)}
-  to{transform:rotate(360deg)}
+.service-card span{
+  font-size:12px;
+  margin-top:6px;
+}
+
+/* ================= CTA ================= */
+.cta{
+  margin:22px 20px;
+  display:flex;
+  gap:12px;
+}
+
+.cta button{
+  flex:1;
+  padding:14px;
+  border:none;
+  border-radius:16px;
+  font-size:14px;
+}
+
+.primary{
+  background:#2ecc71;
+  color:#0f172a;
+}
+
+.secondary{
+  background:rgba(255,255,255,.25);
+  color:#fff;
 }
 </style>
 </head>
 
 <body>
 
-<!-- SPLASH SCREEN -->
+<!-- SPLASH -->
 <div id="splash">
   <img src="LOGO.JPG" alt="AlinGo">
   <div id="emoji-fall"></div>
 </div>
 
-<!-- HOME SCREEN -->
+<!-- HOME -->
 <div id="home">
 
   <div class="brand">
@@ -184,21 +195,25 @@ body{
 
   <div class="disk-wrap">
     <div class="disk-container">
-
-      <div class="orbit" id="orbit"></div>
-
+      <div class="back-disk"></div>
       <div class="inner-disk">
         <img src="LOGO.JPG" alt="logo">
       </div>
-
     </div>
   </div>
 
-  <div class="bottom">
-    <div class="ball">📍</div>
-    <div class="ball">💬</div>
-    <div class="ball">☎️</div>
-    <div class="ball">⚙️</div>
+  <div class="services">
+    <div class="service-card">🚕<span>Ride</span></div>
+    <div class="service-card">🍔<span>Food</span></div>
+    <div class="service-card">🛒<span>Shopping</span></div>
+    <div class="service-card">✈️<span>Travel</span></div>
+    <div class="service-card">📦<span>Logistics</span></div>
+    <div class="service-card">🎟️<span>Tickets</span></div>
+  </div>
+
+  <div class="cta">
+    <button class="primary">Get Started</button>
+    <button class="secondary">Partner With Us</button>
   </div>
 
 </div>
