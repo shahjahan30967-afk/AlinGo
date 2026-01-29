@@ -3,56 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alingo Super App</title>
+    <title>Alingo - Your Super App</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* سارا ڈیزائن یہاں ہے تاکہ فائل گم نہ ہو */
-        .disk-wrapper { position: relative; width: 320px; height: 320px; margin: auto; }
-        .outer-disk { 
-            position: absolute; width: 100%; height: 100%; 
-            background: linear-gradient(135deg, #004a99, #1eb53a); 
-            border-radius: 50%; border: 8px solid white; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        :root {
+            --deep-blue: #003366;
+            --fresh-green: #28a745;
         }
-        .inner-disk { 
-            position: absolute; width: 70%; height: 70%; top: 15%; left: 15%;
-            background: white; border-radius: 50%; z-index: 5; 
+        body { background: #f8fafc; margin: 0; font-family: 'Segoe UI', sans-serif; }
+
+        /* Welcome Text */
+        .welcome-note { text-align: center; margin-top: 40px; margin-bottom: 20px; }
+        .welcome-note h1 { color: var(--deep-blue); font-weight: 900; font-size: 2rem; text-transform: uppercase; }
+
+        /* Disk Container */
+        .disk-wrapper {
+            position: relative; width: 320px; height: 320px;
+            margin: 50px auto; display: flex; justify-content: center; align-items: center;
+        }
+
+        /* Outer Disk - Theme Colors */
+        .outer-disk {
+            position: absolute; width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--deep-blue), var(--fresh-green));
+            border-radius: 50%; border: 8px solid white;
+            box-shadow: 0 15px 45px rgba(0, 51, 102, 0.3);
+        }
+
+        /* Inner Disk - 70% Scale */
+        .inner-disk {
+            position: absolute; width: 70%; height: 70%;
+            background: white; border-radius: 50%; z-index: 5;
             display: flex; justify-content: center; align-items: center;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.1);
         }
-        .node { 
-            position: absolute; width: 65px; height: 65px; background: white; 
-            border-radius: 50%; display: flex; flex-direction: column; 
-            justify-content: center; align-items: center; font-size: 10px; 
-            font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 10;
+
+        /* Service Buttons (Nodes) */
+        .node {
+            position: absolute; width: 68px; height: 68px; background: white;
+            border-radius: 50%; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; font-size: 11px;
+            font-weight: bold; color: var(--deep-blue);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1); z-index: 10;
+            border: 2px solid #f1f5f9; cursor: pointer; transition: all 0.3s ease;
         }
-        /* بٹنز کی پوزیشن */
-        .n1 { top: -20px; left: 125px; } .n2 { top: 60px; right: -20px; }
-        .n3 { bottom: 60px; right: -20px; } .n4 { bottom: -20px; left: 125px; }
-        .n5 { bottom: 60px; left: -20px; } .n6 { top: 60px; left: -20px; }
+        .node:active { transform: scale(0.9); }
+        .node span { font-size: 20px; margin-bottom: 2px; }
+
+        /* Perfect Circular Positions */
+        .n1 { top: -25px; left: 126px; }  /* Taxi */
+        .n2 { top: 55px; right: -25px; }  /* Food */
+        .n3 { bottom: 55px; right: -25px; } /* Grocery */
+        .n4 { bottom: -25px; left: 126px; } /* Tickets */
+        .n5 { bottom: 55px; left: -25px; }  /* Shop */
+        .n6 { top: 55px; left: -25px; }     /* Travel */
     </style>
 </head>
-<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
+<body>
 
-    <div class="text-center mb-10">
-        <h1 class="text-3xl font-black text-[#004a99]">WELCOME TO ALINGO</h1>
-        <p class="text-gray-500">Your All-In-One Partner</p>
+    <div class="welcome-note">
+        <h1>Welcome to Alingo</h1>
+        <p class="text-gray-500 font-medium">All In One Go Service</p>
     </div>
 
     <div class="disk-wrapper">
         <div class="outer-disk"></div>
         <div class="inner-disk">
-            <img src="/LOGO.JPG" class="w-24" onerror="this.src='https://via.placeholder.com/100?text=Alingo'">
+            <img src="/LOGO.JPG" class="w-3/4 object-contain" alt="Alingo Logo" onerror="this.src='https://via.placeholder.com/100?text=Alingo'">
         </div>
         
-        <div class="node n1"><span>🚕</span>TAXI</div>
-        <div class="node n2"><span>🍱</span>FOOD</div>
-        <div class="node n3"><span>🛒</span>GROCERY</div>
-        <div class="node n4"><span>🎟️</span>TICKETS</div>
-        <div class="node n5"><span>🛍️</span>SHOP</div>
-        <div class="node n6"><span>✈️</span>TRAVEL</div>
+        <div class="node n1" onclick="openService('Taxi')"><span>🚕</span>TAXI</div>
+        <div class="node n2" onclick="openService('Food')"><span>🍱</span>FOOD</div>
+        <div class="node n3" onclick="openService('Grocery')"><span>🛒</span>GROCERY</div>
+        <div class="node n4" onclick="openService('Tickets')"><span>🎟️</span>TICKETS</div>
+        <div class="node n5" onclick="openService('Shop')"><span>🛍️</span>SHOP</div>
+        <div class="node n6" onclick="openService('Travel')"><span>✈️</span>TRAVEL</div>
     </div>
 
     <script>
-        console.log("Alingo App Loaded Successfully!");
+        function openService(name) {
+            alert(name + " Service is being prepared for you!");
+            // یہاں آپ فائر بیس کا ڈیٹا بھی لوڈ کر سکتے ہیں
+        }
+        console.log("Alingo App UI Restored & Active.");
     </script>
 </body>
 </html>
