@@ -2,17 +2,22 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
-// سٹیٹک فائلز کے لیے راستہ
+// بتاتا ہے کہ تمام فائلیں public فولڈر میں ہیں
 app.use(express.static(path.join(__dirname, '../public')));
 
-// مین پیج کا راستہ
+// مین ہوم پیج
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
-// ٹیکسی پیج کا راستہ (یہی وہ حصہ ہے جو غائب تھا)
+// ٹیکسی بکنگ پیج کا راستہ (یہ ایرر ختم کرے گا)
 app.get('/taxi', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/taxi.html'));
+});
+
+// ایڈمن پینل کا راستہ
+app.get('/admin', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/admin.html'));
 });
 
 module.exports = app;
