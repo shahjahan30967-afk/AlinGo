@@ -1,77 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ur">
 <head>
   <meta charset="UTF-8" />
   <title>Alingo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="/manifest.json">
 
   <style>
     body {
       margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: #ffffff;
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
       text-align: center;
     }
 
-    /* SPLASH */
+    /* ---------- Splash ---------- */
     #splash {
       height: 100vh;
-      border: 6px solid;
-      border-image: linear-gradient(135deg, #1a237e, #1abc9c) 1;
+      background: linear-gradient(135deg, #0a74da, #1abc9c);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      color: white;
     }
 
     #splash img {
-      width: 240px;
-      margin-bottom: 25px;
+      width: 180px;
+      margin-bottom: 20px;
     }
 
-    #splash h1 {
-      font-size: 34px;
-      color: #1a237e;
-      margin: 0;
+    /* ---------- App Title ---------- */
+    #title {
+      margin-top: 20px;
     }
 
-    #splash p {
-      font-size: 18px;
-      color: #1abc9c;
+    .alin {
+      color: #2ecc71;
+      font-size: 42px;
+      font-weight: bold;
+    }
+
+    .go {
+      color: indigo;
+      font-size: 42px;
+      font-weight: bold;
+    }
+
+    #tagline {
+      color: #555;
       margin-top: 8px;
+      font-size: 14px;
     }
-<div id="branding">
-  <h1>
-    <span class="ali">Ali</span><span class="ali">n</span><span class="go">Go</span>
-  </h1>
-  <p class="tagline">آپ کی دنیا، ایک ایپ میں</p>
-</div>
-    
-    /* HOME */
+
+    /* ---------- Home ---------- */
     #home {
       display: none;
-      padding-top: 40px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    /* OUTER DISK (MIXED COLOR) */
+    /* ---------- Circles ---------- */
     .outer-circle {
-      width: 340px;
-      height: 340px;
+      width: 300px;
+      height: 300px;
       border-radius: 50%;
-      margin: auto;
-      position: relative;
-      background: radial-gradient(
-        circle at top left,
-        #1a237e,
+      background: conic-gradient(
+        #1abc9c,
+        #0a74da,
+        #9b59b6,
+        #f39c12,
         #1abc9c
       );
+      position: relative;
+      margin-bottom: 30px;
     }
 
-    /* INNER DISK */
     .inner-circle {
       width: 70%;
       height: 70%;
-      background: #ffffff;
+      background: white;
       border-radius: 50%;
       position: absolute;
       top: 15%;
@@ -79,74 +90,60 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      box-shadow: 0 0 14px rgba(0,0,0,0.2);
     }
 
     .inner-circle img {
-      width: 90px;
+      width: 80px;
     }
 
-    /* BUTTONS */
+    /* ---------- Buttons on Edge ---------- */
     .btn {
       position: absolute;
-      width: 60px;
-      height: 60px;
-      background: #ffffff;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 28px;
+      background: white;
+      border-radius: 50px;
+      padding: 6px 14px;
+      font-size: 12px;
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
 
-    /* Button positions (center of each quadrant) */
-    .ride {
-      top: 35px;
-      left: 140px;
-    }
+    .ride   { top: -18px; left: 110px; }
+    .food   { right: -28px; top: 110px; }
+    .shop   { bottom: -18px; left: 110px; }
+    .travel { left: -28px; top: 110px; }
 
-    .food {
-      top: 140px;
-      right: 35px;
-    }
-
-    .shop {
-      bottom: 35px;
-      left: 140px;
-    }
-
-    .travel {
-      top: 140px;
-      left: 35px;
-    }
   </style>
 </head>
 
 <body>
 
-<!-- SPLASH -->
+<!-- Splash Screen -->
 <div id="splash">
   <img src="/LOGO.JPG" alt="Alingo Logo">
-  <h1>Welcome to Alingo</h1>
-  <p>Your Smart All-in-One Urban App</p>
+  <h2>Alingo میں خوش آمدید</h2>
 </div>
 
-<!-- HOME -->
+<!-- Home Screen -->
 <div id="home">
-  <div class="outer-circle">
 
-    <!-- Centered Segment Buttons -->
-    <div class="btn ride">🚕</div>
-    <div class="btn food">🍔</div>
-    <div class="btn shop">🛒</div>
-    <div class="btn travel">🚌</div>
+  <!-- Title -->
+  <div id="title">
+    <span class="alin">Alin</span><span class="go">Go</span>
+    <div id="tagline">سفر، کھانا، خریداری — سب ایک ایپ میں</div>
+  </div>
+
+  <!-- Circles at Bottom -->
+  <div class="outer-circle">
+    <div class="btn ride">Ride</div>
+    <div class="btn food">Food</div>
+    <div class="btn shop">Shop</div>
+    <div class="btn travel">Travel</div>
 
     <div class="inner-circle">
       <img src="/LOGO.JPG" alt="Logo">
     </div>
   </div>
+
 </div>
 
 <script src="/script.js"></script>
