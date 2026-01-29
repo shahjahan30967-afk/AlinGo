@@ -1,246 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ur">
 <head>
-<meta charset="UTF-8">
-<title>Alingo</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-:root{
-  --indigo:#2c2f8c;
-  --purple:#4b1d6b;
-  --green:#2ecc71;
-}
-
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:system-ui,Segoe UI,sans-serif;
-  background:#fff;
-  overflow:hidden;
-}
-
-/* ================= SPLASH ================= */
-#splash{
-  position:fixed;
-  inset:0;
-  background:white;
-  border:2px solid;
-  border-image:linear-gradient(90deg,var(--indigo),var(--purple)) 1;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:10;
-}
-
-#logoBig{
-  width:200px;
-  z-index:2;
-}
-
-.emoji-ball{
-  position:absolute;
-  font-size:22px;
-  width:36px;
-  height:36px;
-  border-radius:50%;
-  background:white;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  box-shadow:0 6px 18px rgba(0,0,0,.25);
-}
-
-/* ================= HOME ================= */
-#home{
-  display:none;
-  height:100vh;
-  background:linear-gradient(180deg,#10143c,#0e2f2a);
-  color:white;
-  text-align:center;
-}
-
-header{
-  padding-top:20px;
-}
-
-.alin{color:var(--green);font-size:48px;font-weight:800}
-.go{color:var(--indigo);font-size:48px;font-weight:800}
-
-.tagline{
-  margin-top:6px;
-  font-size:14px;
-  letter-spacing:1px;
-}
-
-.blink{
-  animation:blink 1s infinite;
-}
-
-@keyframes blink{
-  0%,50%{opacity:1}
-  51%,100%{opacity:0}
-}
-
-/* ================= DISK ================= */
-.disk-wrap{
-  position:relative;
-  width:320px;
-  height:320px;
-  margin:20px auto;
-}
-
-.outer-disk{
-  position:absolute;
-  inset:0;
-  border-radius:50%;
-  background:conic-gradient(
-    #2ecc71,
-    #2c2f8c,
-    #9b59b6,
-    #f1c40f,
-    #2ecc71
-  );
-  animation:spin 40s linear infinite;
-}
-
-.inner-disk{
-  position:absolute;
-  width:65%;
-  height:65%;
-  background:white;
-  border-radius:50%;
-  top:17.5%;
-  left:17.5%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:2;
-}
-
-.inner-disk img{
-  width:90px;
-}
-
-@keyframes spin{
-  from{transform:rotate(0)}
-  to{transform:rotate(360deg)}
-}
-
-/* emoji markers */
-.marker{
-  position:absolute;
-  width:32px;
-  height:32px;
-  border-radius:50%;
-  background:white;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:18px;
-  box-shadow:0 4px 12px rgba(0,0,0,.3);
-}
-
-/* ================= BOTTOM BUTTONS ================= */
-.bottom-buttons{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:12px;
-  padding:0 20px 20px;
-}
-
-.bottom-buttons button{
-  padding:14px;
-  border:none;
-  border-radius:14px;
-  background:#ffffff10;
-  color:white;
-  font-size:14px;
-  backdrop-filter:blur(6px);
-}
-</style>
+  <meta charset="UTF-8">
+  <title>AlonGo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <!-- SPLASH -->
 <div id="splash">
-  <img id="logoBig" src="/LOGO.JPG">
+  <div class="border"></div>
+
+  <img src="LOGO.JPG" class="splash-logo">
+
+  <div id="emoji-stage"></div>
 </div>
 
 <!-- HOME -->
 <div id="home">
-  <header>
-    <span class="alin">Alin</span><span class="go">Go</span>
+
+  <div class="brand">
+    <span class="alon">Alon</span><span class="go">Go</span>
     <div class="tagline">
-      Let’s move forward go<span>.</span><span>.</span><span class="blink">.</span>
-    </div>
-  </header>
-
-  <div class="disk-wrap">
-    <div class="outer-disk" id="outerDisk"></div>
-    <div class="inner-disk">
-      <img src="/LOGO.JPG">
+      Move with confidence go<span class="dots">..</span><span class="dot-blink">.</span>
     </div>
   </div>
 
-  <div class="bottom-buttons">
-    <button>Wallet</button>
-    <button>Orders</button>
-    <button>Support</button>
-    <button>Profile</button>
+  <div class="disk-wrapper">
+    <div class="outer-disk">
+      <!-- emojis injected by JS -->
+      <div class="inner-disk">
+        <img src="LOGO.JPG">
+      </div>
+    </div>
   </div>
+
+  <div class="bottom-actions">
+    <div class="ball">☎️</div>
+    <div class="ball">💬</div>
+    <div class="ball">📍</div>
+    <div class="ball">⚙️</div>
+  </div>
+
 </div>
 
-<script>
-/* ========== SPLASH ANIMATION ========== */
-const splash=document.getElementById("splash");
-const emojis=["🚕","🍔","🛒","🚌","📦","🎟️"];
-let balls=[];
-
-emojis.forEach((e,i)=>{
-  const b=document.createElement("div");
-  b.className="emoji-ball";
-  b.innerText=e;
-  b.style.left=20+ i*50 +"px";
-  b.style.top="-60px";
-  splash.appendChild(b);
-  balls.push(b);
-
-  setTimeout(()=>{
-    b.animate([
-      {transform:"translateY(0)"},
-      {transform:"translateY(70vh)"},
-      {transform:"translateY(60vh)"}
-    ],{
-      duration:2000,
-      easing:"cubic-bezier(.34,1.56,.64,1)",
-      fill:"forwards"
-    });
-  },i*700);
-});
-
-/* switch to home after 10s */
-setTimeout(()=>{
-  splash.style.display="none";
-  document.getElementById("home").style.display="block";
-},10000);
-
-/* ========== DISK MARKERS ========== */
-const disk=document.getElementById("outerDisk");
-const icons=["🚕","🍔","🛒","🚌"];
-icons.forEach((ic,i)=>{
-  const m=document.createElement("div");
-  m.className="marker";
-  m.innerText=ic;
-  const angle=(i/icons.length)*360;
-  const r=150;
-  m.style.left=160+Math.cos(angle*Math.PI/180)*r-16+"px";
-  m.style.top =160+Math.sin(angle*Math.PI/180)*r-16+"px";
-  disk.appendChild(m);
-});
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
