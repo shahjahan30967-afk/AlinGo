@@ -6,258 +6,73 @@
     <title>Alingo - All In One Go</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* تھیم کے رنگ */
-        :root {
-            --deep-blue: #004a99;
-            --fresh-green: #1eb53a;
-        }
+        :root { --deep-blue: #004a99; --fresh-green: #1eb53a; }
+        body { background-color: #f0f4f8; font-family: system-ui, sans-serif; overflow-x: hidden; }
 
-        body {
-            background-color: #f0f4f8;
-            font-family: system-ui, -apple-system, sans-serif;
-            margin: 0;
-            overflow: hidden;
-        }
-
-        /* 1. Splash Screen */
+        /* پرانی سپلیش اسکرین */
         #splash {
-            position: fixed;
-            inset: 0;
-            background: white;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.8s ease;
+            position: fixed; inset: 0; background: white; z-index: 1000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
 
-        /* 2. Circular Menu Container */
+        /* وہی گول مینیو ڈیزائن */
         .disk-wrapper {
-            position: relative;
-            width: 340px;
-            height: 340px;
-            margin: auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            position: relative; width: 340px; height: 340px;
+            margin: auto; display: flex; justify-content: center; align-items: center;
         }
-
-        /* بیرونی رنگین ڈسک */
         .outer-disk {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
+            position: absolute; width: 100%; height: 100%; border-radius: 50%;
             background: linear-gradient(135deg, var(--fresh-green), var(--deep-blue));
-            box-shadow: 0 15px 35px rgba(0,74,153,0.3);
-            border: 8px solid white;
+            box-shadow: 0 15px 35px rgba(0,74,153,0.3); border: 8px solid white;
         }
-
-        /* اندرونی سفید ڈسک */
         .inner-disk {
-            position: absolute;
-            width: 130px;
-            height: 130px;
-            background: white;
-            border-radius: 50%;
-            z-index: 10;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            position: absolute; width: 130px; height: 130px; background: white;
+            border-radius: 50%; z-index: 10; display: flex; justify-content: center; align-items: center;
         }
-
-        /* سروس بٹنز جو دائرے پر ہوں گے */
         .service-node {
-            position: absolute;
-            width: 75px;
-            height: 75px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-            cursor: pointer;
-            transition: transform 0.2s;
-            z-index: 20;
+            position: absolute; width: 75px; height: 75px; background: white;
+            border-radius: 50%; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            cursor: pointer; transition: transform 0.2s; z-index: 20;
         }
-
-        .service-node:active { transform: scale(0.9); }
-        .node-icon { font-size: 24px; }
-        .node-text { font-size: 10px; font-weight: bold; color: var(--deep-blue); margin-top: 2px; }
     </style>
 </head>
-<body class="flex flex-col min-h-screen">
+<body>
 
     <div id="splash">
-        <img src="/LOGO.JPG" alt="Alingo" class="w-40 h-40 object-contain mb-4">
+        <img src="/public/LOGO.JPG" alt="Alingo" class="w-40 h-40 object-contain mb-4 animate-pulse">
         <h1 class="text-4xl font-black text-[#004a99] italic">Alingo</h1>
-        <p class="text-[#1eb53a] font-bold tracking-widest mt-2">ALL IN ONE GO</p>
     </div>
 
-    <div id="home-content" class="hidden flex-1 flex flex-col items-center justify-center p-4">
-        
+    <div id="home-content" class="hidden flex flex-col items-center justify-center min-h-screen p-4">
         <div class="text-center mb-10">
             <h2 class="text-2xl font-extrabold text-[#004a99]">خوش آمدید، Alingo میں!</h2>
-            <p class="text-gray-500 text-sm">آپ کی ہر ضرورت، اب ایک ہی جگہ</p>
         </div>
 
         <div class="disk-wrapper" id="menuRing">
             <div class="outer-disk"></div>
-            
             <div class="inner-disk">
-                <img src="/LOGO.JPG" alt="Alingo" class="w-24 h-24 object-contain">
+                <img src="/public/LOGO.JPG" alt="Alingo" class="w-24 h-24 object-contain">
             </div>
-
             </div>
-
     </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="script.js"></script>
 
     <script>
-        // سروسز کی فہرست
-        const services = [
-            { name: 'ٹیکسی', icon: '🚕' },
-            { name: 'کھانا', icon: '🍔' },
-            { name: 'گروسری', icon: '🛒' },
-            { name: 'ٹکٹنگ', icon: '🎟️' },
-            { name: 'ٹریول', icon: '✈️' },
-            { name: 'ڈیجیٹل', icon: '🧾' },
-            { name: 'شاپنگ', icon: '🛍️' },
-            { name: 'سپورٹ', icon: '📞' }
-        ];
-
-
-
-        
-    // ٹیکسی سیکشن 
-        
-        <div id="taxi-section" class="hidden fixed inset-0 bg-white z-[1500] p-4 flex flex-col">
-    <div class="flex items-center mb-4">
-        <button onclick="closeTaxi()" class="bg-gray-100 p-2 rounded-full ml-4">✕</button>
-        <h2 class="text-xl font-bold text-[#003366]">ٹیکسی رائیڈ بک کریں</h2>
-    </div>
-    
-    <div id="map" class="w-full h-64 bg-gray-200 rounded-3xl mb-4 shadow-inner"></div>
-    
-    <div class="space-y-4">
-        <div class="bg-blue-50 p-4 rounded-2xl flex items-center">
-            <span class="ml-3 text-2xl">📍</span>
-            <input type="text" id="pickup-location" placeholder="پک اپ لوکیشن..." class="bg-transparent w-full outline-none text-sm">
-        </div>
-        
-        <div class="grid grid-cols-3 gap-2">
-            <button onclick="selectVehicle('Bike')" class="border-2 border-blue-600 rounded-2xl p-2 text-center">
-                <p>🏍️</p><small>بائیک</small>
-            </button>
-            <button onclick="selectVehicle('Rickshaw')" class="border-2 border-gray-100 rounded-2xl p-2 text-center">
-                <p>🛺</p><small>رکشہ</small>
-            </button>
-            <button onclick="selectVehicle('Car')" class="border-2 border-gray-100 rounded-2xl p-2 text-center">
-                <p>🚗</p><small>کار</small>
-            </button>
-        </div>
-
-        <button onclick="bookRide()" class="w-full bg-[#1eb53a] text-white py-4 rounded-2xl font-bold text-lg shadow-lg">
-            رائیڈ بک کریں
-        </button>
-    </div>
-</div>
-
-
-       //     شاپنگ اور ٹکٹنگ کا ڈھانچہ
-            
-<div id="shopping-section" class="hidden fixed inset-0 bg-slate-50 z-[1500] overflow-y-auto p-4">
-    <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-bold text-[#004a99]">Alingo شاپنگ</h2>
-        <button onclick="closeSection('shopping-section')" class="text-2xl">✕</button>
-    </div>
-    <div class="grid grid-cols-2 gap-4" id="shopping-grid">
-        <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100">
-            <div class="h-32 bg-gray-100 rounded-xl mb-2 flex items-center justify-center text-3xl">👕</div>
-            <h4 class="font-bold text-sm">برانڈڈ ٹی شرٹ</h4>
-            <p class="text-blue-600 font-bold text-xs mt-1">Rs. 1,200</p>
-            <button onclick="addToCart('T-Shirt', 1200)" class="w-full mt-2 bg-[#004a99] text-white py-2 rounded-lg text-xs">خریدیں</button>
-        </div>
-        </div>
-</div>
-
-<div id="tickets-section" class="hidden fixed inset-0 bg-white z-[1500] p-4">
-    <div class="flex items-center mb-6">
-        <button onclick="closeSection('tickets-section')" class="ml-4 text-xl">←</button>
-        <h2 class="text-xl font-bold">ٹکٹ اور بکنگ</h2>
-    </div>
-    <div class="space-y-4">
-        <div onclick="bookTicket('Bus')" class="p-4 rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 text-white flex justify-between items-center cursor-pointer shadow-lg">
-            <div><h3 class="font-bold">بس ٹکٹ</h3><p class="text-xs opacity-80">انٹر سٹی سفر کے لیے</p></div>
-            <span class="text-3xl">🚌</span>
-        </div>
-        <div onclick="bookTicket('Cinema')" class="p-4 rounded-2xl bg-gradient-to-r from-purple-600 to-purple-700 text-white flex justify-between items-center cursor-pointer shadow-lg">
-            <div><h3 class="font-bold">سینما</h3><p class="text-xs opacity-80">نئی فلموں کی بکنگ</p></div>
-            <span class="text-3xl">🍿</span>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-        
-        
-        function initCircle() {
-            const ring = document.getElementById('menuRing');
-            const radius = 135; // دائرے کا سائز
-            const total = services.length;
-
-            services.forEach((s, i) => {
-                const angle = (i * 360 / total) * (Math.PI / 180);
-                const x = radius * Math.cos(angle);
-                const y = radius * Math.sin(angle);
-
-                const node = document.createElement('div');
-                node.className = 'service-node';
-                node.style.left = `calc(50% + ${x}px - 37.5px)`;
-                node.style.top = `calc(50% + ${y}px - 37.5px)`;
-                
-                node.innerHTML = `
-                    <span class="node-icon">${s.icon}</span>
-                    <span class="node-text">${s.name}</span>
-                `;
-                
-                node.onclick = () => alert(s.name + " سروس جلد دستیاب ہوگی۔");
-                ring.appendChild(node);
-            });
-        }
-
-
-        // سپلیش ٹائمر
+        // سپلیش اسکرین کو ہٹانے کا پرانا لاجک
         window.onload = () => {
             setTimeout(() => {
-                const sp = document.getElementById('splash');
-                sp.style.opacity = '0';
+                document.getElementById('splash').style.opacity = '0';
                 setTimeout(() => {
-                    sp.style.display = 'none';
+                    document.getElementById('splash').style.display = 'none';
                     document.getElementById('home-content').classList.remove('hidden');
-                    initCircle();
+                    if(typeof initCircle === 'function') initCircle(); 
                 }, 800);
             }, 3000);
         };
     </script>
 </body>
 </html>
-
-<div id="order-modal" class="hidden fixed inset-0 bg-black/50 z-[2000] flex items-center justify-center p-4">
-    <div class="bg-white w-full max-w-sm rounded-3xl p-6">
-        <h2 class="text-2xl font-bold text-[#004a99] mb-4">آرڈر کی تفصیلات</h2>
-        <input type="text" id="cust-name" placeholder="آپ کا نام" class="w-full border p-3 rounded-xl mb-3">
-        <input type="tel" id="cust-phone" placeholder="فون نمبر" class="w-full border p-3 rounded-xl mb-4">
-        <div class="flex gap-2">
-            <button onclick="closeModal()" class="flex-1 py-3 bg-gray-200 rounded-xl font-bold">کینسل</button>
-            <button onclick="submitToFirebase()" class="flex-1 py-3 bg-[#1eb53a] text-white rounded-xl font-bold">آرڈر بھیجیں</button>
-        </div>
-    </div>
-</div>
-
