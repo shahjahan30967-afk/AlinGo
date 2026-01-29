@@ -90,3 +90,32 @@ async function bookRide() {
     }
 }
 
+
+
+// سیکشن کھولنے کا فنکشن
+function openService(id) {
+    document.getElementById(id + '-section').classList.remove('hidden');
+}
+
+// سیکشن بند کرنے کا فنکشن
+function closeSection(id) {
+    document.getElementById(id).classList.add('hidden');
+}
+
+// ٹکٹ بکنگ کا فنکشن
+async function bookTicket(type) {
+    const userPhone = prompt("برائے مہربانی اپنا فون نمبر لکھیں:");
+    if(userPhone) {
+        try {
+            await db.collection('orders').add({
+                item: "Ticket: " + type,
+                customerPhone: userPhone,
+                status: "Pending",
+                time: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            alert(type + " ٹکٹ کی درخواست بھیج دی گئی ہے! ہمارا نمائندہ آپ سے رابطہ کرے گا۔");
+        } catch (e) {
+            alert("خرابی پیش آگئی!");
+        }
+    }
+}
