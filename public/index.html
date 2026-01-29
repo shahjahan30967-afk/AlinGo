@@ -4,135 +4,193 @@
   <meta charset="UTF-8" />
   <title>Alingo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="manifest" href="/manifest.json">
 
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f7fa;
-      text-align: center;
+    :root {
+      --green: #2ecc71;
+      --indigo: #3f51b5;
+      --dark: #1f2933;
     }
 
-    /* ---------- Splash ---------- */
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: #ffffff;
+      color: var(--dark);
+      overflow: hidden;
+    }
+
+    /* ========== SPLASH ========== */
     #splash {
-      height: 100vh;
-      background: linear-gradient(135deg, #0a74da, #1abc9c);
+      position: fixed;
+      inset: 0;
+      background: #ffffff;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      color: white;
+      z-index: 10;
+      animation: fadeOut 1s ease forwards;
+      animation-delay: 2.6s;
     }
 
     #splash img {
-      width: 180px;
-      margin-bottom: 20px;
+      width: 140px;
+      animation: scaleIn 1.6s ease;
     }
 
-    /* ---------- App Title ---------- */
-    #title {
-      margin-top: 20px;
-    }
-
-    .alin {
-      color: #2ecc71;
-      font-size: 42px;
-      font-weight: bold;
-    }
-
-    .go {
-      color: indigo;
-      font-size: 42px;
-      font-weight: bold;
-    }
-
-    #tagline {
-      color: #555;
-      margin-top: 8px;
+    #splash p {
+      margin-top: 18px;
       font-size: 14px;
+      letter-spacing: 1px;
+      color: #777;
     }
 
-    /* ---------- Home ---------- */
+    /* ========== HOME ========== */
     #home {
-      display: none;
       height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
+      padding: 28px 0;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
+      animation-delay: 3s;
     }
 
-    /* ---------- Circles ---------- */
+    /* Brand Title */
+    .brand {
+      text-align: center;
+    }
+
+    .brand .alin {
+      color: var(--green);
+      font-size: 46px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .brand .go {
+      color: var(--indigo);
+      font-size: 46px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .tagline {
+      font-size: 14px;
+      color: #666;
+      margin-top: 6px;
+    }
+
+    /* ========== CIRCULAR SYSTEM ========== */
     .outer-circle {
-      width: 300px;
-      height: 300px;
+      width: 320px;
+      height: 320px;
       border-radius: 50%;
       background: conic-gradient(
-        #1abc9c,
-        #0a74da,
+        #2ecc71,
+        #3f51b5,
         #9b59b6,
-        #f39c12,
-        #1abc9c
+        #f1c40f,
+        #2ecc71
       );
       position: relative;
-      margin-bottom: 30px;
+      animation: slowRotate 28s linear infinite;
     }
 
     .inner-circle {
       width: 70%;
       height: 70%;
-      background: white;
+      background: #ffffff;
       border-radius: 50%;
       position: absolute;
       top: 15%;
       left: 15%;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
     }
 
     .inner-circle img {
-      width: 80px;
+      width: 78px;
+      margin-bottom: 6px;
     }
 
-    /* ---------- Buttons on Edge ---------- */
+    .inner-circle span {
+      font-size: 11px;
+      color: #888;
+    }
+
+    /* Buttons on edge */
     .btn {
       position: absolute;
-      background: white;
-      border-radius: 50px;
-      padding: 6px 14px;
+      background: #ffffff;
+      padding: 7px 16px;
+      border-radius: 40px;
       font-size: 12px;
+      font-weight: 600;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
       cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      transition: transform .25s ease;
     }
 
-    .ride   { top: -18px; left: 110px; }
-    .food   { right: -28px; top: 110px; }
-    .shop   { bottom: -18px; left: 110px; }
-    .travel { left: -28px; top: 110px; }
+    .btn:hover {
+      transform: scale(1.08);
+    }
 
+    .ride   { top: -18px; left: 115px; }
+    .food   { right: -32px; top: 115px; }
+    .shop   { bottom: -18px; left: 115px; }
+    .travel { left: -32px; top: 115px; }
+
+    /* Bottom trust line */
+    .trust {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 6px;
+    }
+
+    /* Animations */
+    @keyframes scaleIn {
+      from { transform: scale(.6); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes fadeOut {
+      to { opacity: 0; visibility: hidden; }
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    @keyframes slowRotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 
 <body>
 
-<!-- Splash Screen -->
+<!-- SPLASH -->
 <div id="splash">
   <img src="/LOGO.JPG" alt="Alingo Logo">
-  <h2>Alingo میں خوش آمدید</h2>
+  <p>زندگی کو حرکت میں</p>
 </div>
 
-<!-- Home Screen -->
+<!-- HOME -->
 <div id="home">
 
-  <!-- Title -->
-  <div id="title">
+  <div class="brand">
     <span class="alin">Alin</span><span class="go">Go</span>
-    <div id="tagline">سفر، کھانا، خریداری — سب ایک ایپ میں</div>
+    <div class="tagline">Ride • Food • Shopping • Travel</div>
   </div>
 
-  <!-- Circles at Bottom -->
   <div class="outer-circle">
     <div class="btn ride">Ride</div>
     <div class="btn food">Food</div>
@@ -140,12 +198,16 @@
     <div class="btn travel">Travel</div>
 
     <div class="inner-circle">
-      <img src="/LOGO.JPG" alt="Logo">
+      <img src="/LOGO.JPG">
+      <span>One Life • One App</span>
     </div>
+  </div>
+
+  <div class="trust">
+    پاکستان کا پہلا ڈیجیٹل سٹی پلیٹ فارم
   </div>
 
 </div>
 
-<script src="/script.js"></script>
 </body>
 </html>
