@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alingo Taxi - Book a Ride</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root { --deep-blue: #003366; --fresh-green: #28a745; }
+        body { background: #f1f5f9; font-family: sans-serif; }
+        .map-box { height: 300px; background: #e2e8f0; border-radius: 0 0 30px 30px; position: relative; }
+        .ride-option { border: 2px solid #e2e8f0; transition: 0.3s; cursor: pointer; }
+        .ride-option.active { border-color: var(--fresh-green); background: #f0fdf4; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-[#003366] p-4 text-white flex items-center shadow-lg">
+        <button onclick="window.location.href='/'" class="text-2xl mr-4">←</button>
+        <h1 class="text-xl font-bold">Book Your Alingo Ride</h1>
+    </div>
+
+    <div class="map-box shadow-inner flex items-center justify-center text-gray-400">
+        <div class="text-center">
+            <span class="text-5xl">📍</span>
+            <p class="mt-2 font-medium">Map Loading...</p>
+        </div>
+    </div>
+
+    <div class="p-6 -mt-8 relative z-10">
+        <div class="bg-white rounded-2xl p-4 shadow-xl space-y-3">
+            <div class="flex items-center border-b pb-2">
+                <span class="text-green-500 mr-3">●</span>
+                <input type="text" placeholder="Pickup Location" class="w-full outline-none text-sm">
+            </div>
+            <div class="flex items-center pt-2">
+                <span class="text-red-500 mr-3">■</span>
+                <input type="text" placeholder="Drop-off Destination" class="w-full outline-none text-sm">
+            </div>
+        </div>
+
+        <h3 class="mt-6 mb-3 font-bold text-[#003366]">Select Vehicle</h3>
+        <div class="grid grid-cols-3 gap-3">
+            <div onclick="selectRide(this)" class="ride-option bg-white p-3 rounded-2xl text-center shadow-sm">
+                <span class="text-2xl">🏍️</span>
+                <p class="text-xs font-bold mt-1">Bike</p>
+                <p class="text-[10px] text-gray-500">Rs. 150</p>
+            </div>
+            <div onclick="selectRide(this)" class="ride-option bg-white p-3 rounded-2xl text-center shadow-sm active">
+                <span class="text-2xl">🛺</span>
+                <p class="text-xs font-bold mt-1">Rickshaw</p>
+                <p class="text-[10px] text-gray-500">Rs. 350</p>
+            </div>
+            <div onclick="selectRide(this)" class="ride-option bg-white p-3 rounded-2xl text-center shadow-sm">
+                <span class="text-2xl">🚗</span>
+                <p class="text-xs font-bold mt-1">Economy</p>
+                <p class="text-[10px] text-gray-500">Rs. 600</p>
+            </div>
+        </div>
+
+        <button onclick="confirmBooking()" class="w-full bg-[#28a745] text-white py-4 rounded-2xl mt-8 font-bold text-lg shadow-lg active:scale-95 transition">
+            Confirm Alingo Ride
+        </button>
+    </div>
+
+    <script>
+        function selectRide(el) {
+            document.querySelectorAll('.ride-option').forEach(opt => opt.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        function confirmBooking() {
+            alert("Booking request sent to Admin! Driver will contact you shortly.");
+        }
+    </script>
+</body>
+</html>
