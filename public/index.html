@@ -1,131 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Alingo</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>Alingo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body {
-  margin: 0;
-  font-family: "Segoe UI", Arial, sans-serif;
-  background: #ffffff;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #ffffff;
+      text-align: center;
+    }
 
-/* ---------------- SPLASH ---------------- */
-#splash {
-  height: 100vh;
-  border: 6px solid;
-  border-image: linear-gradient(45deg, #0a74da, #1abc9c) 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+    /* SPLASH SCREEN */
+    #splash {
+      height: 100vh;
+      border: 6px solid;
+      border-image: linear-gradient(135deg, #1a237e, #1abc9c) 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
 
-#splash img {
-  width: 260px;
-  margin-bottom: 25px;
-}
+    #splash img {
+      width: 240px;
+      margin-bottom: 25px;
+    }
 
-#splash h1 {
-  font-size: 36px;
-  letter-spacing: 2px;
-  color: #0a74da;
-  margin: 0;
-}
+    #splash h1 {
+      font-size: 34px;
+      font-weight: 700;
+      color: #1a237e;
+      margin: 0;
+    }
 
-#splash p {
-  font-size: 18px;
-  color: #1abc9c;
-  margin-top: 10px;
-}
+    #splash p {
+      font-size: 18px;
+      color: #1abc9c;
+      margin-top: 8px;
+      letter-spacing: 1px;
+    }
 
-/* ---------------- HOME ---------------- */
-#home {
-  display: none;
-  padding-top: 40px;
-}
+    /* HOME */
+    #home {
+      display: none;
+      padding-top: 40px;
+    }
 
-/* Outer colorful disk */
-.outer-circle {
-  width: 320px;
-  height: 320px;
-  border-radius: 50%;
-  margin: auto;
-  position: relative;
-  background: conic-gradient(
-    #0a74da 0deg 90deg,
-    #1abc9c 90deg 180deg,
-    #9b59b6 180deg 270deg,
-    #f39c12 270deg 360deg
-  );
-}
+    /* OUTER DISK */
+    .outer-circle {
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      margin: auto;
+      position: relative;
+      background: conic-gradient(
+        #1a237e 0deg 90deg,
+        #1abc9c 90deg 180deg,
+        #1a237e 180deg 270deg,
+        #1abc9c 270deg 360deg
+      );
+    }
 
-/* Inner white disk */
-.inner-circle {
-  width: 70%;
-  height: 70%;
-  background: #fff;
-  border-radius: 50%;
-  position: absolute;
-  top: 15%;
-  left: 15%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+    /* INNER DISK */
+    .inner-circle {
+      width: 70%;
+      height: 70%;
+      background: white;
+      border-radius: 50%;
+      position: absolute;
+      top: 15%;
+      left: 15%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 12px rgba(0,0,0,0.15);
+    }
 
-.inner-circle img {
-  width: 100px;
-}
+    .inner-circle img {
+      width: 90px;
+    }
 
-/* Buttons */
-.circle-btn {
-  position: absolute;
-  width: 70px;
-  height: 30px;
-  background: white;
-  border-radius: 20px;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-weight: bold;
-}
+    /* BUTTONS */
+    .btn {
+      position: absolute;
+      width: 56px;
+      height: 56px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 26px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+    }
 
-/* Equal positions */
-.btn-ride   { top: 5px; left: 125px; }
-.btn-food   { right: 5px; top: 125px; }
-.btn-shop   { bottom: 5px; left: 125px; }
-.btn-travel { left: 5px; top: 125px; }
-
-</style>
+    .ride   { top: -10px; left: 132px; }
+    .food   { right: -10px; top: 132px; }
+    .shop   { bottom: -10px; left: 132px; }
+    .travel { left: -10px; top: 132px; }
+  </style>
 </head>
 
 <body>
 
-<!-- Splash Screen -->
+<!-- SPLASH -->
 <div id="splash">
   <img src="/LOGO.JPG" alt="Alingo Logo">
-  <h1>WELCOME TO ALINGO</h1>
-  <p>Your All-in-One Urban Services Platform</p>
+  <h1>Welcome to Alingo</h1>
+  <p>Your Smart All-in-One Urban App</p>
 </div>
 
-<!-- Home Screen -->
+<!-- HOME -->
 <div id="home">
   <div class="outer-circle">
 
-    <div class="circle-btn btn-ride">Ride</div>
-    <div class="circle-btn btn-food">Food</div>
-    <div class="circle-btn btn-shop">Shop</div>
-    <div class="circle-btn btn-travel">Travel</div>
+    <!-- Emoji Image Buttons -->
+    <div class="btn ride">🚕</div>
+    <div class="btn food">🍔</div>
+    <div class="btn shop">🛒</div>
+    <div class="btn travel">🚌</div>
 
     <div class="inner-circle">
-      <img src="/LOGO.JPG">
+      <img src="/LOGO.JPG" alt="Logo">
     </div>
-
   </div>
 </div>
 
