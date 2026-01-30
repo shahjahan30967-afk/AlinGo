@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Logistics Partner | AlinGo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../css/logistics.css">
+</head>
+
+<body>
+
+<header class="top">
+  <img src="../LOGO.JPG">
+  <h1>Logistics Partner Registration</h1>
+  <p>Courier / Distributor Onboarding</p>
+</header>
+
+<form onsubmit="goToOTP(event)">
+
+<label>Full Name</label>
+<input required>
+
+<label>CNIC</label>
+<input required placeholder="35202-XXXXXXX-X">
+
+<label>Mobile Number</label>
+<input required>
+
+<label>City</label>
+<input required>
+
+<label>Area / Zone</label>
+<input required>
+
+<label>Partner Type</label>
+<select required>
+  <option value="">Select</option>
+  <option>Local Courier</option>
+  <option>Area Distributor</option>
+  <option>City Hub Partner</option>
+</select>
+
+<label>Vehicle Type</label>
+<select required>
+  <option>Bike</option>
+  <option>Van</option>
+  <option>Truck</option>
+</select>
+
+<label>Police Character Certificate Number</label>
+<input required>
+
+<label>Security Agreement</label>
+<div class="agree">
+  <input type="checkbox" required>
+  <span>I confirm all information is correct</span>
+</div>
+
+<button type="submit">Proceed to OTP</button>
+
+</form>
+
+<script src="../js/logistics.js"></script>
+</body>
+</html>
