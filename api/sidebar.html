@@ -1,0 +1,49 @@
+<div class="sidebar">
+
+  <div class="brand">
+    <img src="../assets/LOGO.JPG">
+    <h2>AlinGo</h2>
+  </div>
+
+  <nav>
+    <button onclick="loadModule('overview.html')">🏠 Overview</button>
+
+    <button onclick="loadModule('ride.html')">🚗 Ride</button>
+    <button onclick="loadModule('food.html')">🍔 Food</button>
+    <button onclick="loadModule('shopping.html')">🛍 Shopping</button>
+    <button onclick="loadModule('tourism.html')">🧳 Tourism</button>
+    <button onclick="loadModule('logistics.html')">🚚 Logistics</button>
+    <button onclick="loadModule('digital.html')">💳 Digital</button>
+
+    <button onclick="loadModule('wallet.html')">💰 Wallet</button>
+    <button onclick="loadModule('settings.html')">⚙ Settings</button>
+  </nav>
+
+</div>
+
+<style>
+.sidebar img {
+  width: 60px;
+  border-radius: 50%;
+  margin: 20px auto 10px;
+  display: block;
+}
+
+.brand {
+  text-align: center;
+}
+
+nav button {
+  width: 100%;
+  padding: 12px;
+  background: none;
+  border: none;
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+}
+
+nav button:hover {
+  background: rgba(255,255,255,0.15);
+}
+</style>
