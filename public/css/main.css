@@ -1,0 +1,92 @@
+:root{
+  --indigo:#1f256b;
+  --green:#2ecc71;
+}
+
+*{box-sizing:border-box;font-family:system-ui}
+
+body{
+  margin:0;
+  background:linear-gradient(135deg,var(--indigo),var(--green));
+  color:#fff;
+}
+
+/* SPLASH */
+#splash{
+  position:fixed;
+  inset:0;
+  background:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:10;
+}
+.splash-border{
+  position:absolute;
+  inset:12px;
+  border:2px solid;
+  border-image:linear-gradient(135deg,var(--indigo),var(--green)) 1;
+}
+.splash-logo{width:180px}
+
+/* HOME */
+#home{display:none;text-align:center;padding-top:30px}
+.brand h1{font-size:48px;margin:0}
+.alin{color:#6ee7b7}
+.go{color:#c7d2fe}
+.dots{animation:blink 1.2s infinite}
+
+@keyframes blink{
+  50%{opacity:0}
+}
+
+/* DISKS */
+.disk-wrap{
+  position:relative;
+  height:260px;
+  margin:30px 0;
+}
+.disk-back{
+  width:260px;height:260px;
+  background:radial-gradient(circle,#2ecc71,#1f256b);
+  border-radius:50%;
+  margin:auto;
+}
+.disk-front{
+  width:170px;height:170px;
+  background:#fff;
+  border-radius:50%;
+  position:absolute;
+  inset:0;
+  margin:auto;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.disk-front img{width:90px}
+
+/* BUTTONS */
+.home-actions{display:flex;gap:12px;justify-content:center}
+.btn{
+  padding:14px 22px;
+  border-radius:18px;
+  text-decoration:none;
+  color:#fff;
+}
+.primary{background:var(--green);color:#022c22}
+.secondary{background:rgba(255,255,255,.25)}
+
+/* DASHBOARD */
+.dashboard{display:flex}
+.side-menu{
+  width:220px;
+  background:#0f172a;
+  padding:20px;
+}
+.side-menu a{
+  display:block;
+  color:#fff;
+  text-decoration:none;
+  padding:10px 0;
+}
+.dash-content{padding:30px}
