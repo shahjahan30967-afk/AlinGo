@@ -6,3 +6,15 @@ app.get("/api/health", (req, res) => {
 });
 
 module.exports = app;
+
+const digitalRoutes = require("./digital/digital.routes");
+
+module.exports = (req, res) => {
+  if (req.url.startsWith("/api/digital")) {
+    return digitalRoutes(req, res);
+  }
+
+  res.statusCode = 404;
+  res.end("API Not Found");
+};
+
