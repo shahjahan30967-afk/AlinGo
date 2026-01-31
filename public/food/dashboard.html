@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Food Seller Dashboard | AlinGo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root{
+  --indigo:#1f256b;
+  --green:#2ecc71;
+  --bg:#f3f4f6;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:system-ui, sans-serif;
+  background:var(--bg);
+  color:#0f172a;
+}
+
+/* ===== HEADER ===== */
+header{
+  background:linear-gradient(135deg,var(--indigo),var(--green));
+  color:#fff;
+  padding:18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+header img{
+  width:48px;
+}
+
+header h1{
+  font-size:18px;
+  margin:0;
+}
+
+.status{
+  font-size:12px;
+  background:rgba(255,255,255,.2);
+  padding:6px 10px;
+  border-radius:20px;
+}
+
+/* ===== DASHBOARD ===== */
+.container{
+  padding:18px;
+}
+
+/* cards */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+
+.card{
+  background:#fff;
+  border-radius:16px;
+  padding:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.card h2{
+  margin:0;
+  font-size:14px;
+  color:#475569;
+}
+
+.card strong{
+  display:block;
+  margin-top:6px;
+  font-size:20px;
+}
+
+/* ===== ACTIONS ===== */
+.actions{
+  margin-top:20px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.action{
+  background:#fff;
+  border-radius:18px;
+  padding:14px 8px;
+  text-align:center;
+  font-size:22px;
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.action span{
+  display:block;
+  font-size:11px;
+  margin-top:6px;
+}
+
+/* ===== ORDERS ===== */
+.orders{
+  margin-top:24px;
+}
+
+.orders h2{
+  font-size:16px;
+  margin-bottom:10px;
+}
+
+.order{
+  background:#fff;
+  padding:14px;
+  border-radius:14px;
+  margin-bottom:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 6px 18px rgba(0,0,0,.07);
+}
+
+.order small{
+  color:#64748b;
+}
+
+.badge{
+  font-size:11px;
+  padding:6px 10px;
+  border-radius:14px;
+  background:var(--green);
+  color:#052e16;
+}
+
+/* ===== FOOTER ===== */
+footer{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#fff;
+  display:flex;
+  justify-content:space-around;
+  padding:10px 0;
+  box-shadow:0 -4px 16px rgba(0,0,0,.1);
+}
+
+footer div{
+  text-align:center;
+  font-size:20px;
+}
+
+footer span{
+  display:block;
+  font-size:10px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <img src="../LOGO.JPG" alt="AlinGo">
+  <div>
+    <h1>Food Seller Dashboard</h1>
+    <div class="status">Status: Pending Approval</div>
+  </div>
+</header>
+
+<!-- ===== MAIN ===== -->
+<div class="container">
+
+  <!-- STATS -->
+  <div class="cards">
+    <div class="card">
+      <h2>Today Orders</h2>
+      <strong>12</strong>
+    </div>
+    <div class="card">
+      <h2>Wallet Balance</h2>
+      <strong>PKR 18,450</strong>
+    </div>
+    <div class="card">
+      <h2>Total Sales</h2>
+      <strong>PKR 92,300</strong>
+    </div>
+    <div class="card">
+      <h2>Commission (2.5%)</h2>
+      <strong>PKR 2,308</strong>
+    </div>
+  </div>
+
+  <!-- QUICK ACTIONS -->
+  <div class="actions">
+    <div class="action">🍔<span>Menu</span></div>
+    <div class="action">📦<span>Orders</span></div>
+    <div class="action">💳<span>Wallet</span></div>
+    <div class="action">🧾<span>Reports</span></div>
+    <div class="action">🛵<span>Delivery</span></div>
+    <div class="action">⚙️<span>Settings</span></div>
+  </div>
+
+  <!-- RECENT ORDERS -->
+  <div class="orders">
+    <h2>Recent Orders</h2>
+
+    <div class="order">
+      <div>
+        <strong>#FD10231</strong><br>
+        <small>Burger + Fries</small>
+      </div>
+      <div class="badge">Completed</div>
+    </div>
+
+    <div class="order">
+      <div>
+        <strong>#FD10232</strong><br>
+        <small>Pizza Large</small>
+      </div>
+      <div class="badge">Preparing</div>
+    </div>
+
+    <div class="order">
+      <div>
+        <strong>#FD10233</strong><br>
+        <small>Biryani</small>
+      </div>
+      <div class="badge">New</div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div>🏠<span>Home</span></div>
+  <div>📦<span>Orders</span></div>
+  <div>💼<span>Wallet</span></div>
+  <div>👤<span>Profile</span></div>
+</footer>
+
+</body>
+</html>
