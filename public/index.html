@@ -5,45 +5,40 @@
   <title>AlinGo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="/css/style.css">
+  <!-- FAVICON -->
   <link rel="icon" href="/favicon.ico">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
 
-<!-- SPLASH -->
+<!-- SPLASH SCREEN -->
 <div id="splash">
-  <div class="splash-box">
-    <img src="/assets/LOGO.JPG" alt="AlinGo Logo">
-  </div>
+  <img src="/LOGO.JPG" alt="AlinGo Logo">
+  <div id="emoji-fall"></div>
 </div>
 
 <!-- HOME -->
-<div id="home">
+<div id="home" class="hidden">
 
-  <div class="brand">
+  <header class="brand">
     <span class="alin">Alin</span><span class="go">Go</span>
-    <div class="tagline">Move smart · Live free</div>
-  </div>
+    <p class="tagline">Everything you need · go<span class="dots">...</span></p>
+  </header>
 
-  <div class="disk-wrap">
-    <div class="disk back"></div>
-    <div class="disk front">
-      <img src="/assets/LOGO.JPG" alt="logo">
+  <div class="disk-wrapper">
+    <div class="outer-disk">
+      <div class="inner-disk">
+        <img src="/LOGO.JPG" alt="Logo">
+      </div>
     </div>
-  </div>
-
-  <div class="services">
-    <div class="service">🚕<span>Ride</span></div>
-    <div class="service">🍔<span>Food</span></div>
-    <div class="service">🛒<span>Shop</span></div>
-    <div class="service">✈️<span>Travel</span></div>
-    <div class="service">📦<span>Courier</span></div>
-    <div class="service">🎟️<span>Tickets</span></div>
   </div>
 
 </div>
 
+<!-- JS -->
 <script src="/js/main.js"></script>
 </body>
 </html>
