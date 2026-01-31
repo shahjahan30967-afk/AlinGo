@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Users Management</title>
+<link rel="stylesheet" href="../assets/admin.css">
+</head>
+<body>
+
+<h2>Users Management</h2>
+
+<table>
+<tr><th>ID</th><th>Type</th><th>Status</th><th>Action</th></tr>
+
+<tr>
+<td>VND-23412</td>
+<td>Vendor</td>
+<td id="s1">Pending</td>
+<td>
+<button onclick="approve('s1')">Approve</button>
+<button onclick="block('s1')">Block</button>
+</td>
+</tr>
+
+<tr>
+<td>DRV-88421</td>
+<td>Driver</td>
+<td id="s2">Active</td>
+<td>
+<button onclick="block('s2')">Block</button>
+</td>
+</tr>
+
+</table>
+
+<script src="../assets/users.js"></script>
+</body>
+</html>
