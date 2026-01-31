@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Order Management | AlinGo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root{
+  --indigo:#1f256b;
+  --green:#2ecc71;
+  --yellow:#facc15;
+  --blue:#38bdf8;
+  --gray:#64748b;
+  --bg:#f3f4f6;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:system-ui, sans-serif;
+  background:var(--bg);
+  color:#0f172a;
+}
+
+/* ===== HEADER ===== */
+header{
+  background:linear-gradient(135deg,var(--indigo),var(--green));
+  color:#fff;
+  padding:16px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+header img{width:42px}
+header h1{margin:0;font-size:18px}
+
+/* ===== CONTAINER ===== */
+.container{padding:18px}
+
+/* ===== ORDER CARD ===== */
+.order{
+  background:#fff;
+  padding:16px;
+  border-radius:16px;
+  margin-bottom:14px;
+  box-shadow:0 8px 22px rgba(0,0,0,.08);
+}
+
+.order-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.order-id{font-weight:600}
+.badge{
+  padding:6px 12px;
+  border-radius:20px;
+  font-size:11px;
+  color:#fff;
+}
+
+.new{background:var(--yellow);color:#422006}
+.accepted{background:var(--blue)}
+.preparing{background:var(--indigo)}
+.dispatched{background:var(--green)}
+.completed{background:#16a34a}
+
+.details{
+  font-size:13px;
+  margin-top:8px;
+  color:var(--gray);
+}
+
+/* ===== ACTIONS ===== */
+.actions{
+  margin-top:12px;
+  display:flex;
+  gap:10px;
+}
+
+.actions button{
+  flex:1;
+  padding:10px;
+  border:none;
+  border-radius:14px;
+  font-size:12px;
+}
+
+.accept-btn{background:var(--green);color:#052e16}
+.prepare-btn{background:var(--indigo);color:#fff}
+.dispatch-btn{background:var(--blue);color:#052e16}
+.complete-btn{background:#16a34a;color:#fff}
+</style>
+</head>
+
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <img src="../LOGO.JPG" alt="AlinGo">
+  <h1>Order Management</h1>
+</header>
+
+<div class="container" id="orders"></div>
+
+<script>
+let orders = [
+  {
+    id:"FD-20341",
+    items:"Burger + Fries",
+    amount:850,
+    status:"new"
+  },
+  {
+    id:"FD-20342",
+    items:"Biryani",
+    amount:420,
+    status:"accepted"
+  },
+  {
+    id:"FD-20343",
+    items:"Pizza Large",
+    amount:1500,
+    status:"preparing"
+  }
+];
+
+function render(){
+  const box = document.getElementById("orders");
+  box.innerHTML = "";
+
+  orders.forEach((o,i)=>{
+    box.innerHTML += `
+      <div class="order">
+        <div class="order-head">
+          <div class="order-id">${o.id}</div>
+          <div class="badge ${o.status}">${o.status.toUpperCase()}</div>
+        </div>
+
+        <div class="details">
+          Items: ${o.items}<br>
+          Amount: PKR ${o.amount}
+        </div>
+
+        <div class="actions">
+          ${buttons(o.status,i)}
+        </div>
+      </div>
+    `;
+  });
+}
+
+function buttons(status,i){
+  if(status==="new")
+    return `<button class="accept-btn" onclick="setStatus(${i},'accepted')">Accept</button>`;
+  if(status==="accepted")
+    return `<button class="prepare-btn" onclick="setStatus(${i},'preparing')">Prepare</button>`;
+  if(status==="preparing")
+    return `<button class="dispatch-btn" onclick="setStatus(${i},'dispatched')">Dispatch</button>`;
+  if(status==="dispatched")
+    return `<button class="complete-btn" onclick="setStatus(${i},'completed')">Complete</button>`;
+  return "";
+}
+
+function setStatus(i,status){
+  orders[i].status = status;
+  render();
+}
+
+render();
+</script>
+
+</body>
+</html>
