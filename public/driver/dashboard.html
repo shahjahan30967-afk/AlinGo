@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>Driver Panel</h2>
+<button onclick="accept()">Accept</button>
+<button onclick="picked()">Picked</button>
+<button onclick="route()">On Route</button>
+<input id="otp" placeholder="OTP">
+<button onclick="done()">Delivered</button>
+
+<script>
+const orderId="ORD-123";
+
+function send(status, otp=null){
+ fetch("/api/delivery",{
+  method:"POST",
+  headers:{ "Content-Type":"application/json" },
+  body:JSON.stringify({
+    action:"update",
+    orderId,
+    status,
+    otp
+  })
+ });
+}
+
+function accept(){send("accepted")}
+function picked(){send("picked")}
+function route(){send("onroute")}
+function done(){send("delivered",document.getElementById("otp").value)}
+</script>
+</body>
+</html>
