@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Wallet | AlinGo Food Seller</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root{
+  --indigo:#1f256b;
+  --green:#2ecc71;
+  --red:#ef4444;
+  --gray:#64748b;
+  --bg:#f3f4f6;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:system-ui, sans-serif;
+  background:var(--bg);
+}
+
+/* ===== HEADER ===== */
+header{
+  background:linear-gradient(135deg,var(--indigo),var(--green));
+  color:#fff;
+  padding:16px;
+}
+
+header h1{
+  margin:0;
+  font-size:18px;
+}
+
+/* ===== CONTAINER ===== */
+.container{padding:18px}
+
+/* ===== WALLET CARD ===== */
+.wallet{
+  background:#fff;
+  border-radius:18px;
+  padding:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.balance{
+  font-size:28px;
+  font-weight:700;
+  color:var(--indigo);
+}
+
+.note{
+  font-size:12px;
+  color:var(--gray);
+  margin-top:6px;
+}
+
+/* ===== TRANSACTIONS ===== */
+.tx{
+  margin-top:20px;
+}
+
+.tx-item{
+  display:flex;
+  justify-content:space-between;
+  background:#f8fafc;
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:10px;
+  font-size:13px;
+}
+
+.tx small{color:var(--gray)}
+
+/* ===== WITHDRAW ===== */
+.withdraw{
+  margin-top:22px;
+}
+
+.withdraw input{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #cbd5f5;
+  margin-bottom:10px;
+}
+
+.withdraw button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:14px;
+  background:var(--green);
+  font-size:14px;
+  color:#052e16;
+}
+
+/* ===== STATUS ===== */
+.status{
+  margin-top:10px;
+  font-size:12px;
+}
+.pending{color:#eab308}
+.approved{color:#16a34a}
+.error{color:var(--red)}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>💰 Wallet</h1>
+</header>
+
+<div class="container">
+
+  <!-- WALLET -->
+  <div class="wallet">
+    <div class="balance" id="balance">PKR 0</div>
+    <div class="note">
+      Platform commission: <b>2.5%</b> auto-deducted per order
+    </div>
+
+    <!-- TRANSACTIONS -->
+    <div class="tx" id="tx"></div>
+
+    <!-- WITHDRAW -->
+    <div class="withdraw">
+      <input type="number" id="amount" placeholder="Withdraw amount (PKR)">
+      <button onclick="withdraw()">Request Withdrawal</button>
+      <div id="status" class="status"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let wallet = 0;
+
+let orders = [
+  {id:"FD-20341", total:1000},
+  {id:"FD-20342", total:420},
+  {id:"FD-20343", total:1500}
+];
+
+let transactions = [];
+
+// Apply orders with 2.5% commission
+orders.forEach(o=>{
+  let commission = o.total * 0.025;
+  let net = o.total - commission;
+  wallet += net;
+
+  transactions.push({
+    text:`Order ${o.id}`,
+    amount:`+${net.toFixed(0)}`,
+    note:`Commission PKR ${commission.toFixed(0)}`
+  });
+});
+
+function render(){
+  document.getElementById("balance").innerText =
+    `PKR ${wallet.toFixed(0)}`;
+
+  const box = document.getElementById("tx");
+  box.innerHTML = "<h4>Transactions</h4>";
+
+  transactions.forEach(t=>{
+    box.innerHTML += `
+      <div class="tx-item">
+        <div>${t.text}<br><small>${t.note}</small></div>
+        <div>${t.amount}</div>
+      </div>
+    `;
+  });
+}
+
+function withdraw(){
+  const amt = Number(document.getElementById("amount").value);
+  const status = document.getElementById("status");
+
+  if(!amt || amt<=0){
+    status.innerHTML = "Invalid amount";
+    status.className="status error";
+    return;
+  }
+
+  if(amt>wallet){
+    status.innerHTML = "Insufficient balance";
+    status.className="status error";
+    return;
+  }
+
+  wallet -= amt;
+  transactions.unshift({
+    text:"Withdrawal Request",
+    amount:`-${amt}`,
+    note:"Status: Pending approval"
+  });
+
+  status.innerHTML = "Withdrawal request submitted (Pending)";
+  status.className="status pending";
+
+  render();
+}
+
+render();
+</script>
+
+</body>
+</html>
