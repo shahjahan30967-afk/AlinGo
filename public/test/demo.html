@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Commission Test</title>
+</head>
+<body>
+
+<h2>Commission Engine Demo</h2>
+<button onclick="run()">Test Food Order (Rs 2000)</button>
+
+<pre id="out"></pre>
+
+<script type="module">
+import { calculateCommission } from "../engine/commission.js";
+
+window.run = ()=>{
+  const data = calculateCommission("food",2000);
+  document.getElementById("out").textContent =
+    JSON.stringify(data,null,2);
+};
+</script>
+
+</body>
+</html>
