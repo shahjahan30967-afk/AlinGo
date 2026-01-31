@@ -4,58 +4,249 @@
 <meta charset="UTF-8">
 <title>Food Partner Registration | AlinGo</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../css/food.css">
+
+<style>
+:root{
+  --indigo:#1f256b;
+  --green:#2ecc71;
+}
+
+body{
+  margin:0;
+  font-family:system-ui, sans-serif;
+  background:#f3f4f6;
+  color:#0f172a;
+}
+
+header{
+  text-align:center;
+  padding:20px;
+}
+
+header img{
+  width:90px;
+}
+
+form{
+  max-width:520px;
+  margin:0 auto 40px;
+  background:#fff;
+  padding:22px;
+  border-radius:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,.1);
+}
+
+h2{
+  margin-top:26px;
+  color:var(--indigo);
+}
+
+label{
+  display:block;
+  margin-top:14px;
+  font-size:13px;
+}
+
+input, textarea, select{
+  width:100%;
+  margin-top:6px;
+  padding:11px;
+  border-radius:12px;
+  border:1px solid #d1d5db;
+  font-size:14px;
+}
+
+textarea{min-height:70px}
+
+button{
+  width:100%;
+  margin-top:22px;
+  padding:14px;
+  border:none;
+  border-radius:16px;
+  background:var(--green);
+  color:#052e16;
+  font-size:15px;
+}
+
+.lang-switch{
+  text-align:center;
+  margin:10px 0;
+}
+
+.lang-switch button{
+  margin:0 6px;
+  padding:6px 14px;
+  border-radius:12px;
+  border:1px solid #d1d5db;
+  background:#fff;
+}
+
+.tc-box{
+  background:#f9fafb;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  padding:16px;
+  margin-top:12px;
+  font-size:13px;
+  line-height:1.8;
+  max-height:260px;
+  overflow:auto;
+}
+
+.agree{
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+  margin-top:14px;
+  font-size:13px;
+}
+</style>
 </head>
 
 <body>
 
-<header class="top">
+<header>
   <img src="../LOGO.JPG" alt="AlinGo">
   <h1>Food Partner Registration</h1>
-  <p>ہوٹل، دکاندار یا فوڈ بزنس رجسٹر کریں</p>
+  <p>ہوٹل، دکاندار یا فوڈ بزنس کے لیے</p>
 </header>
 
-<form id="foodForm" onsubmit="goToOTP(event)">
+<form onsubmit="return proceed()">
 
-  <label>Business / Hotel Name</label>
-  <input required placeholder="ABC Restaurant">
+<!-- ================= FORM ================= -->
 
-  <label>Owner / Manager Name</label>
-  <input required placeholder="Full Name">
+<label>Business / Hotel Name</label>
+<input required>
 
-  <label>CNIC</label>
-  <input required placeholder="35202-XXXXXXX-X">
+<label>Owner / Manager Name</label>
+<input required>
 
-  <label>Mobile Number</label>
-  <input required placeholder="03XXXXXXXXX">
+<label>CNIC</label>
+<input required placeholder="35202-XXXXXXX-X">
 
-  <label>City</label>
-  <input required placeholder="Karachi / Lahore">
+<label>Mobile Number (OTP required)</label>
+<input required placeholder="03XXXXXXXXX">
 
-  <label>Area</label>
-  <input required placeholder="Gulshan / DHA">
+<label>City</label>
+<input required>
 
-  <label>Full Address</label>
-  <textarea required></textarea>
+<label>Area</label>
+<input required>
 
-  <label>Food Type</label>
-  <select required>
-    <option value="">Select</option>
-    <option>Restaurant</option>
-    <option>Fast Food</option>
-    <option>Bakery</option>
-    <option>Home Kitchen</option>
-  </select>
+<label>Full Address</label>
+<textarea required></textarea>
 
-  <div class="agree">
-    <input type="checkbox" required>
-    <span>I agree to AlinGo Terms & Conditions</span>
-  </div>
+<label>Food Type</label>
+<select required>
+  <option value="">Select</option>
+  <option>Restaurant</option>
+  <option>Fast Food</option>
+  <option>Bakery</option>
+  <option>Home Kitchen</option>
+</select>
 
-  <button type="submit">Proceed to OTP</button>
+<!-- ================= T&C ================= -->
+
+<h2>Terms & Conditions</h2>
+
+<div class="lang-switch">
+  <button type="button" onclick="ur()">اردو</button>
+  <button type="button" onclick="en()">English</button>
+</div>
+
+<!-- URDU -->
+<div id="urdu" class="tc-box">
+
+<strong>کمیشن پالیسی:</strong><br>
+AlinGo پلیٹ فارم پر تمام دکاندار، ہوٹل مینیجر، سیلرز اور ڈرائیورز پر
+<strong>2.5٪</strong> کمیشن لاگو ہوگا جو ہر کامیاب آرڈر پر خودکار طور پر منہا کیا جائے گا۔
+<br><br>
+
+<strong>شناخت اور اکاؤنٹ:</strong><br>
+ہر پارٹنر کو ایک منفرد ID دی جائے گی۔
+کارکردگی، ریٹنگ یا شکایات کی بنیاد پر اکاؤنٹ
+پرموٹ، معطل یا بلاک کیا جا سکتا ہے۔
+<br><br>
+
+<strong>ذمہ داریاں:</strong><br>
+• خوراک کا معیار<br>
+• حفظانِ صحت<br>
+• درست قیمتیں<br>
+• بروقت آرڈر تیاری
+<br><br>
+
+<strong>ادائیگیاں:</strong><br>
+تمام ادائیگیاں ڈیجیٹل ہوں گی۔
+AlinGo نقد رقم رکھنے کا ذمہ دار نہیں۔
+<br><br>
+
+<strong>قانونی نوٹس:</strong><br>
+AlinGo صرف ایک ٹیکنالوجی پلیٹ فارم ہے۔
+تمام لائسنس اور قانونی ذمہ داریاں دکاندار کی ہوں گی۔
+
+</div>
+
+<!-- ENGLISH -->
+<div id="english" class="tc-box" style="display:none">
+
+<strong>Commission Policy:</strong><br>
+A standard <strong>2.5%</strong> commission applies to all sellers,
+hotel managers, partners, and drivers.
+Commission is auto-deducted per successful order.
+<br><br>
+
+<strong>Account & Identity:</strong><br>
+Each partner receives a unique ID.
+Accounts may be promoted, suspended, or blocked
+based on performance or policy violations.
+<br><br>
+
+<strong>Responsibilities:</strong><br>
+• Food quality<br>
+• Hygiene compliance<br>
+• Accurate pricing<br>
+• Timely preparation
+<br><br>
+
+<strong>Payments:</strong><br>
+All settlements are digital.
+AlinGo does not hold cash.
+<br><br>
+
+<strong>Legal Notice:</strong><br>
+AlinGo acts as a technology facilitator only.
+Partners are responsible for licenses and compliance.
+
+</div>
+
+<div class="agree">
+  <input type="checkbox" id="agree" required>
+  <label for="agree">I have read and accept all Terms & Conditions</label>
+</div>
+
+<button type="submit">Proceed to OTP Verification</button>
 
 </form>
 
-<script src="../js/food.js"></script>
+<script>
+function ur(){
+  urdu.style.display="block";
+  english.style.display="none";
+}
+function en(){
+  urdu.style.display="none";
+  english.style.display="block";
+}
+function proceed(){
+  if(!document.getElementById("agree").checked){
+    alert("Please accept Terms & Conditions");
+    return false;
+  }
+  alert("OTP verification step (next phase)");
+  return false;
+}
+</script>
+
 </body>
 </html>
