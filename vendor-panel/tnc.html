@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+<meta charset="UTF-8">
+<title>Terms & Conditions - AlinGo</title>
+<link rel="stylesheet" href="../assets/vendor.css">
+</head>
+<body>
+
+<div class="lang-switch">
+  <button onclick="showUR()">اردو</button>
+  <button onclick="showEN()">English</button>
+</div>
+
+<div id="ur">
+<h3>شرائط و ضوابط</h3>
+<p>
+تمام دکاندار، ہوٹل مینیجر اور ڈرائیور اس بات سے متفق ہوں گے کہ
+AlinGo پلیٹ فارم 2.5% کمیشن وصول کرے گا۔
+کارکردگی کی بنیاد پر ID بلاک یا پروموٹ کی جا سکتی ہے۔
+OTP ویریفکیشن لازمی ہے۔
+</p>
+</div>
+
+<div id="en" style="display:none">
+<h3>Terms & Conditions</h3>
+<p>
+All vendors, hotel managers and drivers agree that AlinGo charges
+a 2.5% platform commission.
+IDs may be promoted or blocked based on performance.
+OTP verification is mandatory.
+</p>
+</div>
+
+<label>
+<input type="checkbox" id="agree"> I Agree
+</label>
+
+<button onclick="acceptTNC()">Proceed</button>
+
+<script>
+function showUR(){ ur.style.display='block'; en.style.display='none'; }
+function showEN(){ en.style.display='block'; ur.style.display='none'; }
+function acceptTNC(){
+  if(!agree.checked){ alert("Please accept Terms"); return; }
+  window.location.href="dashboard.html";
+}
+</script>
+
+</body>
+</html>
