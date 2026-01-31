@@ -3,16 +3,34 @@
 
 console.log("✅ main.js loaded successfully");
 
-// ---------- API BASE ----------
+// ================= SPLASH → HOME =================
+window.addEventListener("load", () => {
+  console.log("🚀 App Loaded");
+
+  setTimeout(() => {
+    const splash = document.getElementById("splash");
+    const home = document.getElementById("home");
+
+    if (splash && home) {
+      splash.style.display = "none";
+      home.style.display = "block";
+      console.log("✅ Splash hidden, Home shown");
+    } else {
+      console.error("❌ Splash or Home element missing");
+    }
+  }, 2000);
+});
+
+// ================= API BASE (Future Express) =================
 const API_BASE = "/api";
 
-// ---------- Helper ----------
+// ================= Helper =================
 async function apiRequest(url, method = "GET", data = null) {
   const options = {
     method,
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   if (data) {
@@ -23,12 +41,12 @@ async function apiRequest(url, method = "GET", data = null) {
   return await res.json();
 }
 
-// ---------- Example: Order Accept ----------
+// ================= Examples (Future Use) =================
 async function acceptOrder(orderId) {
   try {
     const result = await apiRequest("/orders", "POST", {
       action: "accept",
-      orderId
+      orderId,
     });
     alert(result.message || "Order Accepted");
   } catch (err) {
@@ -37,7 +55,6 @@ async function acceptOrder(orderId) {
   }
 }
 
-// ---------- Example: Wallet ----------
 async function loadWallet() {
   try {
     const wallet = await apiRequest("/wallet");
@@ -46,8 +63,3 @@ async function loadWallet() {
     console.error("Wallet load failed");
   }
 }
-
-// ---------- On Page Load ----------
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("📦 App Ready");
-});
