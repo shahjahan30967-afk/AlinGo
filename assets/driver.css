@@ -1,0 +1,29 @@
+body{
+  font-family:system-ui;
+  background:linear-gradient(135deg,#1f256b,#2ecc71);
+  color:#fff;
+  padding:20px;
+}
+
+h2{text-align:center}
+
+form,.card{
+  background:rgba(255,255,255,.15);
+  padding:20px;
+  border-radius:14px;
+  max-width:360px;
+  margin:15px auto;
+}
+
+input,button{
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border:none;
+  border-radius:10px;
+}
+
+button{
+  background:#2ecc71;
+  font-weight:bold;
+}
