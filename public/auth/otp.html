@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>OTP Verification | AlinGo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root{
+  --indigo:#1f256b;
+  --green:#2ecc71;
+  --red:#ef4444;
+  --gray:#64748b;
+  --bg:#f1f5f9;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:system-ui, sans-serif;
+  background:linear-gradient(135deg,var(--indigo),var(--green));
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* CARD */
+.card{
+  background:#fff;
+  width:92%;
+  max-width:380px;
+  border-radius:22px;
+  padding:22px;
+  box-shadow:0 20px 40px rgba(0,0,0,.15);
+  text-align:center;
+}
+
+h1{
+  font-size:20px;
+  margin-bottom:6px;
+}
+
+p{
+  font-size:13px;
+  color:var(--gray);
+}
+
+/* INPUT */
+input{
+  width:100%;
+  padding:14px;
+  margin-top:14px;
+  border-radius:14px;
+  border:1px solid #e5e7eb;
+  font-size:14px;
+}
+
+/* BUTTON */
+button{
+  width:100%;
+  margin-top:16px;
+  padding:14px;
+  border:none;
+  border-radius:16px;
+  background:var(--green);
+  color:#052e16;
+  font-size:15px;
+  cursor:pointer;
+}
+
+/* OTP */
+.otp{
+  letter-spacing:6px;
+  font-size:22px;
+  margin-top:10px;
+  color:var(--indigo);
+  font-weight:700;
+}
+
+.hidden{display:none}
+
+.success{
+  color:var(--green);
+  font-size:14px;
+  margin-top:10px;
+}
+
+.error{
+  color:var(--red);
+  font-size:13px;
+  margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+  <h1>🔐 Verify Your Account</h1>
+  <p>Enter your mobile number to receive OTP</p>
+
+  <!-- STEP 1 -->
+  <div id="step1">
+    <input type="tel" id="mobile" placeholder="03XXXXXXXXX">
+    <button onclick="sendOTP()">Send OTP</button>
+  </div>
+
+  <!-- STEP 2 -->
+  <div id="step2" class="hidden">
+    <div class="otp" id="showOtp"></div>
+    <input type="number" id="otpInput" placeholder="Enter OTP">
+    <button onclick="verifyOTP()">Verify</button>
+  </div>
+
+  <!-- RESULT -->
+  <div id="result"></div>
+
+</div>
+
+<script>
+let generatedOTP = "";
+let userId = "";
+
+function sendOTP(){
+  const mobile = document.getElementById("mobile").value;
+  if(mobile.length < 10){
+    alert("Enter valid mobile number");
+    return;
+  }
+
+  generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+  userId = "AL-" + Math.floor(10000 + Math.random()*90000);
+
+  document.getElementById("showOtp").innerText = generatedOTP;
+  document.getElementById("step1").classList.add("hidden");
+  document.getElementById("step2").classList.remove("hidden");
+}
+
+function verifyOTP(){
+  const entered = document.getElementById("otpInput").value;
+  if(entered === generatedOTP){
+    document.getElementById("step2").classList.add("hidden");
+    document.getElementById("result").innerHTML =
+      `<div class="success">
+        ✅ Verified Successfully<br>
+        <b>Your ID:</b> ${userId}
+      </div>`;
+  }else{
+    document.getElementById("result").innerHTML =
+      `<div class="error">❌ Invalid OTP</div>`;
+  }
+}
+</script>
+
+</body>
+</html>
