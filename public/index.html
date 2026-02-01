@@ -1,91 +1,67 @@
 <!DOCTYPE html>
-<html lang="ur">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>AlinGo - Home</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link rel="icon" href="/favicon.ico">
-  <link rel="stylesheet" href="/css/style.css">
-  
-  <style>
-    /* سپلیش ختم اور ہوم فوراً دکھانے کے لیے */
-    #splash { display: none !important; }
-    #home { 
-      display: flex !important; 
-      flex-direction: column; 
-      height: 100vh; 
-      justify-content: space-between; 
-      align-items: center;
-      padding: 20px 0;
-    }
-
-    /* لوگو اور ڈسک کو اوپر رکھنے کے لیے کنٹینر */
-    .top-section {
-      text-align: center;
-      width: 100%;
-    }
-
-    /* ڈسک سسٹم کی صفائی */
-    .disk-wrapper {
-      margin-top: 20px;
-      position: relative;
-    }
-
-    /* بٹنز کو نچلے حصے میں منتقل کرنا */
-    .bottom-actions {
-      width: 90%;
-      margin-bottom: 30px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .bottom-actions button {
-      width: 100%;
-      padding: 15px;
-      border-radius: 12px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      cursor: pointer;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GoSmart Super App</title>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-<div id="home">
+  <!-- HEADER -->
+  <header class="topbar">
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    <h1>GoSmart</h1>
+  </header>
 
-  <div class="top-section">
-    <header class="brand">
-      <h1>
-        <span class="alin">Alin</span><span class="go">Go</span>
-      </h1>
-      <p class="tagline">Move smart · Live free</p>
-    </header>
+  <!-- SIDE MENU -->
+  <aside id="sideMenu" class="side-menu">
+    <h3>Services</h3>
+    <button onclick="showScreen('home')">Home Dashboard</button>
+    <button onclick="showScreen('ride')">Ride Booking Service</button>
+    <button onclick="showScreen('food')">Food Delivery Service</button>
+    <button onclick="showScreen('tickets')">Ticket Booking</button>
+    <button onclick="showScreen('admin')">Admin Panel</button>
+    <hr />
+    <button onclick="openLink('https://github.com/Aawan3967-oss/Go-Smart')">GitHub Repository</button>
+    <button onclick="openLink('https://go-smart-topaz.vercel.app')">Live Application</button>
+  </aside>
 
-    <div class="disk-wrapper">
-      <div class="outer-disk">
-        <div class="emoji-orbit">
-          <span class="emoji e1">🍔</span>
-          <span class="emoji e2">🚕</span>
-          <span class="emoji e3">✈️</span>
-          <span class="emoji e4">🛒</span>
-          <span class="emoji e5">🎟️</span>
-        </div>
-        <div class="inner-disk">
-          <img src="/assets/logo.png" alt="Logo" style="width: 80px; height: 80px;">
-        </div>
+  <!-- MAIN CONTENT -->
+  <main id="content">
+
+    <section id="home" class="screen active">
+      <h2>Welcome to GoSmart</h2>
+      <div class="grid">
+        <div class="card">Ride Booking</div>
+        <div class="card">Food Delivery</div>
+        <div class="card">Ticket Booking</div>
+        <div class="card">Smart Payments</div>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <div class="bottom-actions">
-    <button class="primary">ہماری خدمات (Our Services)</button>
-    <button class="secondary">ہمارے ساتھ کام کریں (Partner With Us)</button>
-  </div>
+    <section id="ride" class="screen">
+      <h2>Ride Booking Service</h2>
+      <p>Book your ride easily with GoSmart.</p>
+    </section>
 
-</div>
+    <section id="food" class="screen">
+      <h2>Food Delivery Service</h2>
+      <p>Food delivery module coming soon.</p>
+    </section>
 
-<script src="/js/main.js"></script>
+    <section id="tickets" class="screen">
+      <h2>Ticket Booking</h2>
+      <p>Book flights, buses and events.</p>
+    </section>
+
+    <section id="admin" class="screen">
+      <h2>Admin Panel</h2>
+      <p>Admin controls and reports.</p>
+    </section>
+
+  </main>
+
+  <script src="js/app.js"></script>
 </body>
 </html>
