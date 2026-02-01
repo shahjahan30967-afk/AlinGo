@@ -8,25 +8,15 @@
 </head>
 <body>
 
-<!-- SPLASH SCREEN -->
-<div id="splash" class="splash white-splash">
-  <div class="logo-ring">
-    <div class="logo-inner">
-      <img src="LOGO.JPG" alt="Alingo Logo" />
-    </div>
-  </div>
-</div>
-  </div>
-  <div class="brand-name">
-    <span class="alin">Alin</span><span class="go">Go</span>
-    <div class="shine"></div>
-  </div>
-</div>
+<!-- SPLASH REMOVED -->
 
 <!-- HEADER -->
-<header class="topbar hidden">
+<header class="topbar">
+  <div class="brand-header">
+    <h1 class="brand-title"><span class="alin">Alin</span><span class="go">Go</span></h1>
+    <p class="brand-slogan">Smart Life. One Super App.</p>
+  </div>
   <button class="menu-btn" onclick="toggleMenu()">☰</button>
-  <h1><span class="alin">Alin</span><span class="go">Go</span></h1> <!-- Alin = Green, Go = Dark Blue -->
 </header>
 
 <!-- SIDE MENU -->
@@ -43,25 +33,23 @@
 
 <section id="home" class="screen active">
 
-  <!-- BRAND -->
-  <div class="home-brand">
-    <span class="alin">Alin</span><span class="go">Go</span>
-    <div class="gold-disk">
-      <div class="white-disk">
+  <!-- CENTER DISKS -->
+  <div class="center-disks">
+    <div class="outer-disk">
+      <div class="inner-disk">
         <img src="LOGO.JPG" alt="Alingo Logo" />
       </div>
     </div>
   </div>
 
-  <!-- SERVICES TRIANGLE GRID -->
-  <div class="triangle-box">
-    <div class="tri t1" onclick="showScreen('ride')">Ride</div>
-    <div class="tri t2" onclick="showScreen('food')">Food</div>
-    <div class="tri t3" onclick="showScreen('tickets')">Tickets</div>
-    <div class="tri t4">More</div>
+  <!-- FOOTER TRIANGLE SERVICES (SQUARE SPLIT FROM CENTER) -->
+  <div class="square-services">
+    <button class="sq-tri top">Ride Service</button>
+    <button class="sq-tri right">Food Delivery</button>
+    <button class="sq-tri bottom">Ticket Booking</button>
+    <button class="sq-tri left">More Services</button>
   </div>
 
-  <!-- INSTALL BUTTON -->
   <button id="installBtn" class="install-btn">Install App</button>
 
 </section>
