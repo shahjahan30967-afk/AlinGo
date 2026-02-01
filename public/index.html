@@ -9,43 +9,79 @@
   <link rel="stylesheet" href="/css/style.css">
   
   <style>
-    /* سپلیش کو مکمل طور پر غائب کرنے اور ہوم کو فوراً دکھانے کے لیے اضافی سیٹنگ */
+    /* سپلیش ختم اور ہوم فوراً دکھانے کے لیے */
     #splash { display: none !important; }
-    #home { display: block !important; opacity: 1 !important; visibility: visible !important; }
+    #home { 
+      display: flex !important; 
+      flex-direction: column; 
+      height: 100vh; 
+      justify-content: space-between; 
+      align-items: center;
+      padding: 20px 0;
+    }
+
+    /* لوگو اور ڈسک کو اوپر رکھنے کے لیے کنٹینر */
+    .top-section {
+      text-align: center;
+      width: 100%;
+    }
+
+    /* ڈسک سسٹم کی صفائی */
+    .disk-wrapper {
+      margin-top: 20px;
+      position: relative;
+    }
+
+    /* بٹنز کو نچلے حصے میں منتقل کرنا */
+    .bottom-actions {
+      width: 90%;
+      margin-bottom: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .bottom-actions button {
+      width: 100%;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
 <div id="home">
 
-  <header class="brand">
-    <h1>
-      <span class="alin">Alin</span><span class="go">Go</span>
-    </h1>
-    <p class="tagline">Move smart · Live free</p>
-  </header>
+  <div class="top-section">
+    <header class="brand">
+      <h1>
+        <span class="alin">Alin</span><span class="go">Go</span>
+      </h1>
+      <p class="tagline">Move smart · Live free</p>
+    </header>
 
-  <div class="disk-wrapper">
-    <div class="outer-disk">
-
-      <div class="emoji-orbit">
-        <span class="emoji e1">🍔</span>
-        <span class="emoji e2">🚕</span>
-        <span class="emoji e3">✈️</span>
-        <span class="emoji e4">🛒</span>
-        <span class="emoji e5">🎟️</span>
+    <div class="disk-wrapper">
+      <div class="outer-disk">
+        <div class="emoji-orbit">
+          <span class="emoji e1">🍔</span>
+          <span class="emoji e2">🚕</span>
+          <span class="emoji e3">✈️</span>
+          <span class="emoji e4">🛒</span>
+          <span class="emoji e5">🎟️</span>
+        </div>
+        <div class="inner-disk">
+          <img src="/assets/logo.png" alt="Logo" style="width: 80px; height: 80px;">
+        </div>
       </div>
-
-      <div class="inner-disk">
-        <img src="/assets/logo.png" alt="Logo">
-      </div>
-
     </div>
   </div>
 
-  <div class="actions">
-    <button class="primary">Get Started</button>
-    <button class="secondary">Partner With Us</button>
+  <div class="bottom-actions">
+    <button class="primary">ہماری خدمات (Our Services)</button>
+    <button class="secondary">ہمارے ساتھ کام کریں (Partner With Us)</button>
   </div>
 
 </div>
