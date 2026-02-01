@@ -1,14 +1,16 @@
 :root{
-  --blue:#0b1c2d;
+  --blue:#0b1d33;
   --green:#1fd18b;
-  --light:#132b45;
+  --light:#122a44;
 }
+
+*{box-sizing:border-box}
 
 body{
   margin:0;
   font-family:Arial, sans-serif;
   background:linear-gradient(135deg,var(--blue),var(--light));
-  color:white;
+  color:#fff;
 }
 
 .hidden{display:none}
@@ -25,90 +27,112 @@ body{
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  z-index:999;
+  z-index:1000;
 }
 
-.logo-ring{
+.outer-ring{
   border:2px solid var(--green);
-  padding:12px;
   border-radius:50%;
+  padding:12px;
 }
 
-.logo-inner{
+.inner-ring{
   border:2px solid var(--blue);
   border-radius:50%;
-  padding:20px;
+  padding:25px;
 }
 
-.logo-inner img{width:90px}
+.inner-ring img{width:90px}
 
-.brand-name{margin-top:20px;position:relative}
-
-.shine{
-  width:120px;
-  height:6px;
-  background:gold;
-  border-radius:50%;
-  margin:auto;
-  box-shadow:0 0 10px gold;
-}
+.brand{margin-top:20px}
 
 /* HEADER */
 .topbar{
-  background:var(--blue);
-  padding:12px;
   display:flex;
   align-items:center;
+  padding:12px;
+  background:var(--blue);
+}
+.topbar button{
+  font-size:22px;
+  background:none;
+  border:none;
+  color:#fff;
 }
 
-.menu-btn{background:none;border:none;color:white;font-size:22px}
+/* SIDE MENU */
+.side-menu{
+  position:fixed;
+  top:0;
+  left:-240px;
+  width:240px;
+  height:100%;
+  background:#081424;
+  padding:20px;
+  transition:.3s;
+}
+.side-menu button{
+  width:100%;
+  padding:12px;
+  margin-bottom:10px;
+  background:var(--light);
+  border:none;
+  color:#fff;
+}
 
 /* HOME */
-.home-brand{text-align:center;margin-top:20px}
-
-.gold-disk{
-  width:160px;height:160px;
-  background:radial-gradient(circle,gold,#b8860b);
+.center-disk{
+  width:180px;
+  height:180px;
+  background:radial-gradient(circle,var(--green),var(--blue));
   border-radius:50%;
-  margin:15px auto;
-  display:flex;align-items:center;justify-content:center;
+  margin:30px auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 0 20px #1fd18b;
 }
 
 .white-disk{
-  width:80%;height:80%;
-  background:white;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
+  width:80%;
+  height:80%;
+  background:#fff;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 .white-disk img{width:70px}
 
-/* TRIANGLE GRID */
-.triangle-box{
-  width:220px;height:220px;
-  margin:30px auto;
+/* TRIANGLES */
+.services-box{
+  width:220px;
+  height:220px;
+  margin:20px auto;
   display:grid;
   grid-template-columns:1fr 1fr;
 }
-
 .tri{
-  display:flex;align-items:center;justify-content:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   background:var(--green);
   color:var(--blue);
   font-weight:bold;
 }
-
 .t1{clip-path:polygon(0 0,100% 0,0 100%)}
 .t2{clip-path:polygon(0 0,100% 0,100% 100%)}
 .t3{clip-path:polygon(0 100%,100% 100%,0 0)}
 .t4{clip-path:polygon(100% 0,100% 100%,0 100%)}
 
-.install-btn{
+/* INSTALL */
+.install{
   display:block;
   margin:20px auto;
-  padding:12px 24px;
-  border:none;
+  padding:12px 30px;
   background:var(--green);
-  color:var(--blue);
-  font-size:16px;
+  border:none;
   border-radius:25px;
+  font-size:16px;
 }
