@@ -2,40 +2,43 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
-
-// راؤٹس کو امپورٹ کریں
-const orderRoutes = require('./routes/orderRoutes');
-// اگر آپ نے یوزر راؤٹس بنا لیے ہیں تو انہیں بھی یہاں شامل کریں
-// const authRoutes = require('./routes/authRoutes');
+const path = require('path'); // فائل پاتھ کے لیے ضروری
 
 // انوائرمنٹ ویری ایبلز لوڈ کریں
 dotenv.config();
 
+// راؤٹس کو امپورٹ کریں
+const orderRoutes = require('./routes/orderRoutes');
+
 const app = express();
 
-// مڈل ویئر (Middleware)
-app.use(cors()); // دوسری ڈومینز سے ریکوسٹ کی اجازت کے لیے
-app.use(express.json()); // JSON ڈیٹا ریڈ کرنے کے لیے
+// --- مڈل ویئر (Middleware) ---
+app.use(cors()); 
+app.use(express.json()); 
 
-// ڈیٹا بیس کنکشن (MongoDB Connection)
+// --- اسٹینگ فائلز (Static Files) ---
+// یہ لائن ایکسپریس کو بتائے گی کہ تمام HTML, CSS اور تصاویر 'public' فولڈر میں ہیں
+app.use(express.static(path.join(__dirname, 'public')));
+
+// --- ڈیٹا بیس کنکشن ---
 mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log("✅ Alingo app Database Connected Successfully!"))
+    .then(() => console.log("✅ Alingo Database Connected!"))
     .catch((err) => {
-        console.error("❌ Database Connection Error: ", err.message);
-        process.exit(1); // کنکشن نہ ہونے کی صورت میں سرور روک دیں
+        console.error("❌ DB Error: ", err.message);
+        process.exit(1);
     });
 
-// راؤٹس کا استعمال (Route Handlers)
+// --- API راؤٹس ---
 app.use('/api/orders', orderRoutes);
-// app.use('/api/auth', authRoutes);
 
-// بیسک ٹیسٹنگ روٹ
-app.get('/', (req, res) => {
-    res.send("Alingo app Backend is Running...");
+// --- فرنٹ اینڈ ہینڈلنگ (حرکت اور ری ڈائریکشن روکنے کے لیے) ---
+// یہ روٹ یقینی بنائے گا کہ کوئی بھی پیج کھلے، وہ آپ کی سادہ HTML فائل ہی دکھائے
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// سرور پورٹ سیٹ اپ
+// سرور پورٹ
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`🚀 Server is flying on port ${PORT}`);
+    console.log(`🚀 Server is running on port ${PORT}`);
 });
