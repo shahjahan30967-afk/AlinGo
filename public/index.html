@@ -1,61 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AlinGo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
 <!-- SPLASH SCREEN -->
-<div id="splash" class="splash">
-  <div class="outer-ring">
-    <div class="inner-ring">
-      <img src="logo.png" alt="AlinGo Logo">
+<div id="splash" class="splash white-splash">
+  <div class="logo-ring">
+    <div class="logo-inner">
+      <img src="LOGO.JPG" alt="Alingo Logo" />
     </div>
   </div>
-  <h1 class="brand">
+</div>
+  </div>
+  <div class="brand-name">
     <span class="alin">Alin</span><span class="go">Go</span>
-  </h1>
+    <div class="shine"></div>
+  </div>
 </div>
 
 <!-- HEADER -->
 <header class="topbar hidden">
-  <button onclick="toggleMenu()">☰</button>
-  <h2><span class="alin">Alin</span><span class="go">Go</span></h2>
+  <button class="menu-btn" onclick="toggleMenu()">☰</button>
+  <h1><span class="alin">Alin</span><span class="go">Go</span></h1> <!-- Alin = Green, Go = Dark Blue -->
 </header>
 
 <!-- SIDE MENU -->
-<aside id="menu" class="side-menu">
-  <button onclick="showScreen('home')">Home</button>
-  <button onclick="showScreen('ride')">Ride Service</button>
+<aside id="sideMenu" class="side-menu">
+  <h3>Services</h3>
+  <button onclick="showScreen('home')">Home Dashboard</button>
+  <button onclick="showScreen('ride')">Ride Booking</button>
   <button onclick="showScreen('food')">Food Delivery</button>
   <button onclick="showScreen('tickets')">Ticket Booking</button>
 </aside>
 
 <!-- MAIN -->
-<main id="main" class="hidden">
+<main id="content" class="hidden">
 
 <section id="home" class="screen active">
 
-  <!-- CENTER DISK -->
-  <div class="center-disk">
-    <div class="white-disk">
-      <img src="logo.png">
+  <!-- BRAND -->
+  <div class="home-brand">
+    <span class="alin">Alin</span><span class="go">Go</span>
+    <div class="gold-disk">
+      <div class="white-disk">
+        <img src="LOGO.JPG" alt="Alingo Logo" />
+      </div>
     </div>
   </div>
 
-  <!-- SERVICES TRIANGLES -->
-  <div class="services-box">
+  <!-- SERVICES TRIANGLE GRID -->
+  <div class="triangle-box">
     <div class="tri t1" onclick="showScreen('ride')">Ride</div>
     <div class="tri t2" onclick="showScreen('food')">Food</div>
     <div class="tri t3" onclick="showScreen('tickets')">Tickets</div>
     <div class="tri t4">More</div>
   </div>
 
-  <!-- INSTALL -->
-  <button id="installBtn" class="install">Install App</button>
+  <!-- INSTALL BUTTON -->
+  <button id="installBtn" class="install-btn">Install App</button>
 
 </section>
 
