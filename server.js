@@ -1,35 +1,41 @@
-import express from "express";
-import cors from "cors";
-import helmet from "helmet";
-import dotenv from "dotenv";
-import connectDB from "./config/db.js";
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const dotenv = require('dotenv');
 
-import authRoutes from "./routes/auth.routes.js";
-import sellerRoutes from "./routes/seller.routes.js";
-import orderRoutes from "./routes/order.routes.js";
-import walletRoutes from "./routes/wallet.routes.js";
+// راؤٹس کو امپورٹ کریں
+const orderRoutes = require('./routes/orderRoutes');
+// اگر آپ نے یوزر راؤٹس بنا لیے ہیں تو انہیں بھی یہاں شامل کریں
+// const authRoutes = require('./routes/authRoutes');
 
+// انوائرمنٹ ویری ایبلز لوڈ کریں
 dotenv.config();
-connectDB();
 
 const app = express();
 
-app.use(express.json());
-app.use(cors());
-app.use(helmet());
+// مڈل ویئر (Middleware)
+app.use(cors()); // دوسری ڈومینز سے ریکوسٹ کی اجازت کے لیے
+app.use(express.json()); // JSON ڈیٹا ریڈ کرنے کے لیے
 
-app.get("/api/health", (req, res) => {
-  res.json({ status: "OK", app: "Alingo Backend LIVE" });
+// ڈیٹا بیس کنکشن (MongoDB Connection)
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log("✅ Alingo app Database Connected Successfully!"))
+    .catch((err) => {
+        console.error("❌ Database Connection Error: ", err.message);
+        process.exit(1); // کنکشن نہ ہونے کی صورت میں سرور روک دیں
+    });
+
+// راؤٹس کا استعمال (Route Handlers)
+app.use('/api/orders', orderRoutes);
+// app.use('/api/auth', authRoutes);
+
+// بیسک ٹیسٹنگ روٹ
+app.get('/', (req, res) => {
+    res.send("Alingo app Backend is Running...");
 });
 
-app.use("/api/auth", authRoutes);
-app.use("/api/seller", sellerRoutes);
-app.use("/api/orders", orderRoutes);
-app.use("/api/wallet", walletRoutes);
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () =>
-  console.log("🚀 Backend running on port", PORT)
-);
-
-export default app;
+// سرور پورٹ سیٹ اپ
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`🚀 Server is flying on port ${PORT}`);
+});
