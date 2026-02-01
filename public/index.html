@@ -3,65 +3,73 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GoSmart Super App</title>
+  <title>AlinGo</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header class="topbar">
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
-    <h1>GoSmart</h1>
-  </header>
+<!-- SPLASH SCREEN -->
+<div id="splash" class="splash">
+  <div class="logo-ring">
+    <div class="logo-inner">
+      <img src="logo.png" alt="AlinGo Logo" />
+    </div>
+  </div>
+  <div class="brand-name">
+    <span class="alin">Alin</span><span class="go">Go</span>
+    <div class="shine"></div>
+  </div>
+</div>
 
-  <!-- SIDE MENU -->
-  <aside id="sideMenu" class="side-menu">
-    <h3>Services</h3>
-    <button onclick="showScreen('home')">Home Dashboard</button>
-    <button onclick="showScreen('ride')">Ride Booking Service</button>
-    <button onclick="showScreen('food')">Food Delivery Service</button>
-    <button onclick="showScreen('tickets')">Ticket Booking</button>
-    <button onclick="showScreen('admin')">Admin Panel</button>
-    <hr />
-    <button onclick="openLink('https://github.com/Aawan3967-oss/Go-Smart')">GitHub Repository</button>
-    <button onclick="openLink('https://go-smart-topaz.vercel.app')">Live Application</button>
-  </aside>
+<!-- HEADER -->
+<header class="topbar hidden">
+  <button class="menu-btn" onclick="toggleMenu()">☰</button>
+  <h1><span class="alin">Alin</span><span class="go">Go</span></h1>
+</header>
 
-  <!-- MAIN CONTENT -->
-  <main id="content">
+<!-- SIDE MENU -->
+<aside id="sideMenu" class="side-menu">
+  <h3>Services</h3>
+  <button onclick="showScreen('home')">Home Dashboard</button>
+  <button onclick="showScreen('ride')">Ride Booking</button>
+  <button onclick="showScreen('food')">Food Delivery</button>
+  <button onclick="showScreen('tickets')">Ticket Booking</button>
+</aside>
 
-    <section id="home" class="screen active">
-      <h2>Welcome to GoSmart</h2>
-      <div class="grid">
-        <div class="card">Ride Booking</div>
-        <div class="card">Food Delivery</div>
-        <div class="card">Ticket Booking</div>
-        <div class="card">Smart Payments</div>
+<!-- MAIN -->
+<main id="content" class="hidden">
+
+<section id="home" class="screen active">
+
+  <!-- BRAND -->
+  <div class="home-brand">
+    <span class="alin">Alin</span><span class="go">Go</span>
+    <div class="gold-disk">
+      <div class="white-disk">
+        <img src="logo.png" alt="Logo" />
       </div>
-    </section>
+    </div>
+  </div>
 
-    <section id="ride" class="screen">
-      <h2>Ride Booking Service</h2>
-      <p>Book your ride easily with GoSmart.</p>
-    </section>
+  <!-- SERVICES TRIANGLE GRID -->
+  <div class="triangle-box">
+    <div class="tri t1" onclick="showScreen('ride')">Ride</div>
+    <div class="tri t2" onclick="showScreen('food')">Food</div>
+    <div class="tri t3" onclick="showScreen('tickets')">Tickets</div>
+    <div class="tri t4">More</div>
+  </div>
 
-    <section id="food" class="screen">
-      <h2>Food Delivery Service</h2>
-      <p>Food delivery module coming soon.</p>
-    </section>
+  <!-- INSTALL BUTTON -->
+  <button id="installBtn" class="install-btn">Install App</button>
 
-    <section id="tickets" class="screen">
-      <h2>Ticket Booking</h2>
-      <p>Book flights, buses and events.</p>
-    </section>
+</section>
 
-    <section id="admin" class="screen">
-      <h2>Admin Panel</h2>
-      <p>Admin controls and reports.</p>
-    </section>
+<section id="ride" class="screen"><h2>Ride Service</h2></section>
+<section id="food" class="screen"><h2>Food Service</h2></section>
+<section id="tickets" class="screen"><h2>Ticket Service</h2></section>
 
-  </main>
+</main>
 
-  <script src="js/app.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
