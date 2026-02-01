@@ -1,0 +1,13 @@
+// src/services/adminService.js
+import { db } from "../firebaseConfig";
+import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
+
+export const getAllOrders = async () => {
+  const querySnapshot = await getDocs(collection(db, "orders"));
+  return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+};
+
+export const updateOrderStatus = async (orderId, status) => {
+  const orderRef = doc(db, "orders", orderId);
+  await updateDoc(orderRef, { status: status });
+};
