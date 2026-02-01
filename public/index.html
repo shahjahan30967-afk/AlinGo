@@ -2,26 +2,20 @@
 <html lang="ur">
 <head>
   <meta charset="UTF-8">
-  <title>AlinGo</title>
+  <title>AlinGo - Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="icon" href="/favicon.ico">
   <link rel="stylesheet" href="/css/style.css">
+  
+  <style>
+    /* سپلیش کو مکمل طور پر غائب کرنے اور ہوم کو فوراً دکھانے کے لیے اضافی سیٹنگ */
+    #splash { display: none !important; }
+    #home { display: block !important; opacity: 1 !important; visibility: visible !important; }
+  </style>
 </head>
 <body>
 
-<!-- ================= SPLASH ================= -->
-<div id="splash">
-  <div class="splash-border"></div>
-
-  <img src="/assets/logo.png" alt="AlinGo Logo" class="splash-logo">
-
-  <div class="splash-lines">
-    <span></span><span></span><span></span>
-  </div>
-</div>
-
-<!-- ================= HOME ================= -->
 <div id="home">
 
   <header class="brand">
@@ -31,7 +25,6 @@
     <p class="tagline">Move smart · Live free</p>
   </header>
 
-  <!-- DISK SYSTEM -->
   <div class="disk-wrapper">
     <div class="outer-disk">
 
@@ -50,7 +43,6 @@
     </div>
   </div>
 
-  <!-- QUICK ACTIONS -->
   <div class="actions">
     <button class="primary">Get Started</button>
     <button class="secondary">Partner With Us</button>
