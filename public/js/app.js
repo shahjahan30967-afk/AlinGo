@@ -1,18 +1,30 @@
-function toggleMenu() {
-  const menu = document.getElementById('sideMenu');
-  if (menu.style.left === '0px') {
-    menu.style.left = '-260px';
-  } else {
-    menu.style.left = '0px';
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('installBtn').style.display='block';
+});
+
+document.getElementById('installBtn').onclick = async () => {
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt = null;
   }
+};
+
+setTimeout(()=>{
+  document.getElementById('splash').style.display='none';
+  document.querySelector('.topbar').classList.remove('hidden');
+  document.getElementById('content').classList.remove('hidden');
+},2500);
+
+function toggleMenu(){
+  const m=document.getElementById('sideMenu');
+  m.style.left=m.style.left==='0px'?'-260px':'0px';
 }
 
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  document.getElementById('sideMenu').style.left = '-260px';
-}
-
-function openLink(url) {
-  window.open(url, '_blank');
 }
