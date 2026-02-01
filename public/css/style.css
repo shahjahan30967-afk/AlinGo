@@ -1,16 +1,15 @@
 :root{
-  --blue:#0b1d33;
+  --blue:#0b1c2d;
+  --blue-light:#132b45;
   --green:#1fd18b;
-  --light:#122a44;
+  --green-light:#6af0b8;
 }
-
-*{box-sizing:border-box}
 
 body{
   margin:0;
   font-family:Arial, sans-serif;
-  background:linear-gradient(135deg,var(--blue),var(--light));
-  color:#fff;
+  background:linear-gradient(135deg,var(--blue),var(--green-light));
+  color:white;
 }
 
 .hidden{display:none}
@@ -22,117 +21,109 @@ body{
 .splash{
   position:fixed;
   inset:0;
-  background:linear-gradient(160deg,var(--blue),var(--green));
+  background:white;
   display:flex;
-  flex-direction:column;
   justify-content:center;
   align-items:center;
-  z-index:1000;
+  z-index:999;
 }
 
-.outer-ring{
+.white-splash .logo-ring{
   border:2px solid var(--green);
+  padding:14px;
   border-radius:50%;
-  padding:12px;
 }
 
-.inner-ring{
+.white-splash .logo-inner{
   border:2px solid var(--blue);
   border-radius:50%;
-  padding:25px;
+  padding:22px;
 }
 
-.inner-ring img{width:90px}
+.white-splash img{width:100px}
 
-.brand{margin-top:20px}
+.logo-ring{
+  border:2px solid var(--green);
+  padding:12px;
+  border-radius:50%;
+}
+
+.logo-inner{
+  border:2px solid var(--blue);
+  border-radius:50%;
+  padding:20px;
+}
+
+.logo-inner img{width:90px}
+
+.brand-name{margin-top:20px;position:relative}
+
+.shine{
+  width:120px;
+  height:6px;
+  background:gold;
+  border-radius:50%;
+  margin:auto;
+  box-shadow:0 0 10px gold;
+}
 
 /* HEADER */
 .topbar{
+  background:var(--blue);
+  padding:12px;
   display:flex;
   align-items:center;
-  padding:12px;
-  background:var(--blue);
-}
-.topbar button{
-  font-size:22px;
-  background:none;
-  border:none;
-  color:#fff;
 }
 
-/* SIDE MENU */
-.side-menu{
-  position:fixed;
-  top:0;
-  left:-240px;
-  width:240px;
-  height:100%;
-  background:#081424;
-  padding:20px;
-  transition:.3s;
-}
-.side-menu button{
-  width:100%;
-  padding:12px;
-  margin-bottom:10px;
-  background:var(--light);
-  border:none;
-  color:#fff;
-}
+.menu-btn{background:none;border:none;color:white;font-size:22px}
 
 /* HOME */
-.center-disk{
-  width:180px;
-  height:180px;
+.home-brand{text-align:center;margin-top:20px}
+
+.gold-disk{
+  width:180px;height:180px;
   background:radial-gradient(circle,var(--green),var(--blue));
   border-radius:50%;
-  margin:30px auto;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 0 20px #1fd18b;
+  margin:20px auto;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 20px rgba(31,209,139,0.6);
 }
 
 .white-disk{
-  width:80%;
-  height:80%;
-  background:#fff;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  width:80%;height:80%;
+  background:white;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
 }
 
 .white-disk img{width:70px}
 
-/* TRIANGLES */
-.services-box{
-  width:220px;
-  height:220px;
-  margin:20px auto;
+/* TRIANGLE GRID */
+.triangle-box{
+  width:220px;height:220px;
+  margin:30px auto;
   display:grid;
   grid-template-columns:1fr 1fr;
 }
+
 .tri{
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display:flex;align-items:center;justify-content:center;
   background:var(--green);
   color:var(--blue);
   font-weight:bold;
 }
+
 .t1{clip-path:polygon(0 0,100% 0,0 100%)}
 .t2{clip-path:polygon(0 0,100% 0,100% 100%)}
 .t3{clip-path:polygon(0 100%,100% 100%,0 0)}
 .t4{clip-path:polygon(100% 0,100% 100%,0 100%)}
 
-/* INSTALL */
-.install{
+.install-btn{
   display:block;
   margin:20px auto;
-  padding:12px 30px;
-  background:var(--green);
+  padding:12px 24px;
   border:none;
-  border-radius:25px;
+  background:var(--green);
+  color:var(--blue);
   font-size:16px;
+  border-radius:25px;
 }
