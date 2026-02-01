@@ -13,9 +13,7 @@ document.getElementById('installBtn').onclick = async () => {
   }
 };
 
-setTimeout(()=>{
-  document.getElementById('splash').style.display='none';
-  document.querySelector('.topbar').classList.remove('hidden');
+// Splash removed – app loads directly
   document.getElementById('content').classList.remove('hidden');
 },2500);
 
