@@ -21,4 +21,7 @@ app.use("/api/hotel", require("./routes/hotel.routes"));
 // Ticketing routes
 app.use("/api/ticket", require("./routes/ticket.routes"));
 
+// Wallet / Payments routes
+app.use("/api/wallet", require("./routes/wallet.routes"));
+
 module.exports = app;
