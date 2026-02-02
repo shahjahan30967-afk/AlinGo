@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Book Ticket | Alingo</title>
+</head>
+<body>
+
+<h2>Book a Ticket</h2>
+
+<select id="ticketSelect"></select><br/><br/>
+<input type="number" id="seats" placeholder="Seats to Book" min="1" required /><br/>
+<button onclick="bookTicket()">Book Ticket</button>
+
+<script>
+async function loadTickets() {
+  const token = localStorage.getItem("token");
+  const res = await fetch("/api/ticket/all", { headers: { "Authorization": `Bearer ${token}` } });
+  const data = await res.json();
+
+  const select = document.getElementById("ticketSelect");
+  data.tickets.forEach(t => {
+    const opt = document.createElement("option");
+    opt.value = t._id;
+    opt.text = `${t.type.toUpperCase()} | ${t.company} | ${t.departure} → ${t.arrival} | $${t.price} | Seats: ${t.seatsAvailable}`;
+    select.appendChild(opt);
+  });
+}
+
+async function bookTicket() {
+  const token = localStorage.getItem("token");
+  const ticketId = document.getElementById("ticketSelect").value;
+  const seatsBooked = parseInt(document.getElementById("seats").value);
+
+  const res = await fetch("/api/ticket/book", {
+    method: "POST",
+    headers: { 
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    },
+    body: JSON.stringify({ ticketId, seatsBooked })
+  });
+
+  const data = await res.json();
+  alert("Ticket Booked! ID: " + data.booking._id);
+  window.location.href = "ticket-history.html";
+}
+
+loadTickets();
+</script>
+
+</body>
+</html>
