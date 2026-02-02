@@ -1,32 +1,38 @@
-<script>
-window.addEventListener("DOMContentLoaded", async () => {
-  try {
-    const token = localStorage.getItem("token");
-    if(!token){
-      alert("Please login first");
-      window.location.href="/login.html";
-      return;
-    }
+<script defer>
+document.addEventListener("DOMContentLoaded", function() {
+  const token = localStorage.getItem("token");
+  if(!token){
+    alert("Please login first");
+    window.location.href = "/login.html";
+    return;
+  }
 
-    const greetEl = document.getElementById("greet");
-    if(greetEl) greetEl.innerText = "Welcome, User!";
+  // Greet user
+  const greetEl = document.getElementById("greet");
+  if(greetEl) greetEl.textContent = "Welcome, User!";
 
-    const rideListEl = document.getElementById("rideList");
-    if(rideListEl){
-      const res = await fetch("/api/ride/my", {
-        headers: { "Authorization": "Bearer "+token }
-      });
-      const data = await res.json();
+  // Show current rides
+  const rideListEl = document.getElementById("rideList");
+  if(rideListEl){
+    fetch("/api/ride/my", {
+      headers: { "Authorization": "Bearer " + token }
+    })
+    .then(res => res.json())
+    .then(data => {
       rideListEl.innerHTML = "";
-      if(data.length===0) rideListEl.innerHTML="<li>No rides yet</li>";
-      else data.forEach(r=>{
-        const li = document.createElement("li");
-        li.innerText = `${r.pickup} → ${r.drop} | Status: ${r.status}`;
-        rideListEl.appendChild(li);
-      });
-    }
-  } catch(e){
-    console.error(e);
+      if(!data || data.length === 0){
+        rideListEl.innerHTML = "<li>No rides yet</li>";
+      } else {
+        data.forEach(r=>{
+          const li = document.createElement("li");
+          li.textContent = `${r.pickup} → ${r.drop} | Status: ${r.status}`;
+          rideListEl.appendChild(li);
+        });
+      }
+    })
+    .catch(err => {
+      console.error("Ride fetch error:", err);
+    });
   }
 });
 </script>
