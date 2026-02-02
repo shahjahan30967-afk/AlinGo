@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>AlinGo Home</h2>
+
+<button onclick="goRide()">Ride</button>
+
+<script>
+function goRide(){
+  if(!localStorage.getItem("token")){
+    alert("Login first");
+    location.href="/login.html";
+  } else {
+    location.href="/ride/ride-home.html";
+  }
+}
+</script>
+
+</body>
+</html>
