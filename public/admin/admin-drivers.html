@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Manage Drivers | Alingo</title>
+</head>
+<body>
+
+<h2>Drivers</h2>
+
+<ul id="driversList"></ul>
+
+<script>
+async function loadDrivers() {
+  const token = localStorage.getItem("token");
+  const res = await fetch("/api/admin/drivers", { headers: { "Authorization": `Bearer ${token}` } });
+  const data = await res.json();
+
+  const list = document.getElementById("driversList");
+  list.innerHTML = "";
+
+  data.drivers.forEach(d => {
+    const li = document.createElement("li");
+    li.innerHTML = `${d.name} | ${d.phone} | Status: ${d.status || 'active'} 
+      <button onclick="toggleStatus('${d._id}')">Toggle Status</button>`;
+    list.appendChild(li);
+  });
+}
+
+async function toggleStatus(id) {
+  const status = prompt("Enter status: active / blocked");
+  if (!status) return;
+  const token = localStorage.getItem("token");
+  await fetch(`/api/admin/user/status/${id}`, {
+    method: "POST",
+    headers: { 
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}` 
+    },
+    body: JSON.stringify({ status })
+  });
+  loadDrivers();
+}
+
+loadDrivers();
+</script>
+
+</body>
+</html>
