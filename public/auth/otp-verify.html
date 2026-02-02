@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Verify OTP | Alingo</title>
+</head>
+<body>
+
+<h2>Verify OTP</h2>
+
+<form id="verifyForm">
+  <input id="otp" placeholder="Enter OTP" required />
+  <button type="submit">Verify</button>
+</form>
+
+<script>
+verifyForm.onsubmit = async (e) => {
+  e.preventDefault();
+
+  const phone = localStorage.getItem("phone");
+
+  const res = await fetch("/api/otp/verify", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      phone,
+      otp: otp.value
+    })
+  });
+
+  const data = await res.json();
+  localStorage.setItem("token", data.token);
+
+  alert("OTP verified successfully");
+};
+</script>
+
+</body>
+</html>
