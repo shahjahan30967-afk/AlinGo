@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Shipments | Alingo</title>
+</head>
+<body>
+
+<h2>My Shipments</h2>
+
+<ul id="shipmentList"></ul>
+
+<script>
+async function fetchShipments() {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch("/api/logistics/my-shipments", {
+    headers: { "Authorization": `Bearer ${token}` }
+  });
+
+  const data = await res.json();
+  const list = document.getElementById("shipmentList");
+  list.innerHTML = "";
+
+  data.shipments.forEach(s => {
+    const li = document.createElement("li");
+    li.textContent = `Pickup: ${s.pickupAddress} → Delivery: ${s.deliveryAddress} | Status: ${s.status}`;
+    list.appendChild(li);
+  });
+}
+
+fetchShipments();
+</script>
+
+</body>
+</html>
