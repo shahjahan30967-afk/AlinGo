@@ -1,14 +1,17 @@
-const jwt = require("jsonwebtoken");
+import admin from "../config/firebase-admin.js";
 
-module.exports = (req, res, next) => {
-  const auth = req.headers.authorization;
-  if (!auth) return res.status(401).json({ message: "No token" });
+const authMiddleware = async (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if (!token) return res.status(401).json({ message: "No token, authorization denied" });
 
   try {
-    const decoded = jwt.verify(auth.split(" ")[1], process.env.JWT_SECRET);
-    req.user = decoded;
+    const decodedToken = await admin.auth().verifyIdToken(token);
+    req.user = { id: decodedToken.uid, phone: decodedToken.phone_number };
     next();
-  } catch {
-    res.status(401).json({ message: "Invalid token" });
+  } catch (error) {
+    res.status(401).json({ message: "Token is not valid" });
   }
 };
+
+export default authMiddleware;
