@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>OTP Login | Alingo</title>
+</head>
+<body>
+
+<h2>Enter Phone Number</h2>
+
+<form id="otpForm">
+  <input id="phone" placeholder="03XXXXXXXXX" required />
+  <button type="submit">Send OTP</button>
+</form>
+
+<script>
+otpForm.onsubmit = async (e) => {
+  e.preventDefault();
+
+  await fetch("/api/otp/send", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ phone: phone.value })
+  });
+
+  localStorage.setItem("phone", phone.value);
+  window.location.href = "otp-verify.html";
+};
+</script>
+
+</body>
+</html>
