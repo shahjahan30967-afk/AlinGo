@@ -1,27 +1,41 @@
-const Ride = require("../models/Ride");
+// 1. 'require' کی جگہ 'import' استعمال کریں
+import Ride from "../models/Ride.js"; 
 
-// CREATE RIDE
-exports.createRide = async (req, res) => {
-  const { pickupLocation, dropLocation } = req.body;
+// 2. 'exports' کی جگہ 'export const' استعمال کریں
+export const createRide = async (req, res) => {
+  try {
+    const { pickupLocation, dropLocation } = req.body;
 
-  const ride = await Ride.create({
-    user: req.user.id,
-    pickupLocation,
-    dropLocation
-  });
+    // گلو کوڈ: چیک کریں کہ کیا یوزر لاگ ان ہے (req.user)
+    if (!req.user) return res.status(401).json({ message: "Unauthorized" });
 
-  res.json({ success: true, ride });
+    const ride = await Ride.create({
+      user: req.user.id,
+      pickupLocation,
+      dropLocation
+    });
+
+    res.json({ success: true, ride });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
 };
 
-// GET USER RIDES
-exports.getRides = async (req, res) => {
-  const rides = await Ride.find({ user: req.user.id });
-  res.json({ success: true, rides });
+export const getRides = async (req, res) => {
+  try {
+    const rides = await Ride.find({ user: req.user.id });
+    res.json({ success: true, rides });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
 };
 
-// GET SINGLE RIDE
-exports.getRide = async (req, res) => {
-  const ride = await Ride.findById(req.params.id).populate("driver user");
-  if (!ride) return res.status(404).json({ message: "Ride not found" });
-  res.json({ success: true, ride });
+export const getRide = async (req, res) => {
+  try {
+    const ride = await Ride.findById(req.params.id).populate("driver user");
+    if (!ride) return res.status(404).json({ message: "Ride not found" });
+    res.json({ success: true, ride });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
 };
