@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Driver Assignments | Alingo</title>
+</head>
+<body>
+
+<h2>Pending Assignments</h2>
+
+<h3>Rides</h3>
+<ul id="ridesList"></ul>
+
+<h3>Shipments</h3>
+<ul id="shipmentsList"></ul>
+
+<script>
+async function loadAssignments() {
+  const token = localStorage.getItem("token");
+  const res = await fetch("/api/driver/assignments", { headers: { "Authorization": `Bearer ${token}` } });
+  const data = await res.json();
+
+  const ridesList = document.getElementById("ridesList");
+  ridesList.innerHTML = "";
+  data.rides.forEach(r => {
+    const li = document.createElement("li");
+    li.innerHTML = `Ride from ${r.pickupLocation} → ${r.dropLocation} | Status: ${r.status} 
+      <button onclick="acceptRide('${r._id}')">Accept</button>
+      <button onclick="updateRideStatus('${r._id}')">Update Status</button>`;
+    ridesList.appendChild(li);
+  });
+
+  const shipmentsList = document.getElementById("shipmentsList");
+  shipmentsList.innerHTML = "";
+  data.shipments.forEach(s => {
+    const li = document.createElement("li");
+    li.innerHTML = `Pickup: ${s.pickupAddress} → Delivery: ${s.deliveryAddress} | Status: ${s.status} 
+      <button onclick="acceptShipment('${s._id}')">Accept</button>
+      <button onclick="updateShipmentStatus('${s._id}')">Update Status</button>`;
+    shipmentsList.appendChild(li);
+  });
+}
+
+async function acceptRide(id) {
+  const token = localStorage.getItem("token");
+  await fetch(`/api/driver/ride/accept/${id}`, { method: "POST", headers: { "Authorization": `Bearer ${token}` } });
+  loadAssignments();
+}
+
+async function updateRideStatus(id) {
+  const status = prompt("Enter new ride status (ongoing/completed/cancelled):");
+  if (!status) return;
+  const token = localStorage.getItem("token");
+  await fetch(`/api/driver/ride/status/${id}`, {
+    method: "POST",
+    headers: { 
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    },
+    body: JSON.stringify({ status })
+  });
+  loadAssignments();
+}
+
+async function acceptShipment(id) {
+  const token = localStorage.getItem("token");
+  await fetch(`/api/driver/shipment/accept/${id}`, { method: "POST", headers: { "Authorization": `Bearer ${token}` } });
+  loadAssignments();
+}
+
+async function updateShipmentStatus(id) {
+  const status = prompt("Enter new shipment status (in-transit/delivered/cancelled):");
+  if (!status) return;
+  const token = localStorage.getItem("token");
+  await fetch(`/api/driver/shipment/status/${id}`, {
+    method: "POST",
+    headers: { 
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    },
+    body: JSON.stringify({ status })
+  });
+  loadAssignments();
+}
+
+loadAssignments();
+</script>
+
+</body>
+</html>
