@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Orders | Alingo</title>
+</head>
+<body>
+
+<h2>My Food Orders</h2>
+
+<ul id="orderList"></ul>
+
+<script>
+async function fetchOrders() {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch("/api/food/my-orders", {
+    headers: { "Authorization": `Bearer ${token}` }
+  });
+
+  const data = await res.json();
+  const orderList = document.getElementById("orderList");
+  orderList.innerHTML = "";
+
+  data.orders.forEach(order => {
+    const li = document.createElement("li");
+    li.textContent = `Items: ${order.items.map(i => i.food.name + " x" + i.quantity).join(", ")} | Total: $${order.totalPrice} | Status: ${order.status}`;
+    orderList.appendChild(li);
+  });
+}
+
+fetchOrders();
+</script>
+
+</body>
+</html>
