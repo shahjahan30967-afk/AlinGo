@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Manage Users | Alingo</title>
+</head>
+<body>
+
+<h2>Users</h2>
+
+<ul id="usersList"></ul>
+
+<script>
+async function loadUsers() {
+  const token = localStorage.getItem("token");
+  const res = await fetch("/api/admin/users", { headers: { "Authorization": `Bearer ${token}` } });
+  const data = await res.json();
+
+  const list = document.getElementById("usersList");
+  list.innerHTML = "";
+
+  data.users.forEach(u => {
+    const li = document.createElement("li");
+    li.innerHTML = `${u.name} | ${u.phone} | Status: ${u.status || 'active'} 
+      <button onclick="toggleStatus('${u._id}')">Toggle Status</button>`;
+    list.appendChild(li);
+  });
+}
+
+async function toggleStatus(id) {
+  const status = prompt("Enter status: active / blocked");
+  if (!status) return;
+  const token = localStorage.getItem("token");
+  await fetch(`/api/admin/user/status/${id}`, {
+    method: "POST",
+    headers: { 
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}` 
+    },
+    body: JSON.stringify({ status })
+  });
+  loadUsers();
+}
+
+loadUsers();
+</script>
+
+</body>
+</html>
