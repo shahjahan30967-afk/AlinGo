@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Funds | Alingo</title>
+</head>
+<body>
+
+<h2>Add Funds to Wallet</h2>
+
+<input type="number" id="amount" placeholder="Amount" min="1" required /><br/>
+<input type="text" id="desc" placeholder="Description (Optional)" /><br/>
+<button onclick="addFunds()">Add Funds</button>
+
+<script>
+async function addFunds() {
+  const token = localStorage.getItem("token");
+  const amount = parseFloat(document.getElementById("amount").value);
+  const description = document.getElementById("desc").value;
+
+  const res = await fetch("/api/wallet/add", {
+    method: "POST",
+    headers: { 
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    },
+    body: JSON.stringify({ amount, description })
+  });
+
+  const data = await res.json();
+  alert("Funds added! New Balance: $" + data.wallet.balance.toFixed(2));
+  window.location.href = "wallet-home.html";
+}
+</script>
+
+</body>
+</html>
