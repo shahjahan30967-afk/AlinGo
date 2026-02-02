@@ -1,38 +1,56 @@
-<script defer>
-document.addEventListener("DOMContentLoaded", function() {
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ride Home | AlinGo</title>
+</head>
+<body>
+
+<h2>Welcome to Ride Module</h2>
+
+<!-- User Greeting -->
+<p id="greet"></p>
+
+<!-- Current Rides -->
+<h3>Your Rides:</h3>
+<ul id="rideList"></ul>
+
+<!-- Book Ride Button -->
+<button onclick="location.href='ride-book.html'">Book Ride</button>
+
+<script>
+async function init(){
   const token = localStorage.getItem("token");
   if(!token){
     alert("Please login first");
-    window.location.href = "/login.html";
+    location.href="/login.html";
     return;
   }
 
-  // Greet user
-  const greetEl = document.getElementById("greet");
-  if(greetEl) greetEl.textContent = "Welcome, User!";
+  // Decode token to show user (optional)
+  const payload = JSON.parse(atob(token.split('.')[1]));
+  document.getElementById("greet").innerText = "Hello, User!";
 
-  // Show current rides
-  const rideListEl = document.getElementById("rideList");
-  if(rideListEl){
-    fetch("/api/ride/my", {
-      headers: { "Authorization": "Bearer " + token }
-    })
-    .then(res => res.json())
-    .then(data => {
-      rideListEl.innerHTML = "";
-      if(!data || data.length === 0){
-        rideListEl.innerHTML = "<li>No rides yet</li>";
-      } else {
-        data.forEach(r=>{
-          const li = document.createElement("li");
-          li.textContent = `${r.pickup} → ${r.drop} | Status: ${r.status}`;
-          rideListEl.appendChild(li);
-        });
-      }
-    })
-    .catch(err => {
-      console.error("Ride fetch error:", err);
+  // Fetch current rides
+  const res = await fetch("/api/ride/my", {
+    headers:{ "Authorization":"Bearer "+token }
+  });
+  const data = await res.json();
+
+  const list = document.getElementById("rideList");
+  list.innerHTML = "";
+  if(data.length === 0){
+    list.innerHTML = "<li>No rides yet</li>";
+  } else {
+    data.forEach(r=>{
+      const li = document.createElement("li");
+      li.innerText = `${r.pickup} → ${r.drop} | Status: ${r.status}`;
+      list.appendChild(li);
     });
   }
-});
+}
+
+init();
 </script>
+
+</body>
+</html>
