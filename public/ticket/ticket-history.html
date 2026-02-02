@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Ticket Bookings | Alingo</title>
+</head>
+<body>
+
+<h2>My Ticket Bookings</h2>
+
+<ul id="bookingList"></ul>
+
+<script>
+async function fetchBookings() {
+  const token = localStorage.getItem("token");
+  const res = await fetch("/api/ticket/my-bookings", { headers: { "Authorization": `Bearer ${token}` } });
+  const data = await res.json();
+
+  const list = document.getElementById("bookingList");
+  list.innerHTML = "";
+
+  data.bookings.forEach(b => {
+    const t = b.ticket;
+    const li = document.createElement("li");
+    li.textContent = `${t.type.toUpperCase()} | ${t.company} | ${t.departure} → ${t.arrival} | Seats: ${b.seatsBooked} | Total: $${b.totalPrice} | Status: ${b.status}`;
+    list.appendChild(li);
+  });
+}
+
+fetchBookings();
+</script>
+
+</body>
+</html>
