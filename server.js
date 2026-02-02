@@ -1,33 +1,22 @@
 const express = require("express");
+const mongoose = require("mongoose");
+require("dotenv").config();
+
 const app = express();
 
+// ===== MIDDLEWARES =====
 app.use(express.json());
+app.use(express.static("public"));
 
-// OTP routes
+// ===== DATABASE =====
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.log(err));
+
+// ===== ROUTES =====
 app.use("/api/otp", require("./routes/otp.routes"));
-
-// Ride routes
 app.use("/api/ride", require("./routes/ride.routes"));
 
-// Logistics routes
-app.use("/api/logistics", require("./routes/logistics.routes"));
-
-// Food routes
-app.use("/api/food", require("./routes/food.routes"));
-
-// Hotel routes
-app.use("/api/hotel", require("./routes/hotel.routes"));
-
-// Ticketing routes
-app.use("/api/ticket", require("./routes/ticket.routes"));
-
-// Wallet / Payments routes
-app.use("/api/wallet", require("./routes/wallet.routes"));
-
-// Driver Panel routes
-app.use("/api/driver", require("./routes/driver.routes"));
-
-// Admin Panel routes
-app.use("/api/admin", require("./routes/admin.routes"));
-
-module.exports = app;
+// ===== START =====
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log("Server running on " + PORT));
