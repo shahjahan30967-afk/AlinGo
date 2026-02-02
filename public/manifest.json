@@ -1,0 +1,20 @@
+{
+  "name": "AlinGo Ride",
+  "short_name": "AlinGo",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d1440",
+  "theme_color": "#1a237e",
+  "icons": [
+    {
+      "src": "LOGO.JPG",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "LOGO.JPG",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
