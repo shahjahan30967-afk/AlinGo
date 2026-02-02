@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import admin from "firebase-admin";
+import admin from "./config/firebase-admin.js";
 import cors from "cors";
 
 dotenv.config();
