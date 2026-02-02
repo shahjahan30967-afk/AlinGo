@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>AlinGo Ride</title>
+
+<!-- PWA -->
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#1a237e">
 
 <style>
 :root{
   --indigo:#1a237e;
   --indigo-dark:#0d1440;
   --green:#2ecc71;
+  --green-dark:#27ae60;
   --bg:#f5f7fa;
 }
 
@@ -28,6 +33,10 @@ body{
   display:flex;
   align-items:center;
   gap:15px;
+  position: fixed;
+  width: 100%;
+  top:0;
+  z-index:5;
 }
 
 .menu-btn{
@@ -76,7 +85,8 @@ body{
 
 /* ===== MAIN ===== */
 .main{
-  padding:20px;
+  padding:80px 20px 20px 20px;
+  transition:.3s;
 }
 
 .page{display:none}
@@ -138,11 +148,22 @@ body{
       <h2>Ride with Confidence</h2>
       <p>Indrive-style freedom & transparency</p>
       <button onclick="openPage('ride')">Book Ride</button>
+      <button id="installBtn">⬇️ Install App</button>
     </div>
 
     <div class="card">
       <h2>Order Food</h2>
       <button onclick="openPage('food')">Order Now</button>
+    </div>
+
+    <div class="card">
+      <h2>Hotel Booking</h2>
+      <button onclick="openPage('hotel')">Book Hotel</button>
+    </div>
+
+    <div class="card">
+      <h2>Tickets & Tours</h2>
+      <button onclick="openPage('ticket')">Buy Tickets</button>
     </div>
   </div>
 
@@ -156,22 +177,27 @@ body{
     </div>
   </div>
 
+  <!-- FOOD -->
   <div id="food" class="page">
     <div class="card"><h2>Food Module</h2></div>
   </div>
 
+  <!-- HOTEL -->
   <div id="hotel" class="page">
     <div class="card"><h2>Hotel Booking</h2></div>
   </div>
 
+  <!-- TICKETS -->
   <div id="ticket" class="page">
     <div class="card"><h2>Ticketing</h2></div>
   </div>
 
+  <!-- WALLET -->
   <div id="wallet" class="page">
     <div class="card"><h2>Wallet & Payments</h2></div>
   </div>
 
+  <!-- SUPPORT -->
   <div id="support" class="page">
     <div class="card"><h2>Help & Support</h2></div>
   </div>
@@ -179,15 +205,37 @@ body{
 </div>
 
 <script>
+// Sidebar toggle
 function toggleMenu(){
   document.getElementById("sidebar").classList.toggle("active");
 }
 
+// Page switch
 function openPage(id){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
   toggleMenu();
 }
+
+// PWA install
+let deferredPrompt;
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/service-worker.js");
+}
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById("installBtn").style.display = "block";
+});
+
+document.getElementById("installBtn").addEventListener("click", async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById("installBtn").style.display = "none";
+});
 </script>
 
 </body>
