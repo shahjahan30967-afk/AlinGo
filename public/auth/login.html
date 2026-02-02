@@ -1,18 +1,57 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Login | AlinGo</title>
-<link rel="stylesheet" href="auth.css">
-</head>
 <body>
 
-<h2>Enter Mobile Number</h2>
+<h2>Login</h2>
 
-<input id="phone" placeholder="03XXXXXXXXX">
+<input id="phone" placeholder="+92xxxxxxxxxx">
 <button onclick="sendOTP()">Send OTP</button>
 
-<p id="msg"></p>
+<div id="otpBox" style="display:none">
+  <input id="otp" placeholder="OTP">
+  <button onclick="verify()">Verify</button>
+</div>
 
-<script src="auth.js"></script>
+<div id="recaptcha"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<script>
+firebase.initializeApp({
+  apiKey: "YOUR_KEY",
+  authDomain: "YOUR_DOMAIN"
+});
+
+window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("recaptcha");
+
+let confirm;
+
+function sendOTP(){
+  firebase.auth().signInWithPhoneNumber(
+    document.getElementById("phone").value,
+    recaptchaVerifier
+  ).then(r=>{
+    confirm = r;
+    document.getElementById("otpBox").style.display="block";
+  });
+}
+
+function verify(){
+  confirm.confirm(document.getElementById("otp").value)
+    .then(async r=>{
+      const idToken = await r.user.getIdToken();
+      const res = await fetch("/api/otp/verify",{
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body:JSON.stringify({ token:idToken })
+      });
+      const data = await res.json();
+      localStorage.setItem("token",data.token);
+      location.href="/home.html";
+    });
+}
+</script>
+
 </body>
 </html>
