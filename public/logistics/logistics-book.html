@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Book Shipment | Alingo</title>
+</head>
+<body>
+
+<h2>Book a Shipment</h2>
+
+<form id="shipmentForm">
+  <input id="pickup" placeholder="Pickup Address" required />
+  <input id="delivery" placeholder="Delivery Address" required />
+  <input id="details" placeholder="Parcel Details" required />
+  <input id="weight" type="number" placeholder="Weight (kg)" />
+  <button>Book Shipment</button>
+</form>
+
+<script>
+shipmentForm.onsubmit = async (e) => {
+  e.preventDefault();
+
+  const token = localStorage.getItem("token");
+
+  const res = await fetch("/api/logistics/create", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      pickupAddress: pickup.value,
+      deliveryAddress: delivery.value,
+      parcelDetails: details.value,
+      weight: weight.value
+    })
+  });
+
+  const data = await res.json();
+  alert("Shipment booked! ID: " + data.shipment._id);
+  window.location.href = "logistics-history.html";
+};
+</script>
+
+</body>
+</html>
