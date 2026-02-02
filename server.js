@@ -15,4 +15,7 @@ app.use("/api/logistics", require("./routes/logistics.routes"));
 // Food routes
 app.use("/api/food", require("./routes/food.routes"));
 
+// Hotel routes
+app.use("/api/hotel", require("./routes/hotel.routes"));
+
 module.exports = app;
