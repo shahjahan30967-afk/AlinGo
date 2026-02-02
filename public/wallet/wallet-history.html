@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Transactions | Alingo</title>
+</head>
+<body>
+
+<h2>Wallet Transactions</h2>
+
+<ul id="txnList"></ul>
+
+<script>
+async function loadTransactions() {
+  const token = localStorage.getItem("token");
+  const res = await fetch("/api/wallet", { headers: { "Authorization": `Bearer ${token}` } });
+  const data = await res.json();
+
+  const list = document.getElementById("txnList");
+  list.innerHTML = "";
+
+  data.wallet.transactions.forEach(t => {
+    const li = document.createElement("li");
+    li.textContent = `${t.type.toUpperCase()} | $${t.amount} | ${t.description || "-"} | ${new Date(t.date).toLocaleString()}`;
+    list.appendChild(li);
+  });
+}
+
+loadTransactions();
+</script>
+
+</body>
+</html>
