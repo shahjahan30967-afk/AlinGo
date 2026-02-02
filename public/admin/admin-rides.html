@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rides | Alingo</title>
+</head>
+<body>
+
+<h2>All Rides</h2>
+
+<ul id="ridesList"></ul>
+
+<script>
+async function loadRides() {
+  const token = localStorage.getItem("token");
+  const res = await fetch("/api/admin/rides", { headers: { "Authorization": `Bearer ${token}` } });
+  const data = await res.json();
+
+  const list = document.getElementById("ridesList");
+  list.innerHTML = "";
+
+  data.rides.forEach(r => {
+    const li = document.createElement("li");
+    li.textContent = `User: ${r.user.name} | From: ${r.pickupLocation} → ${r.dropLocation} | Driver: ${r.driver ? r.driver.name : "-"} | Status: ${r.status}`;
+    list.appendChild(li);
+  });
+}
+
+loadRides();
+</script>
+
+</body>
+</html>
