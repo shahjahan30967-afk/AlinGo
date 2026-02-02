@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Wallet | Alingo</title>
+</head>
+<body>
+
+<h2>Wallet</h2>
+
+<button onclick="window.location.href='wallet-topup.html'">Add Funds</button>
+<button onclick="window.location.href='wallet-history.html'">Transactions</button>
+<p>Current Balance: $<span id="balance">0</span></p>
+
+<script>
+async function loadWallet() {
+  const token = localStorage.getItem("token");
+  const res = await fetch("/api/wallet", { headers: { "Authorization": `Bearer ${token}` } });
+  const data = await res.json();
+  document.getElementById("balance").innerText = data.wallet.balance.toFixed(2);
+}
+
+loadWallet();
+</script>
+
+</body>
+</html>
