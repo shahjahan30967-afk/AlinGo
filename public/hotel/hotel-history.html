@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Hotel Bookings | Alingo</title>
+</head>
+<body>
+
+<h2>My Hotel Bookings</h2>
+
+<ul id="bookingList"></ul>
+
+<script>
+async function fetchBookings() {
+  const token = localStorage.getItem("token");
+  const res = await fetch("/api/hotel/my-bookings", { headers: { "Authorization": `Bearer ${token}` } });
+  const data = await res.json();
+
+  const list = document.getElementById("bookingList");
+  list.innerHTML = "";
+
+  data.bookings.forEach(b => {
+    const li = document.createElement("li");
+    li.textContent = `${b.hotel.name} | ${b.hotel.location} | Rooms: ${b.roomsBooked} | Total: $${b.totalPrice} | Status: ${b.status}`;
+    list.appendChild(li);
+  });
+}
+
+fetchBookings();
+</script>
+
+</body>
+</html>
