@@ -1,6 +1,5 @@
 <script>
-// --- Token Check + Page Protection ---
-(async function(){
+window.addEventListener("DOMContentLoaded", async () => {
   try {
     const token = localStorage.getItem("token");
     if(!token){
@@ -9,35 +8,25 @@
       return;
     }
 
-    // Optional: decode token to show user info
     const greetEl = document.getElementById("greet");
-    if(greetEl){
-      greetEl.innerText = "Welcome, User!";
-    }
+    if(greetEl) greetEl.innerText = "Welcome, User!";
 
-    // Fetch current rides if rideList ul exists
     const rideListEl = document.getElementById("rideList");
     if(rideListEl){
       const res = await fetch("/api/ride/my", {
         headers: { "Authorization": "Bearer "+token }
       });
       const data = await res.json();
-
       rideListEl.innerHTML = "";
-      if(data.length===0){
-        rideListEl.innerHTML="<li>No rides yet</li>";
-      } else {
-        data.forEach(r=>{
-          const li = document.createElement("li");
-          li.innerText = `${r.pickup} → ${r.drop} | Status: ${r.status}`;
-          rideListEl.appendChild(li);
-        });
-      }
+      if(data.length===0) rideListEl.innerHTML="<li>No rides yet</li>";
+      else data.forEach(r=>{
+        const li = document.createElement("li");
+        li.innerText = `${r.pickup} → ${r.drop} | Status: ${r.status}`;
+        rideListEl.appendChild(li);
+      });
     }
-
   } catch(e){
     console.error(e);
-    alert("Error loading rides. Check console.");
   }
-})();
+});
 </script>
