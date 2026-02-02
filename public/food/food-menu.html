@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Food Menu | Alingo</title>
+</head>
+<body>
+
+<h2>Food Menu</h2>
+
+<ul id="menuList"></ul>
+
+<script>
+const cart = [];
+
+async function fetchMenu() {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch("/api/food/items", {
+    headers: { "Authorization": `Bearer ${token}` }
+  });
+
+  const data = await res.json();
+  const menuList = document.getElementById("menuList");
+  menuList.innerHTML = "";
+
+  data.foods.forEach(food => {
+    const li = document.createElement("li");
+    li.innerHTML = `${food.name} - $${food.price} 
+      <button onclick="addToCart('${food._id}')">Add</button>`;
+    menuList.appendChild(li);
+  });
+}
+
+function addToCart(foodId) {
+  const existing = cart.find(c => c.food === foodId);
+  if (existing) existing.quantity += 1;
+  else cart.push({ food: foodId, quantity: 1 });
+  alert("Added to cart!");
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+fetchMenu();
+</script>
+
+</body>
+</html>
