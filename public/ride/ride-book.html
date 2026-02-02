@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Book Ride | Alingo</title>
+</head>
+<body>
+
+<h2>Book a Ride</h2>
+
+<form id="rideForm">
+  <input id="pickup" placeholder="Pickup Location" required />
+  <input id="drop" placeholder="Drop Location" required />
+  <button>Book Ride</button>
+</form>
+
+<script>
+rideForm.onsubmit = async (e) => {
+  e.preventDefault();
+
+  const token = localStorage.getItem("token");
+
+  const res = await fetch("/api/ride/create", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      pickupLocation: pickup.value,
+      dropLocation: drop.value
+    })
+  });
+
+  const data = await res.json();
+  alert("Ride booked successfully! Ride ID: " + data.ride._id);
+  window.location.href = "ride-history.html";
+};
+</script>
+
+</body>
+</html>
