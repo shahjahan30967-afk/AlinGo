@@ -27,4 +27,7 @@ app.use("/api/wallet", require("./routes/wallet.routes"));
 // Driver Panel routes
 app.use("/api/driver", require("./routes/driver.routes"));
 
+// Admin Panel routes
+app.use("/api/admin", require("./routes/admin.routes"));
+
 module.exports = app;
