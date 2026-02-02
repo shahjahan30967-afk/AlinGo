@@ -1,26 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Wallet | Alingo</title>
+    <title>Wallet | Alingo</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 20px; }
+        .balance-box { font-size: 24px; color: #28a745; margin: 20px; }
+    </style>
 </head>
 <body>
+    <h2>My Alingo Wallet</h2>
+    <div class="balance-box">Current Balance: $<span id="balance">0.00</span></div>
+    
+    <button onclick="window.location.href='wallet-topup.html'">Add Funds</button>
+    <button onclick="window.location.href='wallet-history.html'">Transactions</button>
 
-<h2>Wallet</h2>
+    <script>
+    async function loadWallet() {
+        const token = localStorage.getItem("idToken"); // فائر بیس ٹوکن
+        if (!token) {
+            alert("براہ کرم پہلے لاگ ان کریں");
+            return;
+        }
 
-<button onclick="window.location.href='wallet-topup.html'">Add Funds</button>
-<button onclick="window.location.href='wallet-history.html'">Transactions</button>
-<p>Current Balance: $<span id="balance">0</span></p>
-
-<script>
-async function loadWallet() {
-  const token = localStorage.getItem("token");
-  const res = await fetch("/api/wallet", { headers: { "Authorization": `Bearer ${token}` } });
-  const data = await res.json();
-  document.getElementById("balance").innerText = data.wallet.balance.toFixed(2);
-}
-
-loadWallet();
-</script>
-
+        try {
+            const res = await fetch("/api/wallet/balance", { 
+                headers: { "Authorization": `Bearer ${token}` } 
+            });
+            const data = await res.json();
+            
+            if (data.success) {
+                document.getElementById("balance").innerText = data.balance.toFixed(2);
+            } else {
+                console.error("Error:", data.message);
+            }
+        } catch (err) {
+            console.error("Connection failed", err);
+        }
+    }
+    loadWallet();
+    </script>
 </body>
 </html>
