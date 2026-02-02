@@ -1,65 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AlinGo</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AlinGo Super App</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    body { font-family: Arial, sans-serif; margin:0; padding:0; display:flex; }
+    nav { width: 220px; background:#2c3e50; color:white; height:100vh; padding:20px; box-sizing:border-box; }
+    nav h2 { margin-top:0; font-size:20px; }
+    nav ul { list-style:none; padding:0; }
+    nav li { margin:15px 0; cursor:pointer; }
+    nav li:hover { text-decoration:underline; }
+    main { flex:1; padding:30px; }
+    .services { display:flex; flex-wrap:wrap; gap:20px; }
+    .service-btn { padding:15px 25px; font-size:16px; cursor:pointer; border:none; border-radius:8px; background:#3498db; color:white; }
+    .service-btn:hover { background:#2980b9; }
+    #profile { margin-bottom:30px; }
+  </style>
 </head>
 <body>
 
-<!-- SPLASH REMOVED -->
+  <!-- Side Menu -->
+  <nav>
+    <h2>AlinGo Menu</h2>
+    <ul>
+      <li onclick="navigate('rides')">Ride</li>
+      <li onclick="navigate('food')">Food</li>
+      <li onclick="navigate('hotel')">Hotel</li>
+      <li onclick="navigate('ticket')">Ticketing</li>
+      <li onclick="navigate('wallet')">Wallet</li>
+      <li onclick="navigate('logistics')">Logistics</li>
+      <li onclick="navigate('driver')">Driver Panel</li>
+      <li onclick="navigate('admin')">Admin Panel</li>
+    </ul>
+  </nav>
 
-<!-- HEADER -->
-<header class="topbar">
-  <div class="brand-header">
-    <h1 class="brand-title"><span class="alin">Alin</span><span class="go">Go</span></h1>
-    <p class="brand-slogan">Smart Life. One Super App.</p>
-  </div>
-  <button class="menu-btn" onclick="toggleMenu()">☰</button>
-</header>
-
-<!-- SIDE MENU -->
-<aside id="sideMenu" class="side-menu">
-  <h3>Services</h3>
-  <button onclick="showScreen('home')">Home Dashboard</button>
-  <button onclick="showScreen('ride')">Ride Booking</button>
-  <button onclick="showScreen('food')">Food Delivery</button>
-  <button onclick="showScreen('tickets')">Ticket Booking</button>
-</aside>
-
-<!-- MAIN -->
-<main id="content" class="hidden">
-
-<section id="home" class="screen active">
-
-  <!-- CENTER DISKS -->
-  <div class="center-disks">
-    <div class="outer-disk">
-      <div class="inner-disk">
-        <img src="LOGO.JPG" alt="Alingo Logo" />
-      </div>
+  <!-- Main Content -->
+  <main>
+    <div id="profile">
+      <h3>User Profile</h3>
+      <p><strong>Name:</strong> <span id="userName">Loading...</span></p>
+      <p><strong>Phone:</strong> <span id="userPhone">Loading...</span></p>
+      <button class="service-btn" onclick="logout()">Logout</button>
     </div>
-  </div>
 
-  <!-- FOOTER TRIANGLE SERVICES (SQUARE SPLIT FROM CENTER) -->
-  <div class="square-services">
-    <button class="sq-tri top">Ride Service</button>
-    <button class="sq-tri right">Food Delivery</button>
-    <button class="sq-tri bottom">Ticket Booking</button>
-    <button class="sq-tri left">More Services</button>
-  </div>
+    <h2>Main Services</h2>
+    <div class="services">
+      <button class="service-btn" onclick="navigate('rides')">Ride</button>
+      <button class="service-btn" onclick="navigate('food')">Food</button>
+      <button class="service-btn" onclick="navigate('hotel')">Hotel</button>
+      <button class="service-btn" onclick="navigate('ticket')">Ticketing</button>
+      <button class="service-btn" onclick="navigate('wallet')">Wallet</button>
+      <button class="service-btn" onclick="navigate('logistics')">Logistics</button>
+      <button class="service-btn" onclick="navigate('driver')">Driver Panel</button>
+      <button class="service-btn" onclick="navigate('admin')">Admin Panel</button>
+    </div>
+  </main>
 
-  <button id="installBtn" class="install-btn">Install App</button>
+  <script src="/js/otp.js"></script>
+  <script>
+    const token = localStorage.getItem("token");
 
-</section>
+    if(!token){
+      alert("Please login first");
+      window.location.href = "/index.html";
+    }
 
-<section id="ride" class="screen"><h2>Ride Service</h2></section>
-<section id="food" class="screen"><h2>Food Service</h2></section>
-<section id="tickets" class="screen"><h2>Ticket Service</h2></section>
+    // Load user profile after OTP verification
+    async function loadProfile() {
+      try {
+        const res = await fetch("/api/otp/verify", {
+          method:"POST",
+          headers:{ "Content-Type": "application/json" },
+          body: JSON.stringify({ idToken: token })
+        });
+        const data = await res.json();
+        if(data.success){
+          document.getElementById("userName").textContent = data.uid;
+          document.getElementById("userPhone").textContent = data.phone;
+        } else {
+          logout();
+        }
+      } catch(err){
+        console.error(err);
+        logout();
+      }
+    }
 
-</main>
+    loadProfile();
 
-<script src="js/app.js"></script>
+    // Navigation helper
+    function navigate(module){
+      switch(module){
+        case 'rides': window.location.href="/ride/ride-home.html"; break;
+        case 'food': window.location.href="/food/food-home.html"; break;
+        case 'hotel': window.location.href="/hotel/hotel-home.html"; break;
+        case 'ticket': window.location.href="/ticket/ticket-home.html"; break;
+        case 'wallet': window.location.href="/wallet/wallet-home.html"; break;
+        case 'logistics': window.location.href="/logistics/logistics-home.html"; break;
+        case 'driver': window.location.href="/driver/driver-home.html"; break;
+        case 'admin': window.location.href="/admin/admin-home.html"; break;
+        default: alert("Coming Soon"); break;
+      }
+    }
+
+    function logout(){
+      localStorage.removeItem("token");
+      window.location.href="/index.html";
+    }
+  </script>
 </body>
 </html>
