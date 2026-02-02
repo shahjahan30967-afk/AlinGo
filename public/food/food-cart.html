@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Food Cart | Alingo</title>
+</head>
+<body>
+
+<h2>Your Cart</h2>
+
+<button onclick="placeOrder()">Place Order</button>
+
+<script>
+async function placeOrder() {
+  const token = localStorage.getItem("token");
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+  if (cart.length === 0) return alert("Cart is empty");
+
+  const res = await fetch("/api/food/order", {
+    method: "POST",
+    headers: { 
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    },
+    body: JSON.stringify({ items: cart })
+  });
+
+  const data = await res.json();
+  alert("Order Placed! Order ID: " + data.order._id);
+  localStorage.removeItem("cart");
+  window.location.href = "food-history.html";
+}
+</script>
+
+</body>
+</html>
