@@ -1,11 +1,15 @@
-const express = require("express");
+import express from "express";
+import auth from "../middleware/auth.middleware.js";
+import {
+  getWallet,
+  updateDriverSavings,
+  adminMoveFunds
+} from "../controllers/wallet.controller.js";
+
 const router = express.Router();
-const walletController = require("../controllers/wallet.controller");
-const authMiddleware = require("../middlewares/auth.middleware");
 
-// OTP Protected routes
-router.get("/", authMiddleware, walletController.getWallet);
-router.post("/add", authMiddleware, walletController.addFunds);
-router.post("/pay", authMiddleware, walletController.pay);
+router.get("/", auth, getWallet);
+router.post("/driver/savings", auth, updateDriverSavings);
+router.post("/admin/transfer", auth, adminMoveFunds);
 
-module.exports = router;
+export default router;
