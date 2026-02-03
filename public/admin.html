@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Panel | Alingo</title>
+<style>
+  :root { --dark: #0B1C2D; --green: #2ECC71; --indigo: #1C2F4A; --white: #fff; }
+  body { font-family: sans-serif; background: var(--dark); color: var(--white); margin:0; }
+
+  /* Sidebar */
+  .sidebar { position: fixed; left: -250px; width: 250px; height: 100%; background: var(--indigo); transition: 0.3s; z-index: 10; padding: 20px; overflow-y:auto; }
+  .sidebar.active { left: 0; }
+  .close-btn { text-align: right; font-size: 24px; cursor: pointer; color: var(--green); }
+  .sidebar h2{ margin-top:0;}
+  .sidebar p{ cursor:pointer; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.1); }
+
+  header{ padding: 15px; background: var(--indigo); display: flex; align-items: center; gap:10px; }
+  header span{ font-size:24px; cursor:pointer; }
+
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; padding: 20px; }
+  .stat-card { background: #12263f; padding: 20px; border-radius: 12px; border-left: 5px solid var(--green); }
+  .table-container { padding: 20px; overflow-x: auto; }
+
+  table { width:100%; border-collapse: collapse; border-radius: 8px; overflow:hidden; }
+  th, td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  th{ background: var(--indigo); }
+  
+  .btn{ padding:8px 12px; border:none; border-radius:6px; cursor:pointer; background: var(--green); color:#000; font-weight:bold; margin-top:5px; }
+  
+  /* Modal */
+  .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:100; }
+  .modal-content { background: #12263f; padding:20px; border-radius:10px; width:300px; }
+  .modal input{ width:100%; padding:8px; margin-top:5px; border-radius:6px; border:none; }
+</style>
+</head>
+<body>
+
+<div class="sidebar" id="adminSidebar">
+  <div class="close-btn" onclick="toggleSidebar()">×</div>
+  <h2>Admin Menu</h2>
+  <hr>
+  <p onclick="navigate('stats')">📊 Overview</p>
+  <p onclick="navigate('investors')">💰 Manage Investors</p>
+  <p onclick="window.location.href='/index.html'">🏠 Back to App</p>
+</div>
+
+<header>
+  <span onclick="toggleSidebar()">☰</span>
+  <h2>Admin Dashboard</h2>
+</header>
+
+<div class="stats-grid">
+  <div class="stat-card"><h3>Total Investors</h3><h2 id="totalInv">0</h2></div>
+  <div class="stat-card"><h3>Total Investment</h3><h2 id="totalAmt">Rs 0</h2></div>
+  <div class="stat-card"><h3>Active Wallets</h3><h2 id="totalUsers">0</h2></div>
+</div>
+
+<div class="table-container">
+  <h3>Recent Investors 
+    <button class="btn" onclick="openModal()">+ Add Investor</button>
+  </h3>
+  <table>
+    <thead>
+      <tr><th>Name</th><th>Email</th><th>Invested Amount</th><th>Status</th><th>Actions</th></tr>
+    </thead>
+    <tbody id="investorTable"></tbody>
+  </table>
+</div>
+
+<!-- Modal for Adding Investor -->
+<div class="modal" id="investorModal">
+  <div class="modal-content">
+    <h3>Create Investor</h3>
+    <input type="text" id="invName" placeholder="Name">
+    <input type="email" id="invEmail" placeholder="Email">
+    <input type="text" id="invPhone" placeholder="Phone">
+    <button class="btn" onclick="createInvestor()">Create</button>
+    <button class="btn" onclick="closeModal()" style="background:#f44336;color:#fff;">Cancel</button>
+  </div>
+</div>
+
+<script>
+const token = localStorage.getItem("token");
+
+function toggleSidebar(){ document.getElementById("adminSidebar").classList.toggle("active"); }
+function navigate(page){ console.log("Navigate:",page); toggleSidebar(); }
+
+function openModal(){ document.getElementById("investorModal").style.display="flex"; }
+function closeModal(){ document.getElementById("investorModal").style.display="none"; }
+
+/* ==========================
+   Load Stats + Investors
+=========================== */
+async function loadStats(){
+  const res = await fetch("/api/investor/list",{ headers: { "Authorization":"Bearer "+token } });
+  const data = await res.json();
+  const tbody = document.getElementById("investorTable");
+  tbody.innerHTML = "";
+  if(data.success){
+    document.getElementById("totalInv").innerText = data.investors.length;
+    const totalAmt = data.investors.reduce((sum, i)=>sum+i.investedAmount,0);
+    document.getElementById("totalAmt").innerText = "Rs "+totalAmt.toLocaleString();
+    document.getElementById("totalUsers").innerText = data.investors.filter(i=>i.status==="active").length;
+
+    data.investors.forEach(inv=>{
+      const tr=document.createElement("tr");
+      tr.innerHTML=`<td>${inv.name}</td>
+                    <td>${inv.email}</td>
+                    <td>Rs ${inv.investedAmount}</td>
+                    <td style="color:${inv.status==="active"?"var(--green)":"#f44336"}">${inv.status}</td>
+                    <td>
+                      <button class="btn" onclick="invest('${inv._id}')">Invest</button>
+                    </td>`;
+      tbody.appendChild(tr);
+    });
+  }else{ tbody.innerHTML="<tr><td colspan='5'>No investors</td></tr>"; }
+}
+
+/* ==========================
+   Add New Investor
+=========================== */
+async function createInvestor(){
+  const name=document.getElementById("invName").value;
+  const email=document.getElementById("invEmail").value;
+  const phone=document.getElementById("invPhone").value;
+  if(!name||!email){ alert("Enter Name and Email"); return; }
+
+  const res=await fetch("/api/investor/create",{
+    method:"POST",
+    headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},
+    body:JSON.stringify({name,email,phone})
+  });
+  const data=await res.json();
+  if(data.success){ alert("Investor Created"); closeModal(); loadStats(); }
+  else alert(data.message);
+}
+
+/* ==========================
+   Invest Funds to Investor
+=========================== */
+async function invest(id){
+  const amount = prompt("Enter amount to invest:");
+  if(!amount || isNaN(amount)){ alert("Invalid amount"); return; }
+  const res = await fetch("/api/investor/invest",{
+    method:"POST",
+    headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},
+    body:JSON.stringify({investorId:id, amount:parseFloat(amount)})
+  });
+  const data = await res.json();
+  if(data.success){ alert("Investment Successful"); loadStats(); }
+  else alert(data.message);
+}
+
+loadStats();
+</script>
+
+</body>
+</html>
