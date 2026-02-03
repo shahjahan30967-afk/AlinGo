@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AlinGo Ride</title>
+<title>AlinGo Super App</title>
 
-<!-- PWA -->
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#1a237e">
 
@@ -16,232 +15,158 @@
   --green:#2ecc71;
   --bg:#f5f7fa;
 }
-
 *{margin:0;padding:0;box-sizing:border-box;}
+body{ font-family: system-ui, Arial, sans-serif; background:var(--bg); }
 
-body{
-  font-family: system-ui, Arial, sans-serif;
-  background:var(--bg);
-}
-
-/* ===== HEADER ===== */
-.header{
-  background:var(--indigo);
-  color:#fff;
-  padding:14px;
-  display:flex;
-  align-items:center;
-  gap:15px;
-  position: fixed;
-  width: 100%;
-  top:0;
-  z-index:5;
-}
-
-.menu-btn{
-  font-size:24px;
-  cursor:pointer;
-}
-
-.logo{
-  height:38px;
-}
-
-/* ===== SIDEBAR ===== */
-.sidebar{
-  position:fixed;
-  top:0;
-  left:-260px;
-  width:260px;
-  height:100%;
-  background:var(--indigo-dark);
-  color:#fff;
-  transition:.3s;
-  padding:20px;
-  z-index:10;
-}
-
+/* HEADER & SIDEBAR */
+.header{ background:var(--indigo); color:#fff; padding:14px; display:flex; align-items:center; gap:15px; position: fixed; width: 100%; top:0; z-index:5; }
+.menu-btn{ font-size:24px; cursor:pointer; }
+.logo{ height:38px; }
+.sidebar{ position:fixed; top:0; left:-260px; width:260px; height:100%; background:var(--indigo-dark); color:#fff; transition:.3s; padding:20px; z-index:10; }
 .sidebar.active{left:0;}
+.sidebar a{ display:block; padding:14px; color:#fff; text-decoration:none; border-radius:8px; margin-bottom:10px; cursor:pointer;}
+.sidebar a:hover{ background:var(--green); color:#0d1440; }
 
-.sidebar img{
-  width:120px;
-  margin-bottom:30px;
-}
-
-.sidebar a{
-  display:block;
-  padding:14px;
-  color:#fff;
-  text-decoration:none;
-  border-radius:8px;
-  margin-bottom:10px;
-}
-
-.sidebar a:hover{
-  background:var(--green);
-  color:#0d1440;
-}
-
-/* ===== MAIN ===== */
-.main{
-  padding:80px 20px 20px 20px;
-  transition:.3s;
-}
-
+/* MAIN CONTENT */
+.main{ padding:80px 20px 20px 20px; transition:.3s; }
 .page{display:none;}
 .page.active{display:block;}
-
-/* ===== CARDS ===== */
-.card{
-  background:#fff;
-  padding:20px;
-  border-radius:16px;
-  margin-bottom:20px;
-  box-shadow:0 6px 18px rgba(0,0,0,.1);
-}
-
-.card button{
-  margin-top:12px;
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:10px;
-  background:var(--green);
-  font-size:16px;
-  font-weight:600;
-  cursor:pointer;
-}
-
-.card button:hover{opacity:.9;}
+.card{ background:#fff; padding:20px; border-radius:16px; margin-bottom:20px; box-shadow:0 6px 18px rgba(0,0,0,.1); }
+.card button{ margin-top:12px; width:100%; padding:14px; border:none; border-radius:10px; background:var(--green); font-size:16px; font-weight:600; cursor:pointer; }
+input{ width: 100%; padding: 12px; margin: 5px 0; border: 1px solid #ddd; border-radius: 8px; }
 </style>
 </head>
 
 <body>
 
-<!-- ===== SIDEBAR ===== -->
 <div class="sidebar" id="sidebar">
-  <img src="LOGO.JPG" alt="Logo">
-
+  <img src="LOGO.JPG" alt="Logo" style="width:100px; margin-bottom:20px;">
   <a onclick="openPage('home')">🏠 Home</a>
   <a onclick="openPage('ride')">🚗 Ride</a>
-  <a onclick="openPage('food')">🍔 Food</a>
-  <a onclick="openPage('hotel')">🏨 Hotel</a>
   <a onclick="openPage('ticket')">🎫 Tickets</a>
   <a onclick="openPage('wallet')">💳 Wallet</a>
-  <a onclick="openPage('support')">🆘 Support</a>
+  <a onclick="logout()">🚪 Logout</a>
 </div>
 
-<!-- ===== HEADER ===== -->
 <div class="header">
   <div class="menu-btn" onclick="toggleMenu()">☰</div>
   <img src="LOGO.JPG" class="logo">
   <h3>AlinGo Ride</h3>
 </div>
 
-<!-- ===== MAIN ===== -->
 <div class="main">
-
-  <!-- HOME -->
   <div id="home" class="page active">
     <div class="card">
-      <h2>Ride with Confidence</h2>
-      <p>Indrive-style freedom & transparency</p>
-      <button onclick="openPage('ride')">Book Ride</button>
-      <button id="installBtn">⬇️ Install App</button>
-    </div>
-
-    <div class="card">
-      <h2>Order Food</h2>
-      <button onclick="openPage('food')">Order Now</button>
-    </div>
-
-    <div class="card">
-      <h2>Hotel Booking</h2>
-      <button onclick="openPage('hotel')">Book Hotel</button>
-    </div>
-
-    <div class="card">
-      <h2>Tickets & Tours</h2>
-      <button onclick="openPage('ticket')">Buy Tickets</button>
+      <h2>Welcome to AlinGo</h2>
+      <p>Your all-in-one transport solution.</p>
+      <button id="installBtn" style="display:none; background: var(--indigo); color: white;">⬇️ Install AlinGo App</button>
     </div>
   </div>
 
-  <!-- RIDE -->
   <div id="ride" class="page">
     <div class="card">
       <h2>Book a Ride</h2>
-      <input placeholder="Pickup Location"><br><br>
-      <input placeholder="Drop Location">
-      <button onclick="alert('Ride Request Sent')">Request Ride</button>
+      <input id="pickup" placeholder="Pickup Location">
+      <input id="drop" placeholder="Drop Location">
+      <button onclick="requestRide()">Request Ride</button>
     </div>
   </div>
 
-  <!-- FOOD -->
-  <div id="food" class="page">
-    <div class="card"><h2>Food Module</h2></div>
-  </div>
-
-  <!-- HOTEL -->
-  <div id="hotel" class="page">
-    <div class="card"><h2>Hotel Booking</h2></div>
-  </div>
-
-  <!-- TICKETS -->
   <div id="ticket" class="page">
-    <div class="card"><h2>Ticketing</h2></div>
+    <div class="card">
+      <h2>Buy Tickets</h2>
+      <input id="ticketName" placeholder="Event/Bus Name">
+      <button onclick="bookTicket()">Book Ticket</button>
+      <ul id="ticketList" style="margin-top:15px; list-style:none;"></ul>
+    </div>
   </div>
 
-  <!-- WALLET -->
   <div id="wallet" class="page">
-    <div class="card"><h2>Wallet & Payments</h2></div>
+    <div class="card">
+      <h2>Wallet Balance</h2>
+      <h1 id="balanceDisplay">$0.00</h1>
+      <button onclick="alert('Top-up feature coming soon!')">Add Funds</button>
+    </div>
   </div>
-
-  <!-- SUPPORT -->
-  <div id="support" class="page">
-    <div class="card"><h2>Help & Support</h2></div>
-  </div>
-
 </div>
 
 <script>
-// Sidebar toggle
-function toggleMenu(){
-  document.getElementById("sidebar").classList.toggle("active");
-}
+const token = localStorage.getItem("token");
 
-// Page switch
-function openPage(id){
+// 1. SIDEBAR & NAVIGATION
+function toggleMenu(){ document.getElementById("sidebar").classList.toggle("active"); }
+
+async function openPage(id){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
   toggleMenu();
+
+  if(!token && id !== 'home'){
+    alert("Please login first!");
+    window.location.href = "/login.html"; 
+    return;
+  }
+
+  // Fetch data based on page
+  if(id === 'wallet') fetchBalance();
+  if(id === 'ticket') fetchTickets();
 }
 
-// PWA install
+// 2. RIDE LOGIC (BACKEND GLUE)
+async function requestRide(){
+  const pickup = document.getElementById("pickup").value;
+  const drop = document.getElementById("drop").value;
+  const res = await fetch("/api/rides/create", {
+    method: "POST",
+    headers: { "Content-Type":"application/json", "Authorization": `Bearer ${token}` },
+    body: JSON.stringify({ pickupLocation: pickup, dropLocation: drop })
+  });
+  const data = await res.json();
+  if(data.success) alert("Ride requested successfully!");
+}
+
+// 3. TICKET LOGIC (BACKEND GLUE)
+async function bookTicket(){
+  const name = document.getElementById("ticketName").value;
+  const res = await fetch("/api/ticket/book", {
+    method: "POST",
+    headers: { "Content-Type":"application/json", "Authorization": `Bearer ${token}` },
+    body: JSON.stringify({ ticketName: name })
+  });
+  if(res.ok) { alert("Ticket Booked!"); fetchTickets(); }
+}
+
+async function fetchTickets(){
+  const res = await fetch("/api/ticket/list", { headers: { "Authorization": `Bearer ${token}` } });
+  const tickets = await res.json();
+  const list = document.getElementById("ticketList");
+  list.innerHTML = tickets.map(t => `<li>✅ ${t.ticketName} - ${t.status}</li>`).join('');
+}
+
+// 4. WALLET LOGIC
+async function fetchBalance(){
+  const res = await fetch("/api/wallet/balance", { headers: { "Authorization": `Bearer ${token}` } });
+  const data = await res.json();
+  if(data.success) document.getElementById("balanceDisplay").innerText = `$${data.balance.toFixed(2)}`;
+}
+
+// 5. PWA INSTALL LOGIC
 let deferredPrompt;
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/service-worker.js')
-    .then(()=>console.log('Service Worker Registered'))
-    .catch(e=>console.log('SW Error:',e));
-}
-
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  document.getElementById('installBtn').style.display = 'inline-block';
+  document.getElementById('installBtn').style.display = 'block';
 });
 
 document.getElementById('installBtn').addEventListener('click', async () => {
-  if (!deferredPrompt) return;
-  deferredPrompt.prompt();
-  const choiceResult = await deferredPrompt.userChoice;
-  if (choiceResult.outcome === 'accepted') {
-    console.log('User accepted the install prompt');
-  } else {
-    console.log('User dismissed the install prompt');
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt = null;
+    document.getElementById('installBtn').style.display = 'none';
   }
-  deferredPrompt = null;
-  document.getElementById('installBtn').style.display = 'none';
 });
+
+function logout(){ localStorage.clear(); window.location.reload(); }
 </script>
 
 </body>
