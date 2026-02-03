@@ -1,0 +1,58 @@
+<script>
+// گلو اپڈیٹ: ٹوکن کا نام مین فائل سے میچ کیا گیا
+const AUTH_TOKEN = localStorage.getItem("token");
+
+async function createInvestor(){
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+  const phone = document.getElementById("phone").value;
+  // عارضی طور پر ہم ای میل کو ہی یوزر آئی ڈی کے طور پر استعمال کر رہے ہیں اگر لاگ ان نہ ہو
+  const userId = email; 
+
+  const res = await fetch("/api/investor/create", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Authorization": "Bearer " + AUTH_TOKEN },
+    body: JSON.stringify({ name, email, phone, userId })
+  });
+  const data = await res.json();
+  if(data.success) { alert("Investor Created Successfully"); listInvestors(); }
+  else alert(data.message);
+}
+
+async function investFunds(){
+  const userId = document.getElementById("investorId").value; // اب ہم ای میل یا آئی ڈی استعمال کریں گے
+  const amount = document.getElementById("amount").value;
+
+  const res = await fetch("/api/investor/invest", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Authorization": "Bearer " + AUTH_TOKEN },
+    body: JSON.stringify({ userId, amount })
+  });
+  const data = await res.json();
+  if(data.success) { alert("Investment Updated!"); listInvestors(); }
+  else alert(data.message);
+}
+
+async function listInvestors(){
+  const res = await fetch("/api/investor/list", {
+    headers: { "Authorization": "Bearer " + AUTH_TOKEN }
+  });
+  const data = await res.json();
+  const ul = document.getElementById("investorList");
+  ul.innerHTML = "";
+  if(data.success && data.investors.length > 0){
+    data.investors.forEach(inv => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <div class="row">
+          <span><b>${inv.name}</b><br><small>${inv.userId}</small></span>
+          <strong>Rs ${inv.investedAmount.toFixed(2)}</strong>
+        </div>`;
+      ul.appendChild(li);
+    });
+  } else {
+    ul.innerHTML = "<li>No investors found.</li>";
+  }
+}
+listInvestors();
+</script>
