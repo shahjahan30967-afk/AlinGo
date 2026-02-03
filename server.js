@@ -22,7 +22,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public")); // public folder serving
-
 /* ==============================
    FIREBASE ADMIN INIT
 ================================ */
@@ -80,7 +79,7 @@ app.use("/api/wallet", walletRoutes);
 app.use("/api/driver", driverRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/logistics", logisticsRoutes);
-
+app.use("/api/investor", investorRoutes);
 /* ==============================
    HOME PAGE
 ================================ */
