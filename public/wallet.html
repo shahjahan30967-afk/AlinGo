@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Alingo Wallet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Theme Colors -->
+  <meta name="theme-color" content="#0B1C2D" />
+
+  <style>
+    :root{
+      --dark-blue:#0B1C2D;
+      --indigo:#1C2F4A;
+      --green:#2ECC71;
+      --light:#F4F6F8;
+      --text:#ffffff;
+    }
+
+    body{
+      margin:0;
+      font-family: Arial, sans-serif;
+      background:var(--dark-blue);
+      color:var(--text);
+    }
+
+    header{
+      padding:16px;
+      background:var(--indigo);
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    header img{
+      height:40px;
+    }
+
+    header h1{
+      font-size:20px;
+      margin:0;
+    }
+
+    .container{
+      padding:16px;
+    }
+
+    .card{
+      background:#12263f;
+      border-radius:12px;
+      padding:16px;
+      margin-bottom:16px;
+    }
+
+    .balance{
+      font-size:28px;
+      font-weight:bold;
+      color:var(--green);
+    }
+
+    .sub{
+      opacity:.8;
+      font-size:13px;
+    }
+
+    .btn{
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:8px;
+      background:var(--green);
+      color:#000;
+      font-size:16px;
+      font-weight:bold;
+      cursor:pointer;
+      margin-top:10px;
+    }
+
+    .btn.secondary{
+      background:#ffffff;
+      color:#000;
+    }
+
+    ul{
+      list-style:none;
+      padding:0;
+      margin:0;
+    }
+
+    li{
+      padding:10px 0;
+      border-bottom:1px solid rgba(255,255,255,.1);
+      font-size:14px;
+    }
+
+    .row{
+      display:flex;
+      justify-content:space-between;
+    }
+
+    footer{
+      text-align:center;
+      padding:14px;
+      font-size:12px;
+      opacity:.7;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="/assets/LOGO.jpg" alt="Alingo Logo">
+  <h1>Wallet</h1>
+</header>
+
+<div class="container">
+
+  <!-- MAIN BALANCE -->
+  <div class="card">
+    <div class="sub">Available Balance</div>
+    <div class="balance" id="balance">--</div>
+  </div>
+
+  <!-- DRIVER SAVINGS (Only if enabled) -->
+  <div class="card" id="savingsBox" style="display:none">
+    <div class="sub">Savings Pocket</div>
+    <div class="balance" id="savingsAmount">--</div>
+    <div class="sub" id="savingsPercent"></div>
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="card">
+    <button class="btn" onclick="refreshWallet()">Refresh</button>
+    <button class="btn secondary" onclick="goHome()">Home</button>
+  </div>
+
+  <!-- TRANSACTIONS -->
+  <div class="card">
+    <h3>Transactions</h3>
+    <ul id="txList">
+      <li>Loading...</li>
+    </ul>
+  </div>
+
+</div>
+
+<footer>
+  © Alingo Wallet System
+</footer>
+
+<script>
+/* =========================
+   AUTH TOKEN (OTP BASED)
+========================= */
+// آپ اپنے سسٹم کے مطابق یہاں Token set کریں
+const AUTH_TOKEN = localStorage.getItem("authToken");
+
+/* =========================
+   FETCH WALLET
+========================= */
+async function loadWallet(){
+  try{
+    const res = await fetch("/api/wallet",{
+      headers:{
+        "Authorization":"Bearer " + AUTH_TOKEN
+      }
+    });
+
+    const data = await res.json();
+    if(!data.success) throw new Error("Wallet error");
+
+    const wallet = data.wallet;
+
+    document.getElementById("balance").innerText =
+      "Rs " + wallet.balance.toFixed(2);
+
+    // Driver savings
+    if(wallet.savingsPocket && wallet.savingsPocket.enabled){
+      document.getElementById("savingsBox").style.display="block";
+      document.getElementById("savingsAmount").innerText =
+        "Rs " + wallet.savingsPocket.amount.toFixed(2);
+      document.getElementById("savingsPercent").innerText =
+        wallet.savingsPocket.percentage + "% auto saved";
+    }
+
+    // Transactions
+    const list = document.getElementById("txList");
+    list.innerHTML = "";
+
+    wallet.transactions.slice().reverse().forEach(tx=>{
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <div class="row">
+          <span>${tx.source || "Transaction"}</span>
+          <strong>${tx.type === "credit" ? "+" : "-"}Rs ${tx.amount}</strong>
+        </div>
+        <div class="sub">${new Date(tx.createdAt).toLocaleString()}</div>
+      `;
+      list.appendChild(li);
+    });
+
+    if(wallet.transactions.length === 0){
+      list.innerHTML = "<li>No transactions yet</li>";
+    }
+
+  }catch(err){
+    alert("Wallet load failed");
+    console.error(err);
+  }
+}
+
+function refreshWallet(){
+  loadWallet();
+}
+
+function goHome(){
+  window.location.href="/";
+}
+
+// Auto load
+loadWallet();
+</script>
+
+</body>
+</html>
