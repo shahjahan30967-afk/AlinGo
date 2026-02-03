@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AlinGo Ride</title>
 
 <!-- PWA -->
@@ -14,11 +14,10 @@
   --indigo:#1a237e;
   --indigo-dark:#0d1440;
   --green:#2ecc71;
-  --green-dark:#27ae60;
   --bg:#f5f7fa;
 }
 
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;}
 
 body{
   font-family: system-ui, Arial, sans-serif;
@@ -62,7 +61,7 @@ body{
   z-index:10;
 }
 
-.sidebar.active{left:0}
+.sidebar.active{left:0;}
 
 .sidebar img{
   width:120px;
@@ -89,8 +88,8 @@ body{
   transition:.3s;
 }
 
-.page{display:none}
-.page.active{display:block}
+.page{display:none;}
+.page.active{display:block;}
 
 /* ===== CARDS ===== */
 .card{
@@ -113,7 +112,7 @@ body{
   cursor:pointer;
 }
 
-.card button:hover{opacity:.9}
+.card button:hover{opacity:.9;}
 </style>
 </head>
 
@@ -219,22 +218,29 @@ function openPage(id){
 
 // PWA install
 let deferredPrompt;
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/service-worker.js");
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js')
+    .then(()=>console.log('Service Worker Registered'))
+    .catch(e=>console.log('SW Error:',e));
 }
 
-window.addEventListener("beforeinstallprompt", (e) => {
+window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  document.getElementById("installBtn").style.display = "block";
+  document.getElementById('installBtn').style.display = 'inline-block';
 });
 
-document.getElementById("installBtn").addEventListener("click", async () => {
+document.getElementById('installBtn').addEventListener('click', async () => {
   if (!deferredPrompt) return;
   deferredPrompt.prompt();
-  await deferredPrompt.userChoice;
+  const choiceResult = await deferredPrompt.userChoice;
+  if (choiceResult.outcome === 'accepted') {
+    console.log('User accepted the install prompt');
+  } else {
+    console.log('User dismissed the install prompt');
+  }
   deferredPrompt = null;
-  document.getElementById("installBtn").style.display = "none";
+  document.getElementById('installBtn').style.display = 'none';
 });
 </script>
 
