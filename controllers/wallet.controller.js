@@ -1,81 +1,128 @@
-// ہم براہ راست سروس یا ماڈل سے جڑ رہے ہیں (آپ کے اسٹرکچر کے مطابق)
-import Withdraw from "../models/Withdraw.js"; 
-import Wallet from "../models/Wallet.js"; 
+import {
+  getOrCreateWallet,
+  distributePayment,
+  requestWithdraw,
+  processWithdraw
+} from "../services/wallet.service.js";
 
-// 1. User / Driver: Request Withdraw (رقم نکالنے کی درخواست)
-export const withdrawRequest = async (req, res) => {
+/**
+ * =========================================
+ * 👤 USER / DRIVER / INVESTOR WALLET
+ * =========================================
+ */
+
+/**
+ * GET /api/wallet/me
+ * لاگ ان یوزر کا والٹ ڈیٹا حاصل کریں
+ */
+export const getMyWallet = async (req, res) => {
   try {
-    const { amount, payoutMethod, bankDetails } = req.body;
-    const ownerId = req.user.id; // گلو کوڈ: ٹوکن سے آئی ڈی حاصل کرنا
-    const ownerType = req.user.role; // یوزر یا ڈرائیور
-
-    // لاجک: چیک کریں کہ بیلنس کافی ہے یا نہیں
-    const wallet = await Wallet.findOne({ userId: ownerId });
-    if (!wallet || wallet.balance < amount) {
-      return res.status(400).json({ success: false, message: "نا کافی بیلنس" });
-    }
-
-    // رقم نکالنے کی درخواست بنائیں
-    const withdraw = await Withdraw.create({
-      ownerId,
-      ownerType,
-      amount,
-      payoutMethod,
-      bankDetails,
-      status: "pending"
+    // سروس سے والٹ حاصل کریں یا بنوائیں
+    const wallet = await getOrCreateWallet({
+      ownerId: req.user.id,
+      ownerType: req.user.role 
     });
 
-    // گلو کوڈ: عارضی طور پر والٹ سے رقم "Hold" کرنا (اختیاری)
-    wallet.balance -= amount;
-    await wallet.save();
-
-    res.json({ success: true, message: "درخواست موصول ہو گئی ہے", withdraw });
+    res.status(200).json({
+      success: true,
+      data: wallet
+    });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    res.status(500).json({
+      success: false,
+      message: "والٹ ڈیٹا حاصل کرنے میں ناکامی: " + err.message
+    });
   }
 };
 
-// 2. Admin: Approve / Reject (ایڈمن کا فیصلہ)
-export const withdrawProcess = async (req, res) => {
+/**
+ * =========================================
+ * 💸 PAYMENT DISTRIBUTION
+ * (Ride / Order / Ticket completion)
+ * رائیڈ ختم ہونے پر 2%+2% کی تقسیم کا عمل
+ * =========================================
+ */
+export const distributePaymentController = async (req, res) => {
   try {
-    // گلو کوڈ: چیک کریں کہ کیا یہ واقعی ایڈمن ہے
-    if (req.user.role !== 'admin') {
-      return res.status(403).json({ success: false, message: "صرف ایڈمن یہ کارروائی کر سکتا ہے" });
-    }
+    const { amount, driverId } = req.body;
 
-    const { withdrawId, approve, adminNote } = req.body;
-    const withdraw = await Withdraw.findById(withdrawId);
+    // سروس کو کال کریں جو بکٹس میں پیسے بانٹتی ہے
+    const result = await distributePayment({
+      amount,
+      driverId
+    });
 
-    if (!withdraw) return res.status(404).json({ message: "درخواست نہیں ملی" });
-
-    // اگر ریجیکٹ ہو تو رقم واپس والٹ میں بھیجنا
-    if (!approve) {
-      const wallet = await Wallet.findOne({ userId: withdraw.ownerId });
-      if (wallet) {
-        wallet.balance += withdraw.amount;
-        await wallet.save();
-      }
-      withdraw.status = "rejected";
-    } else {
-      withdraw.status = "approved";
-    }
-
-    withdraw.adminNote = adminNote;
-    await withdraw.save();
-
-    res.json({ success: true, withdraw });
+    res.json({
+      success: true,
+      message: "ادائیگی کامیابی سے تقسیم ہو گئی",
+      split: result.split // 2%+2% کی تفصیلات
+    });
   } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
+    res.status(500).json({
+      success: false,
+      message: "ادائیگی کی تقسیم میں غلطی: " + err.message
+    });
   }
 };
 
-// 3. Admin: List All (تمام درخواستوں کی لسٹ)
-export const withdrawList = async (req, res) => {
+/**
+ * =========================================
+ * 🏦 REQUEST WITHDRAW
+ * رقم نکلوانے کی درخواست (بیلنس لاک لاجک)
+ * =========================================
+ */
+export const requestWithdrawController = async (req, res) => {
   try {
-    // گلو کوڈ: ایڈمن چیک اور ڈیٹا پاپولیشن
-    const withdraws = await Withdraw.find().sort({ createdAt: -1 });
-    res.json({ success: true, withdraws });
+    const { amount, payoutMethod, bankDetails } = req.body;
+
+    const withdraw = await requestWithdraw({
+      ownerId: req.user.id,
+      ownerType: req.user.role,
+      amount,
+      payoutMethod,
+      bankDetails
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "ود ڈرا کی درخواست موصول ہو گئی اور رقم لاک کر دی گئی ہے",
+      withdraw
+    });
   } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
+    // 400 Bad Request اگر بیلنس کم ہو
+    res.status(400).json({
+      success: false,
+      message: err.message
+    });
+  }
+};
+
+/**
+ * =========================================
+ * 🛡 ADMIN: APPROVE / REJECT / PAID
+ * ایڈمن کی طرف سے درخواست پر کارروائی
+ * =========================================
+ */
+export const adminProcessWithdrawController = async (req, res) => {
+  try {
+    const { withdrawId, action, note } = req.body;
+
+    const result = await processWithdraw({
+      withdrawId,
+      action, // approve | reject | paid
+      adminId: req.user.id,
+      note
+    });
+
+    res.json({
+      success: true,
+      message: `درخواست کامیابی سے ${action} کر دی گئی`,
+      status: result.finalStatus
+    });
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      message: err.message
+    });
   }
 };
