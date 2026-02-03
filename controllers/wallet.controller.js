@@ -1,46 +1,48 @@
-const Wallet = require("../models/Wallet");
-const User = require("../models/User");
+import Wallet from "../models/Wallet.model.js";
+import { ensureWallet } from "../services/wallet.service.js";
 
-// GET WALLET BALANCE
-exports.getWallet = async (req, res) => {
-  let wallet = await Wallet.findOne({ user: req.user.id });
-  if (!wallet) {
-    wallet = await Wallet.create({ user: req.user.id });
-  }
-  res.json({ success: true, wallet });
-};
-
-// ADD FUNDS (Top-up)
-exports.addFunds = async (req, res) => {
-  const { amount, description } = req.body;
-
-  if (amount <= 0) return res.status(400).json({ message: "Invalid amount" });
-
-  let wallet = await Wallet.findOne({ user: req.user.id });
-  if (!wallet) {
-    wallet = await Wallet.create({ user: req.user.id });
-  }
-
-  wallet.balance += amount;
-  wallet.transactions.push({ type: "credit", amount, description });
-  await wallet.save();
+export const getWallet = async (req, res) => {
+  const wallet = await ensureWallet({
+    ownerId: req.user.id,
+    ownerType: req.user.role
+  });
 
   res.json({ success: true, wallet });
 };
 
-// PAY FOR SERVICE (Deduct)
-exports.pay = async (req, res) => {
-  const { amount, description } = req.body;
+export const updateDriverSavings = async (req, res) => {
+  const { enabled, percentage } = req.body;
 
-  if (amount <= 0) return res.status(400).json({ message: "Invalid amount" });
+  const wallet = await Wallet.findOne({
+    ownerId: req.user.id,
+    ownerType: "driver"
+  });
 
-  let wallet = await Wallet.findOne({ user: req.user.id });
-  if (!wallet || wallet.balance < amount)
-    return res.status(400).json({ message: "Insufficient balance" });
+  wallet.savingsPocket.enabled = enabled;
+  wallet.savingsPocket.percentage = percentage || 0;
 
-  wallet.balance -= amount;
-  wallet.transactions.push({ type: "debit", amount, description });
   await wallet.save();
+  res.json({ success: true });
+};
 
-  res.json({ success: true, wallet });
+export const adminMoveFunds = async (req, res) => {
+  const { from, to, amount } = req.body;
+
+  const wallet = await Wallet.findOne({ ownerType: "admin" });
+
+  if (wallet.adminBuckets[from] < amount)
+    return res.status(400).json({ message: "Insufficient funds" });
+
+  wallet.adminBuckets[from] -= amount;
+  wallet.adminBuckets[to] += amount;
+
+  wallet.transactions.push({
+    type: "debit",
+    amount,
+    source: "Admin Transfer",
+    meta: { from, to }
+  });
+
+  await wallet.save();
+  res.json({ success: true });
 };
