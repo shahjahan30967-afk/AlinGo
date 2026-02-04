@@ -1,160 +1,196 @@
-:root{
-  --blue:#0b1c2d;
-  --blue-light:#132b45;
-  --green:#1fd18b;
-  --green-light:#6af0b8;
+/* 1. پراجیکٹ کے بنیادی رنگ (Root Variables) */
+:root {
+  --blue: #0b1c2d;
+  --blue-light: #132b45;
+  --green: #1fd18b;
+  --green-light: #6af0b8;
+  --white: #ffffff;
+  --sidebar-width: 260px;
 }
 
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:linear-gradient(135deg,var(--blue),var(--green-light));
-  color:white;
+/* 2. بنیادی ترتیبات (Base Styles) */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, var(--blue), var(--green-light));
+  color: var(--white);
+  overflow-x: hidden;
+  min-height: 100vh;
 }
 
-.hidden{display:none}
+.hidden { display: none !important; }
+.alin { color: var(--green); }
+.go { color: #1e90ff; }
 
-.alin{color:var(--green)}
-.go{color:#1e90ff}
-
-/* SPLASH */
-.splash{
-  position:fixed;
-  inset:0;
-  background:white;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:999;
+/* 3. اسپلش اسکرین (Splash Screen) */
+.splash {
+  position: fixed;
+  inset: 0;
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* سب سے اوپر */
 }
 
-.white-splash .logo-ring{
-  border:2px solid var(--green);
-  padding:14px;
-  border-radius:50%;
+.logo-ring {
+  border: 2px solid var(--green);
+  padding: 14px;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
 }
 
-.white-splash .logo-inner{
-  border:2px solid var(--blue);
-  border-radius:50%;
-  padding:22px;
+.logo-inner {
+  border: 2px solid var(--blue);
+  border-radius: 50%;
+  padding: 22px;
 }
 
-.white-splash img{width:100px}
+.logo-inner img { width: 100px; height: auto; }
 
-.logo-ring{
-  border:2px solid var(--green);
-  padding:12px;
-  border-radius:50%;
+@keyframes pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(31, 209, 139, 0.4); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(31, 209, 139, 0); }
+  100% { transform: scale(1); }
 }
 
-.logo-inner{
-  border:2px solid var(--blue);
-  border-radius:50%;
-  padding:20px;
+/* 4. ہیڈر اور ٹاپ بار (Header) */
+.topbar {
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
-.logo-inner img{width:90px}
+.brand-header { text-align: center; flex: 1; }
+.brand-title { font-size: 28px; font-weight: bold; margin: 0; }
+.brand-slogan { font-size: 12px; color: #c8ffe8; margin-top: 4px; }
 
-.brand-name{margin-top:20px;position:relative}
-
-.shine{
-  width:120px;
-  height:6px;
-  background:gold;
-  border-radius:50%;
-  margin:auto;
-  box-shadow:0 0 10px gold;
+.menu-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 5px;
 }
 
-/* HEADER */
-.topbar{
-  background:linear-gradient(90deg,var(--blue),var(--green));
-  padding:16px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+/* 5. سائیڈ بار اور اوورلے (Sidebar & Overlay) */
+#sidebar {
+  position: fixed;
+  left: -260px;
+  top: 0;
+  width: var(--sidebar-width);
+  height: 100%;
+  background: var(--blue);
+  color: white;
+  transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1002;
+  box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+  padding-top: 60px;
 }
 
+#sidebar.open { left: 0; }
 
+#sidebar ul { list-style: none; padding: 0; }
+
+#sidebar li {
+  padding: 18px 25px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  cursor: pointer;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+#sidebar li:hover {
+  background: var(--green);
+  color: var(--blue);
+}
 
 .close-btn {
   position: absolute;
-  top: 10px;
+  top: 15px;
   right: 20px;
   font-size: 30px;
-  color: #fff;
   cursor: pointer;
+}
+
+#overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 1001;
+  backdrop-filter: blur(3px);
+}
+
+#overlay.show { display: block; }
+
+/* 6. مین سروسز ڈسک اور گرڈ (Main UI Components) */
+.center-disks { display: flex; justify-content: center; margin: 40px 0; }
+
+.outer-disk {
+  width: 260px; height: 260px;
+  background: radial-gradient(circle, var(--green), var(--blue));
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 40px rgba(31, 209, 139, 0.5);
+}
+
+.inner-disk {
+  width: 85%; height: 85%;
+  background: white; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Triangle Grid System */
+.square-services {
+  width: 280px; height: 280px;
+  margin: 40px auto;
+  position: relative;
+}
+
+.sq-tri {
+  position: absolute;
+  width: 100%; height: 100%;
+  background: var(--green);
+  color: var(--blue);
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: 0.3s;
 }
 
-.close-btn:hover {
-  color: var(--green); /* ہور کرنے پر رنگ بدل جائے گا */
-}
+.sq-tri:active { opacity: 0.8; transform: scale(0.95); }
 
+.sq-tri.top { clip-path: polygon(0 0, 100% 0, 50% 50%); }
+.sq-tri.right { clip-path: polygon(100% 0, 100% 100%, 50% 50%); }
+.sq-tri.bottom { clip-path: polygon(0 100%, 100% 100%, 50% 50%); }
+.sq-tri.left { clip-path: polygon(0 0, 0 100%, 50% 50%); }
 
-
-
-.brand-header{text-align:center;flex:1}
-.brand-title{font-size:32px;margin:0}
-.brand-slogan{font-size:14px;color:#c8ffe8;margin-top:4px}
-
-.menu-btn{background:none;border:none;color:white;font-size:22px}
-
-/* HOME */
-.home-brand{text-align:center;margin-top:20px}
-
-.center-disks{display:flex;justify-content:center;margin:30px 0}
-.outer-disk{
-  width:260px;height:260px;
-  background:radial-gradient(circle,var(--green),var(--blue));
-  border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 0 30px rgba(31,209,139,0.7);
-}
-.inner-disk{
-  width:80%;height:80%;
-  background:white;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-}
-.inner-disk img{width:120px}
-
-.white-disk{
-  width:80%;height:80%;
-  background:white;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-}
-
-.white-disk img{width:70px}
-
-/* TRIANGLE GRID */
-.square-services{
-  width:260px;height:260px;
-  margin:30px auto;
-  position:relative;
-}
-
-.sq-tri{
-  position:absolute;
-  width:100%;height:100%;
-  background:var(--green);
-  color:var(--blue);
-  font-weight:bold;
-  border:none;
-}
-
-.sq-tri.top{clip-path:polygon(0 0,100% 0,50% 50%)}
-.sq-tri.right{clip-path:polygon(100% 0,100% 100%,50% 50%)}
-.sq-tri.bottom{clip-path:polygon(0 100%,100% 100%,50% 50%)}
-.sq-tri.left{clip-path:polygon(0 0,0 100%,50% 50%)}
-
-.install-btn{
-  display:block;
-  margin:20px auto;
-  padding:12px 24px;
-  border:none;
-  background:var(--green);
-  color:var(--blue);
-  font-size:16px;
-  border-radius:25px;
+/* 7. بٹنز (Buttons) */
+.install-btn {
+  display: block;
+  margin: 30px auto;
+  padding: 14px 32px;
+  border: none;
+  background: var(--green);
+  color: var(--blue);
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(31, 209, 139, 0.4);
 }
