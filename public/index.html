@@ -1,374 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AlinGo - All-in-One Mobility</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AlinGo</title>
 
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#1a237e">
-    
-    <link rel="stylesheet" href="/public/css/style.css">
-
-    <style>
-        :root {
-            --indigo: #1a237e;
-            --indigo-dark: #0d1440;
-            --green: #2ecc71;
-            --bg: #f5f7fa;
-            --white: #ffffff;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            background: var(--bg);
-            color: #333;
-        }
-
-        /* ===== HEADER ===== */
-        .header {
-            background: var(--indigo);
-            color: var(--white);
-            padding: 14px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-
-        .header-left { display: flex; align-items: center; gap: 15px; }
-        .menu-btn { font-size: 24px; cursor: pointer; }
-        .logo { height: 35px; border-radius: 5px; }
-
-        /* Language Selector in Header */
-        #languageSelect {
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.3);
-            border-radius: 4px;
-            padding: 4px;
-            outline: none;
-        }
-
-        /* ===== SIDEBAR & OVERLAY ===== */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: -280px;
-            width: 280px;
-            height: 100%;
-            background: var(--indigo-dark);
-            color: var(--white);
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 25px;
-            z-index: 200;
-            overflow-y: auto;
-        }
-
-        .sidebar.active { left: 0; }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            display: none;
-            z-index: 150;
-        }
-
-        .overlay.active { display: block; }
-
-        .profile-area { text-align: center; margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; }
-        .profile-area img { width: 80px; margin-bottom: 10px; }
-
-        .sidebar a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 14px;
-            color: #bdc3c7;
-            text-decoration: none;
-            border-radius: 8px;
-            margin-bottom: 5px;
-            transition: 0.2s;
-            cursor: pointer;
-        }
-
-        .sidebar a:hover, .sidebar a.active-link { background: var(--indigo); color: white; }
-        .sidebar a.logout { color: #ff4d4d; margin-top: 20px; }
-
-        /* ===== MAIN CONTENT ===== */
-        .main-container { padding: 90px 20px 30px 20px; max-width: 600px; margin: 0 auto; }
-        .page { display: none; animation: fadeIn 0.4s ease; }
-        .page.active { display: block; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* ===== UI CARDS ===== */
-        .card {
-            background: var(--white);
-            padding: 20px;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border: 1px solid #eee;
-        }
-
-        .card h2 { margin-bottom: 10px; color: var(--indigo); font-size: 1.4rem; }
-        .card p { color: #666; font-size: 0.95rem; margin-bottom: 15px; }
-
-        input {
-            width: 100%;
-            padding: 14px;
-            margin: 10px 0;
-            border: 1.5px solid #eee;
-            border-radius: 12px;
-            background: #f9f9f9;
-            font-size: 16px;
-        }
-
-        button.primary-btn {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 12px;
-            background: var(--green);
-            color: #0d1440;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        button.primary-btn:active { transform: scale(0.98); }
-
-        /* Balance Badge */
-        .balance-card { background: linear-gradient(135deg, var(--indigo), #3f51b5); color: white; text-align: center; }
-        .balance-amount { font-size: 2.5rem; font-weight: 800; margin: 10px 0; }
-
-    </style>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/public/css/style.css">
 </head>
 
 <body>
 
-    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-    <aside class="sidebar" id="sidebar">
-        <div class="profile-area">
-            <img src="/public/images/logo.png" alt="AlinGo">
-            <h3>Welcome</h3>
-            <p id="userPhone">AlinGo User</p>
-        </div>
-        
-        <nav>
-            <a onclick="openPage('home')" class="active-link">🏠 Home</a>
-            <a onclick="openPage('ride')">🚗 City Ride</a>
-            <a onclick="openPage('food')">🍔 Food Delivery</a>
-            <a onclick="openPage('hotel')">🏨 Hotel Booking</a>
-            <a onclick="openPage('ticket')">🎫 Tickets & Tours</a>
-            <a onclick="openPage('wallet')">💳 My Wallet</a>
-            <a onclick="openPage('support')">🆘 Help & Safety</a>
-            <a onclick="openPage('investor')">📈 Investor Portal</a>
-            <a onclick="logout()" class="logout">🚪 Logout</a>
-        </nav>
-    </aside>
+<!-- 🌍 LANGUAGE SELECTOR -->
+<div class="top-bar">
+  <select id="languageSelect">
+    <option value="en">English</option>
+    <option value="ur">اردو</option>
+    <option value="ar">العربية</option>
+    <option value="fr">Français</option>
+    <option value="zh">中文</option>
+  </select>
 
-    <header class="header">
-        <div class="header-left">
-            <div class="menu-btn" onclick="toggleMenu()">☰</div>
-            <img src="/public/images/logo.png" class="logo" alt="Logo">
-            <span style="font-weight: bold; letter-spacing: 1px;">ALINGO</span>
-        </div>
-        
-        <select id="languageSelect">
-            <option value="en">EN</option>
-            <option value="ur">اردو</option>
-            <option value="ar">AR</option>
-        </select>
-    </header>
+  <button id="installBtn" hidden>📲 Install App</button>
+</div>
 
-    <main class="main-container">
+<!-- ☰ MENU BUTTON -->
+<button id="menuBtn">☰</button>
 
-        <section id="home" class="page active">
-            <div class="card">
-                <h1 id="titleText">Move Smart with AlinGo</h1>
-                <p id="tagline">One App. All Mobility. Real-time freedom & transparency.</p>
-                <button class="primary-btn" onclick="openPage('ride')">Book a Ride</button>
-                <button id="installBtn" style="display:none; margin-top:10px; background:var(--indigo); color:white;" class="primary-btn">📲 Install AlinGo App</button>
-            </div>
+<!-- OVERLAY -->
+<div id="overlay"></div>
 
-            <div class="card">
-                <h2>Quick Actions</h2>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <button class="primary-btn" style="background:#f0f0f0; color:#333;" onclick="openPage('food')">🍔 Food</button>
-                    <button class="primary-btn" style="background:#f0f0f0; color:#333;" onclick="openPage('hotel')">🏨 Hotel</button>
-                </div>
-            </div>
-        </section>
+<!-- 📂 SIDE BAR -->
+<aside id="sidebar">
+  <div class="profile">
+    <img src="/public/images/logo.png" />
+    <h3>Welcome to AlinGo</h3>
+  </div>
 
-        <section id="ride" class="page">
-            <div class="card">
-                <h2>Request a Ride</h2>
-                <p>Offer your fare and get the best deal.</p>
-                <input type="text" id="pickup" placeholder="📍 Pickup Location">
-                <input type="text" id="drop" placeholder="🏁 Drop Location">
-                <input type="number" id="offerFare" placeholder="💰 Your Offer (Optional)">
-                <button class="primary-btn" onclick="requestRide()">Find Driver</button>
-            </div>
-        </section>
+  <ul>
+    <li>🏙️ City Ride</li>
+    <li>🛣️ Out of City</li>
+    <li>⏱️ Hourly Ride</li>
+    <li>💬 Offer Your Fare</li>
+    <li>🍔 Food Delivery</li>
+    <li>📦 Parcel</li>
+    <li>🆘 Help & Safety</li>
+  </ul>
+</aside>
 
-        <section id="ticket" class="page">
-            <div class="card">
-                <h2>Ticketing & Tours</h2>
-                <input type="text" id="tName" placeholder="Where do you want to go?">
-                <button class="primary-btn" onclick="bookTicket()">Search Tickets</button>
-                <div id="ticketList" style="margin-top:20px;"></div>
-            </div>
-        </section>
+<!-- 🗺️ MAIN -->
+<main>
+  <h1 id="titleText">Move Smart with AlinGo</h1>
+  <p id="tagline">One App. All Mobility.</p>
+</main>
 
-        <section id="wallet" class="page">
-            <div class="card balance-card">
-                <h2>Wallet Balance</h2>
-                <div class="balance-amount" id="balanceDisplay">--.--</div>
-                <p>Available for Rides & Orders</p>
-                <button class="primary-btn" style="background:var(--white)">Add Funds</button>
-            </div>
-        </section>
-
-        <section id="food" class="page"><div class="card"><h2>🍔 Food Delivery</h2><p>Our kitchen is getting ready. Coming soon!</p></div></section>
-        <section id="hotel" class="page"><div class="card"><h2>🏨 Hotel Booking</h2><p>Best stays at best prices. Launching shortly.</p></div></section>
-        <section id="support" class="page"><div class="card"><h2>🆘 Help & Support</h2><p>24/7 Safety & Support team is here for you.</p></div></section>
-        <section id="investor" class="page"><div class="card"><h2>📈 Investor Portal</h2><p>Grow with AlinGo. Check your dashboard.</p></div></section>
-
-    </main>
-
-    <script src="/public/js/main.js"></script>
-    <script>
-        // Global Data
-        const token = localStorage.getItem("token");
-
-        // 1. Sidebar Control
-        function toggleMenu() {
-            document.getElementById("sidebar").classList.toggle("active");
-            document.getElementById("overlay").classList.toggle("active");
-        }
-
-        // 2. Navigation Control (The Glue)
-        async function openPage(id) {
-            // Close sidebar if open
-            if(document.getElementById("sidebar").classList.contains("active")) toggleMenu();
-
-            // Authentication Check (Allow 'home' without token)
-            if (!token && id !== 'home') {
-                alert("Please log in to your AlinGo account.");
-                // یہاں آپ لاگ ان پیج پر ری ڈائریکٹ کر سکتے ہیں: window.location.href = "/login.html";
-                return;
-            }
-
-            // UI Switch
-            document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-            document.getElementById(id).classList.add("active");
-
-            // Update Active Link in Sidebar
-            document.querySelectorAll(".sidebar a").forEach(a => a.classList.remove("active-link"));
-            event?.target?.classList?.add("active-link");
-
-            // Data Fetching based on page
-            if (id === 'wallet') fetchBalance();
-            if (id === 'ticket') fetchTickets();
-        }
-
-        // 3. Backend Bindings (API Calls)
-        async function requestRide() {
-            const pickup = document.getElementById("pickup").value;
-            const drop = document.getElementById("drop").value;
-            if(!pickup || !drop) return alert("Fill locations");
-
-            try {
-                const res = await fetch("/api/rides/create", {
-                    method: "POST",
-                    headers: { 
-                        "Content-Type": "application/json", 
-                        "Authorization": `Bearer ${token}` 
-                    },
-                    body: JSON.stringify({ pickupLocation: pickup, dropLocation: drop })
-                });
-                const data = await res.json();
-                if (data.success) alert("Ride Request Broadcasted to nearby drivers!");
-            } catch (err) { console.error("Ride API Error", err); }
-        }
-
-        async function fetchBalance() {
-            try {
-                const res = await fetch("/api/wallet/balance", { 
-                    headers: { "Authorization": `Bearer ${token}` } 
-                });
-                const data = await res.json();
-                if (data.success) {
-                    document.getElementById("balanceDisplay").innerText = `Rs ${data.balance.toLocaleString()}`;
-                }
-            } catch (err) { document.getElementById("balanceDisplay").innerText = "Rs 0.00"; }
-        }
-
-        async function bookTicket() {
-            const name = document.getElementById("tName").value;
-            if(!name) return;
-            const res = await fetch("/api/ticket/book", {
-                method: "POST",
-                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
-                body: JSON.stringify({ ticketName: name })
-            });
-            if (res.ok) { alert("Ticket Booking Request Received!"); fetchTickets(); }
-        }
-
-        async function fetchTickets() {
-            const list = document.getElementById("ticketList");
-            list.innerHTML = "Loading tickets...";
-            try {
-                const res = await fetch("/api/ticket/list", { headers: { "Authorization": `Bearer ${token}` } });
-                const tickets = await res.json();
-                list.innerHTML = tickets.map(t => `
-                    <div style="padding:10px; border-bottom:1px solid #eee;">
-                        🎫 ${t.ticketName} - <span style="color:var(--green)">${t.status}</span>
-                    </div>
-                `).join('');
-            } catch (e) { list.innerHTML = "No tickets found."; }
-        }
-
-        function logout() {
-            localStorage.clear();
-            window.location.reload();
-        }
-
-        // 4. PWA & Installation (Provided by you)
-        let deferredPrompt;
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/service-worker.js')
-                .then(() => console.log('Service Worker Live'))
-                .catch(e => console.error('SW Failed', e));
-        }
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            document.getElementById('installBtn').style.display = 'block';
-        });
-
-        document.getElementById('installBtn').addEventListener('click', async () => {
-            if (!deferredPrompt) return;
-            deferredPrompt.prompt();
-            const choice = await deferredPrompt.userChoice;
-            if (choice.outcome === 'accepted') console.log('App Installed');
-            deferredPrompt = null;
-            document.getElementById('installBtn').style.display = 'none';
-        });
-    </script>
+<script src="/public/js/main.js"></script>
 </body>
 </html>
