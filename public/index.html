@@ -1,167 +1,207 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="htmlRoot">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AlinGo Super App</title>
-    
-    <style>
-        :root {
-            --blue: #0b1c2d;
-            --blue-light: #132b45;
-            --green: #1fd18b;
-            --green-light: #6af0b8;
-            --white: #ffffff;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AlinGo</title>
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0b1c2d">
 
-        body { background: var(--blue); color: white; overflow-x: hidden; }
+  <style>
+    :root {
+      --blue:#0b1c2d;
+      --blue-light:#132b45;
+      --green:#1fd18b;
+      --white:#ffffff;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+    body{background:var(--blue);color:#fff}
 
-        /* SPLASH SCREEN */
-        #splash {
-            position: fixed; inset: 0; background: var(--white);
-            display: flex; justify-content: center; align-items: center; z-index: 9999;
-        }
+    /* Splash */
+    #splash{
+      position:fixed;inset:0;background:#fff;
+      display:flex;justify-content:center;align-items:center;
+      z-index:9999;
+    }
 
-        /* HEADER */
-        .topbar {
-            background: linear-gradient(90deg, var(--blue), var(--green));
-            padding: 15px; display: flex; align-items: center; position: sticky; top: 0; z-index: 1000;
-        }
-        .menu-btn { font-size: 24px; cursor: pointer; margin-right: 15px; }
-        .brand-header { flex: 1; text-align: center; }
+    /* Topbar */
+    .topbar{
+      background:linear-gradient(90deg,var(--blue),var(--green));
+      padding:14px;display:flex;align-items:center;
+      position:sticky;top:0;z-index:1000;
+    }
+    .menu-btn{font-size:24px;cursor:pointer}
+    .brand-header{flex:1;text-align:center;font-weight:bold}
 
-        /* SIDEBAR (Professional Order) */
-        #sidebar {
-            position: fixed; left: -280px; top: 0; width: 280px; height: 100%;
-            background: var(--blue-light); transition: 0.3s; z-index: 2000;
-            overflow-y: auto; padding-bottom: 20px;
-        }
-        #sidebar.open { left: 0; }
+    /* Sidebar */
+    #sidebar{
+      position:fixed;left:-280px;top:0;width:280px;height:100%;
+      background:var(--blue-light);transition:.3s;z-index:2000;
+      overflow-y:auto;
+    }
+    #sidebar.open{left:0}
 
-        .profile-box {
-            padding: 40px 20px 20px; background: var(--blue); text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .profile-box img { width: 70px; border-radius: 50%; border: 2px solid var(--green); }
-        .rating { color: gold; font-size: 13px; margin-top: 5px; }
+    #overlay{
+      position:fixed;inset:0;background:rgba(0,0,0,.6);
+      display:none;z-index:1500;
+    }
+    #overlay.show{display:block}
 
-        .sidebar-link {
-            padding: 14px 20px; display: block; color: white; text-decoration: none;
-            border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer;
-        }
-        .sidebar-link:hover { background: var(--green); color: var(--blue); }
+    .profile-box{
+      padding:30px 20px;text-align:center;
+      background:var(--blue);
+    }
+    .profile-box img{
+      width:70px;border-radius:50%;
+      border:2px solid var(--green)
+    }
+    .rating{color:gold;font-size:13px;margin-top:6px}
 
-        .section-label { padding: 15px 20px 5px; font-size: 11px; color: var(--green); text-transform: uppercase; }
+    .section-label{
+      padding:15px 20px 6px;
+      font-size:11px;color:var(--green);
+      text-transform:uppercase;
+    }
 
-        /* MAIN GRID (Home Page) */
-        .grid-container { padding: 20px; }
-        .service-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
-        }
-        .grid-card {
-            background: var(--blue-light); padding: 25px 15px; border-radius: 15px;
-            text-align: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.1);
-            transition: 0.2s;
-        }
-        .grid-card:active { transform: scale(0.95); }
-        .grid-card i { font-size: 32px; display: block; margin-bottom: 10px; }
-        
-        .wide-card {
-            grid-column: span 2; background: linear-gradient(45deg, var(--green), var(--blue-light));
-            color: var(--blue); font-weight: bold;
-        }
+    .sidebar-link{
+      padding:14px 20px;
+      border-bottom:1px solid rgba(255,255,255,.05);
+      cursor:pointer;
+    }
+    .sidebar-link:hover{
+      background:var(--green);
+      color:var(--blue);
+    }
 
-        #overlay {
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1500;
-        }
-        #overlay.show { display: block; }
-    </style>
+    /* Grid */
+    .grid-container{padding:20px}
+    .service-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+    .grid-card{
+      background:var(--blue-light);
+      padding:22px;border-radius:15px;
+      text-align:center;cursor:pointer;
+    }
+    .grid-card span{font-size:30px;display:block;margin-bottom:8px}
+    .wide-card{grid-column:span 2;background:linear-gradient(45deg,var(--green),var(--blue-light));color:#001}
+
+    /* Utility */
+    .top-actions{
+      display:flex;gap:10px;align-items:center;
+    }
+    select,button{
+      padding:6px 10px;border-radius:6px;border:none;
+    }
+  </style>
 </head>
+
 <body>
 
-    <div id="splash">
-        <h1 style="color:var(--blue)">Alin<span style="color:var(--green)">Go</span></h1>
-    </div>
+<!-- Splash -->
+<div id="splash">
+  <h1 style="color:var(--blue)">Alin<span style="color:var(--green)">Go</span></h1>
+</div>
 
-    <div id="overlay" onclick="toggleMenu()"></div>
-    <aside id="sidebar">
-        <div class="profile-box">
-            <img src="/public/images/logo.png" alt="Profile">
-            <h3>User Name</h3>
-            <div class="rating">⭐ 4.9 | Rs 1,250</div>
-        </div>
+<div id="overlay"></div>
 
-        <div class="section-label">Main Menu</div>
-        <div class="sidebar-link" onclick="openPage('home')">🏠 Home</div>
-        <div class="sidebar-link" onclick="openPage('rides')">🚗 My Rides</div>
-        <div class="sidebar-link" onclick="openPage('orders')">📦 My Orders</div>
-        <div class="sidebar-link" onclick="openPage('wallet')">💰 AlinGo Wallet</div>
+<!-- Sidebar -->
+<aside id="sidebar">
+  <div class="profile-box">
+    <img src="/public/images/logo.png">
+    <h3>User Name</h3>
+    <div class="rating">⭐ 4.9 | Rs 1,250</div>
+  </div>
 
-        <div class="section-label">Services</div>
-        <div class="sidebar-link" onclick="openPage('city-ride')">🏙️ City Ride</div>
-        <div class="sidebar-link" onclick="openPage('out-city')">🛣️ Out of City</div>
-        <div class="sidebar-link" onclick="openPage('logistics')">🚚 Logistics Pro</div>
-        <div class="sidebar-link" onclick="openPage('food')">🍔 Food Delivery</div>
-        <div class="sidebar-link" onclick="openPage('stay')">🏨 Stay Booking</div>
+  <div class="section-label">Main</div>
+  <div class="sidebar-link" data-page="home">🏠 Home</div>
+  <div class="sidebar-link" data-page="rides">🚗 My Rides</div>
+  <div class="sidebar-link" data-page="wallet">💰 Wallet</div>
 
-        <div class="section-label">Advanced</div>
-        <div class="sidebar-link" onclick="openPage('investor')">💼 Investor Panel</div>
-        <div class="sidebar-link" style="background:var(--green); color:var(--blue); font-weight:bold;">🚘 Driver Mode</div>
-        
-        <div class="section-label">Settings</div>
-        <div class="sidebar-link" onclick="openPage('help')">❓ Help & Support</div>
-        <div class="sidebar-link" onclick="logout()">🚪 Logout</div>
-    </aside>
+  <div class="section-label">Services</div>
+  <div class="sidebar-link" data-page="city">🏙️ City Ride</div>
+  <div class="sidebar-link" data-page="outcity">🛣️ Out of City</div>
 
-    <div class="topbar">
-        <div class="menu-btn" onclick="toggleMenu()">☰</div>
-        <div class="brand-header">
-            <h2>Alin<span style="color:var(--blue)">Go</span></h2>
-        </div>
-    </div>
+  <div class="section-label">Settings</div>
+  <div class="sidebar-link" id="logoutBtn">🚪 Logout</div>
+</aside>
 
-    <div class="grid-container">
-        <h3 style="margin-bottom:15px; color:var(--green)">Ride & Mobility</h3>
-        <div class="service-grid">
-            <div class="grid-card" onclick="openPage('city-ride')"><i>🚗</i>City Ride</div>
-            <div class="grid-card" onclick="openPage('out-city')"><i>🛣️</i>Out of City</div>
-            <div class="grid-card" onclick="openPage('hourly')"><i>⏱️</i>Hourly Ride</div>
-            <div class="grid-card" onclick="openPage('offer-fare')"><i>💬</i>Offer Your Fare</div>
+<!-- Topbar -->
+<div class="topbar">
+  <div class="menu-btn" id="menuBtn">☰</div>
+  <div class="brand-header">AlinGo</div>
+  <div class="top-actions">
+    <select id="langSelect">
+      <option value="en">EN</option>
+      <option value="ur">اردو</option>
+      <option value="ar">AR</option>
+    </select>
+    <button id="installBtn" hidden>Install</button>
+  </div>
+</div>
 
-            <div class="wide-card grid-card" onclick="openPage('wallet')">
-                <i>💳</i> AlinGo Wallet (Pay & Rewards)
-            </div>
+<!-- Home -->
+<div class="grid-container">
+  <div class="service-grid">
+    <div class="grid-card"><span>🚗</span>City Ride</div>
+    <div class="grid-card"><span>🛣️</span>Out of City</div>
+    <div class="grid-card"><span>⏱️</span>Hourly</div>
+    <div class="grid-card"><span>💬</span>Offer Fare</div>
+    <div class="grid-card wide-card"><span>💳</span>AlinGo Wallet</div>
+  </div>
+</div>
 
-            <h3 style="grid-column: span 2; margin-top:10px; color:var(--green)">Services</h3>
-            <div class="grid-card" onclick="openPage('food')"><i>🍔</i>Food Delivery</div>
-            <div class="grid-card" onclick="openPage('mart')"><i>🛒</i>Daily Mart</div>
-            <div class="grid-card" onclick="openPage('parcel')"><i>📦</i>Parcel Delivery</div>
-            <div class="grid-card" onclick="openPage('logistics')"><i>🚚</i>Logistics Pro</div>
-            <div class="grid-card" onclick="openPage('stay')"><i>🏨</i>Stay Booking</div>
-            <div class="grid-card" onclick="openPage('tickets')"><i>🎫</i>Travel Tickets</div>
-        </div>
-    </div>
+<script>
+/* Splash */
+document.addEventListener("DOMContentLoaded",()=>{
+  setTimeout(()=>splash.remove(),800);
+});
 
-    <script>
-        // Splash logic
-        window.onload = () => {
-            setTimeout(() => { document.getElementById('splash').style.display = 'none'; }, 1000);
-        };
+/* Sidebar */
+const sidebar=document.getElementById("sidebar");
+const overlay=document.getElementById("overlay");
+menuBtn.onclick=()=>openMenu();
+overlay.onclick=()=>closeMenu();
 
-        // Sidebar logic
-        function toggleMenu() {
-            document.getElementById('sidebar').classList.toggle('open');
-            document.getElementById('overlay').classList.toggle('show');
-        }
+function openMenu(){
+  sidebar.classList.add("open");
+  overlay.classList.add("show");
+}
+function closeMenu(){
+  sidebar.classList.remove("open");
+  overlay.classList.remove("show");
+}
 
-        function openPage(page) {
-            alert("Opening " + page);
-            toggleMenu();
-        }
+/* Navigation */
+document.querySelectorAll(".sidebar-link[data-page]").forEach(el=>{
+  el.onclick=()=>{
+    closeMenu();
+    alert("Navigate to "+el.dataset.page);
+  };
+});
 
-        function logout() { location.reload(); }
-    </script>
+/* Language */
+langSelect.onchange=e=>{
+  document.documentElement.lang=e.target.value;
+};
+
+/* PWA Install */
+let deferredPrompt;
+window.addEventListener("beforeinstallprompt",e=>{
+  e.preventDefault();
+  deferredPrompt=e;
+  installBtn.hidden=false;
+});
+installBtn.onclick=async()=>{
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  installBtn.hidden=true;
+};
+</script>
+
 </body>
 </html>
