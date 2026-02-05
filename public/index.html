@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AlinGo - Move Smart</title>
+    <title>AlinGo Super App</title>
     
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#0b1c2d">
-
     <style>
         :root {
             --blue: #0b1c2d;
@@ -15,273 +12,156 @@
             --green: #1fd18b;
             --green-light: #6af0b8;
             --white: #ffffff;
-            --text-gray: #b0b0b0;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
 
-        body {
-            background: var(--blue);
-            color: var(--white);
-            overflow-x: hidden;
-        }
+        body { background: var(--blue); color: white; overflow-x: hidden; }
 
-        /* ===== SPLASH SCREEN ===== */
+        /* SPLASH SCREEN */
         #splash {
-            position: fixed;
-            inset: 0;
-            background: var(--white);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: 0.5s;
+            position: fixed; inset: 0; background: var(--white);
+            display: flex; justify-content: center; align-items: center; z-index: 9999;
         }
 
-        /* ===== HEADER ===== */
+        /* HEADER */
         .topbar {
-            background: var(--blue);
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            background: linear-gradient(90deg, var(--blue), var(--green));
+            padding: 15px; display: flex; align-items: center; position: sticky; top: 0; z-index: 1000;
         }
+        .menu-btn { font-size: 24px; cursor: pointer; margin-right: 15px; }
+        .brand-header { flex: 1; text-align: center; }
 
-        .menu-btn { font-size: 24px; cursor: pointer; color: var(--green); }
-        .brand-title { font-size: 22px; font-weight: bold; letter-spacing: 1px; }
-
-        /* ===== SIDE MENU (DRAWER) ===== */
+        /* SIDEBAR (Professional Order) */
         #sidebar {
-            position: fixed;
-            left: -300px;
-            top: 0;
-            width: 280px;
-            height: 100%;
-            background: var(--blue-light);
-            z-index: 2000;
-            transition: 0.4s;
-            overflow-y: auto;
-            padding-bottom: 30px;
+            position: fixed; left: -280px; top: 0; width: 280px; height: 100%;
+            background: var(--blue-light); transition: 0.3s; z-index: 2000;
+            overflow-y: auto; padding-bottom: 20px;
         }
-
         #sidebar.open { left: 0; }
 
-        .profile-section {
-            background: var(--blue);
-            padding: 40px 20px 20px;
-            text-align: center;
+        .profile-box {
+            padding: 40px 20px 20px; background: var(--blue); text-align: center;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
+        .profile-box img { width: 70px; border-radius: 50%; border: 2px solid var(--green); }
+        .rating { color: gold; font-size: 13px; margin-top: 5px; }
 
-        .profile-img { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--green); margin-bottom: 10px; }
-        .user-rating { color: gold; font-size: 14px; margin-top: 5px; }
-        .wallet-mini { background: var(--green); color: var(--blue); padding: 5px 15px; border-radius: 15px; font-weight: bold; margin-top: 10px; display: inline-block; font-size: 12px; }
+        .sidebar-link {
+            padding: 14px 20px; display: block; color: white; text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer;
+        }
+        .sidebar-link:hover { background: var(--green); color: var(--blue); }
 
-        .menu-group-label { padding: 20px 20px 10px; font-size: 11px; color: var(--green); text-transform: uppercase; letter-spacing: 1px; }
-        .sidebar-link { padding: 12px 25px; display: flex; align-items: center; gap: 15px; color: white; text-decoration: none; transition: 0.2s; cursor: pointer; }
-        .sidebar-link:hover { background: rgba(31, 209, 139, 0.1); }
-        .sidebar-link i { font-size: 18px; width: 25px; }
+        .section-label { padding: 15px 20px 5px; font-size: 11px; color: var(--green); text-transform: uppercase; }
 
-        #overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1500; backdrop-filter: blur(3px); }
-        #overlay.show { display: block; }
-
-        /* ===== MAIN HOME GRID ===== */
-        .main-container { padding: 10px 15px; }
-
+        /* MAIN GRID (Home Page) */
+        .grid-container { padding: 20px; }
         .service-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 15px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
         }
-
-        .grid-item {
-            background: var(--blue-light);
-            padding: 20px 15px;
-            border-radius: 15px;
-            text-align: center;
-            cursor: pointer;
+        .grid-card {
+            background: var(--blue-light); padding: 25px 15px; border-radius: 15px;
+            text-align: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.1);
             transition: 0.2s;
-            border: 1px solid rgba(255,255,255,0.05);
         }
-
-        .grid-item:active { transform: scale(0.95); background: var(--blue); }
-        .grid-item .icon { font-size: 30px; margin-bottom: 10px; display: block; }
-        .grid-item .name { font-size: 14px; font-weight: 600; }
-
+        .grid-card:active { transform: scale(0.95); }
+        .grid-card i { font-size: 32px; display: block; margin-bottom: 10px; }
+        
         .wide-card {
-            grid-column: span 2;
-            background: linear-gradient(90deg, var(--blue-light), var(--blue));
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            border: 1px solid var(--green);
+            grid-column: span 2; background: linear-gradient(45deg, var(--green), var(--blue-light));
+            color: var(--blue); font-weight: bold;
         }
 
-        .section-title { margin: 20px 0 10px; font-size: 16px; font-weight: bold; color: var(--green); padding-left: 5px; }
-
+        #overlay {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1500;
+        }
+        #overlay.show { display: block; }
     </style>
 </head>
 <body>
 
     <div id="splash">
-        <img src="/public/images/logo.png" style="width:120px" alt="AlinGo Logo">
-        <h1 style="color:var(--blue); margin-top:20px">Alin<span style="color:var(--green)">Go</span></h1>
+        <h1 style="color:var(--blue)">Alin<span style="color:var(--green)">Go</span></h1>
     </div>
 
-    <div id="overlay"></div>
-
+    <div id="overlay" onclick="toggleMenu()"></div>
     <aside id="sidebar">
-        <div class="profile-section">
-            <img src="/public/images/logo.png" class="profile-img">
-            <h3>AlinGo User</h3>
-            <p style="font-size: 12px; color:var(--text-gray)">+92 300 1234567</p>
-            <div class="user-rating">⭐ 4.9 Rating</div>
-            <div class="wallet-mini">Balance: Rs 1,250</div>
+        <div class="profile-box">
+            <img src="/public/images/logo.png" alt="Profile">
+            <h3>User Name</h3>
+            <div class="rating">⭐ 4.9 | Rs 1,250</div>
         </div>
 
-        <div class="menu-group-label">Main Menu</div>
-        <a class="sidebar-link" onclick="navigate('home')">🏠 Home</a>
-        <a class="sidebar-link" onclick="navigate('rides')">🚗 My Rides</a>
-        <a class="sidebar-link" onclick="navigate('orders')">📦 My Orders</a>
-        <a class="sidebar-link" onclick="navigate('wallet')">💰 AlinGo Wallet</a>
-        <a class="sidebar-link" onclick="navigate('offers')">🎁 Rewards & Offers</a>
+        <div class="section-label">Main Menu</div>
+        <div class="sidebar-link" onclick="openPage('home')">🏠 Home</div>
+        <div class="sidebar-link" onclick="openPage('rides')">🚗 My Rides</div>
+        <div class="sidebar-link" onclick="openPage('orders')">📦 My Orders</div>
+        <div class="sidebar-link" onclick="openPage('wallet')">💰 AlinGo Wallet</div>
 
-        <div class="menu-group-label">Advanced</div>
-        <a class="sidebar-link" onclick="navigate('investor')" style="color:var(--green-light)">💼 Investor Panel</a>
-        <a class="sidebar-link" onclick="navigate('driver')" style="background: var(--green); color: var(--blue); margin: 10px 20px; border-radius: 8px; font-weight: bold;">🚘 Driver Mode</a>
-        <a class="sidebar-link" onclick="navigate('vendor')">🏪 Vendor Mode</a>
+        <div class="section-label">Services</div>
+        <div class="sidebar-link" onclick="openPage('city-ride')">🏙️ City Ride</div>
+        <div class="sidebar-link" onclick="openPage('out-city')">🛣️ Out of City</div>
+        <div class="sidebar-link" onclick="openPage('logistics')">🚚 Logistics Pro</div>
+        <div class="sidebar-link" onclick="openPage('food')">🍔 Food Delivery</div>
+        <div class="sidebar-link" onclick="openPage('stay')">🏨 Stay Booking</div>
 
-        <div class="menu-group-label">Support</div>
-        <a class="sidebar-link" onclick="navigate('language')">🌐 Language</a>
-        <a class="sidebar-link" onclick="navigate('help')">❓ Help & Support</a>
-        <a class="sidebar-link" onclick="navigate('settings')">⚙️ Settings</a>
-        <a class="sidebar-link" onclick="logout()" style="color:#ff4d4d">🚪 Logout</a>
+        <div class="section-label">Advanced</div>
+        <div class="sidebar-link" onclick="openPage('investor')">💼 Investor Panel</div>
+        <div class="sidebar-link" style="background:var(--green); color:var(--blue); font-weight:bold;">🚘 Driver Mode</div>
+        
+        <div class="section-label">Settings</div>
+        <div class="sidebar-link" onclick="openPage('help')">❓ Help & Support</div>
+        <div class="sidebar-link" onclick="logout()">🚪 Logout</div>
     </aside>
 
-    <header class="topbar">
+    <div class="topbar">
         <div class="menu-btn" onclick="toggleMenu()">☰</div>
         <div class="brand-header">
-            <div class="brand-title">Alin<span class="alin">Go</span></div>
+            <h2>Alin<span style="color:var(--blue)">Go</span></h2>
         </div>
-        <div style="width: 24px;"></div> </header>
+    </div>
 
-    <main class="main-container">
-        
-        <div class="section-title">Ride & Mobility</div>
+    <div class="grid-container">
+        <h3 style="margin-bottom:15px; color:var(--green)">Ride & Mobility</h3>
         <div class="service-grid">
-            <div class="grid-item" onclick="service('city-ride')">
-                <span class="icon">🚗</span>
-                <span class="name">City Ride</span>
-            </div>
-            <div class="grid-item" onclick="service('out-city')">
-                <span class="icon">🛣️</span>
-                <span class="name">Out of City</span>
-            </div>
-            <div class="grid-item" onclick="service('hourly')">
-                <span class="icon">⏱️</span>
-                <span class="name">Hourly Ride</span>
-            </div>
-            <div class="grid-item" onclick="service('offer-fare')" style="border: 1px dashed var(--green)">
-                <span class="icon">💬</span>
-                <span class="name">Offer Your Fare</span>
-            </div>
-        </div>
+            <div class="grid-card" onclick="openPage('city-ride')"><i>🚗</i>City Ride</div>
+            <div class="grid-card" onclick="openPage('out-city')"><i>🛣️</i>Out of City</div>
+            <div class="grid-card" onclick="openPage('hourly')"><i>⏱️</i>Hourly Ride</div>
+            <div class="grid-card" onclick="openPage('offer-fare')"><i>💬</i>Offer Your Fare</div>
 
-        <div class="section-title">Food & Living</div>
-        <div class="service-grid">
-            <div class="grid-item" onclick="service('food')">
-                <span class="icon">🍔</span>
-                <span class="name">Food Delivery</span>
+            <div class="wide-card grid-card" onclick="openPage('wallet')">
+                <i>💳</i> AlinGo Wallet (Pay & Rewards)
             </div>
-            <div class="grid-item" onclick="service('mart')">
-                <span class="icon">🛒</span>
-                <span class="name">Daily Mart</span>
-            </div>
-        </div>
 
-        <div class="section-title">Delivery & Logistics</div>
-        <div class="service-grid">
-            <div class="grid-item" onclick="service('parcel')">
-                <span class="icon">📦</span>
-                <span class="name">Parcel Delivery</span>
-            </div>
-            <div class="grid-item" onclick="service('logistics')">
-                <span class="icon">🚚</span>
-                <span class="name">Logistics Pro</span>
-            </div>
+            <h3 style="grid-column: span 2; margin-top:10px; color:var(--green)">Services</h3>
+            <div class="grid-card" onclick="openPage('food')"><i>🍔</i>Food Delivery</div>
+            <div class="grid-card" onclick="openPage('mart')"><i>🛒</i>Daily Mart</div>
+            <div class="grid-card" onclick="openPage('parcel')"><i>📦</i>Parcel Delivery</div>
+            <div class="grid-card" onclick="openPage('logistics')"><i>🚚</i>Logistics Pro</div>
+            <div class="grid-card" onclick="openPage('stay')"><i>🏨</i>Stay Booking</div>
+            <div class="grid-card" onclick="openPage('tickets')"><i>🎫</i>Travel Tickets</div>
         </div>
-
-        <div class="section-title">Travel & Tickets</div>
-        <div class="service-grid">
-            <div class="grid-item" onclick="service('stay')">
-                <span class="icon">🏨</span>
-                <span class="name">Stay Booking</span>
-            </div>
-            <div class="grid-item" onclick="service('tickets')">
-                <span class="icon">🎫</span>
-                <span class="name">Travel Tickets</span>
-            </div>
-        </div>
-
-        <div class="section-title">Payments</div>
-        <div class="service-grid">
-            <div class="grid-item wide-card" onclick="navigate('wallet')">
-                <div>
-                    <span class="name" style="font-size: 18px;">AlinGo Wallet</span>
-                    <p style="font-size: 12px; color:var(--text-gray)">Quick Pay & Top-up</p>
-                </div>
-                <span class="icon" style="margin:0">💳</span>
-            </div>
-        </div>
-
-    </main>
+    </div>
 
     <script>
-        // 1. Splash Logic
+        // Splash logic
         window.onload = () => {
-            setTimeout(() => {
-                const splash = document.getElementById("splash");
-                splash.style.opacity = "0";
-                setTimeout(() => splash.style.display = "none", 500);
-            }, 1500);
+            setTimeout(() => { document.getElementById('splash').style.display = 'none'; }, 1000);
         };
 
-        // 2. Menu Logic
-        const sidebar = document.getElementById("sidebar");
-        const overlay = document.getElementById("overlay");
-
+        // Sidebar logic
         function toggleMenu() {
-            sidebar.classList.toggle("open");
-            overlay.classList.toggle("show");
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('overlay').classList.toggle('show');
         }
 
-        overlay.onclick = toggleMenu;
-
-        // 3. Navigation Glue Code
-        function navigate(page) {
-            console.log("Navigating to:", page);
+        function openPage(page) {
+            alert("Opening " + page);
             toggleMenu();
-            // یہاں آپ اپنا راؤٹنگ لاجک ڈال سکتے ہیں
-            alert("Opening: " + page);
         }
 
-        function service(type) {
-            console.log("Service Selected:", type);
-            alert("Redirecting to " + type + " module...");
-        }
-
-        function logout() {
-            if(confirm("Are you sure you want to logout?")) {
-                localStorage.clear();
-                location.reload();
-            }
-        }
+        function logout() { location.reload(); }
     </script>
 </body>
 </html>
